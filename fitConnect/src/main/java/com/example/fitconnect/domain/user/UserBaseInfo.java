@@ -1,5 +1,7 @@
 package com.example.fitconnect.domain.user;
 
+import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.config.exception.BusinessException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.util.regex.Pattern;
@@ -11,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public class UserBaseInfo {
 
-    @Column(nullable = false, unique = true,length = 50)
+    @Column(nullable = false, unique = true, length = 50)
     private String email;
-    @Column( length = 30)
+    @Column(length = 30)
     private String nickname;
 
     private String profilePictureUrl;
@@ -34,7 +36,7 @@ public class UserBaseInfo {
     private void validateEmail(String email) {
         if (!isValidEmailFormat(email)) {
             log.warn("Invalid email format: {}", email);
-            throw new IllegalArgumentException("Invalid email format");
+            throw new BusinessException(ErrorMessages.INVALID_EMAIL_FORMAT);
         }
     }
 
@@ -47,7 +49,7 @@ public class UserBaseInfo {
     private void validNicknameLength(String nickname) {
         if (nickname.length() > 30) {
             log.warn("nickname 길이가 30을 초과했습니다. nickname.length() : {}", nickname.length());
-            throw new IllegalArgumentException("Nickname max length is 30");
+            throw new BusinessException(ErrorMessages.NICKNAME_LENGTH_EXCEEDED);
         }
     }
 

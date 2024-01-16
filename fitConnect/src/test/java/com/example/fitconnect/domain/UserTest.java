@@ -1,5 +1,6 @@
 package com.example.fitconnect.domain;
 
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.user.Role;
 import com.example.fitconnect.domain.user.User;
 import com.example.fitconnect.domain.user.UserBaseInfo;
@@ -30,7 +31,7 @@ class UserTest {
     void whenUserBaseInfoIsNull_thenThrowException() {
         Role role = Role.MEMBER;
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             new User(null, role);
         });
     }
@@ -41,7 +42,7 @@ class UserTest {
         UserBaseInfo baseInfo = new UserBaseInfo("test@example.com", "TestNickname",
                 "http://example.com/profile.jpg");
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             new User(baseInfo, null);
         });
     }

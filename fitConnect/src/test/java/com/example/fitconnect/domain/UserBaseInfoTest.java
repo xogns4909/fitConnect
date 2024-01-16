@@ -1,5 +1,6 @@
 package com.example.fitconnect.domain;
 
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.user.UserBaseInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ class UserBaseInfoTest {
         String nickname = "TestNickname";
         String profilePicUrl = "http://example.com/profile.jpg";
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             new UserBaseInfo(invalidEmail, nickname, profilePicUrl);
         });
     }
@@ -45,7 +46,7 @@ class UserBaseInfoTest {
         String email = "test@example.com";
         String profilePicUrl = "http://example.com/profile.jpg";
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             new UserBaseInfo(email, longNickname, profilePicUrl);
         });
     }

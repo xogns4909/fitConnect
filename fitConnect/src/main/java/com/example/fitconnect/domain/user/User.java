@@ -1,8 +1,9 @@
 package com.example.fitconnect.domain.user;
 
-import static com.example.fitconnect.config.ErrorMessages.*;
+import static com.example.fitconnect.config.error.ErrorMessages.*;
 
-import com.example.fitconnect.domain.BaseEntity;
+import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.domain.global.BaseEntity;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -39,13 +40,13 @@ public class User extends BaseEntity {
 
     private void validateUserBaseInfo(UserBaseInfo userBaseInfo) {
         if (userBaseInfo == null) {
-            throw new IllegalArgumentException(BASE_INFO_NULL.getMessage());
+            throw new BusinessException(BASE_INFO_NULL);
         }
     }
 
     private void validateRole(Role role) {
         if (role == null) {
-            throw new IllegalArgumentException(ROLE_NULL.getMessage());
+            throw new BusinessException(ROLE_NULL);
         }
     }
 }

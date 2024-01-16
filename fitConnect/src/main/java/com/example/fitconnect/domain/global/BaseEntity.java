@@ -1,4 +1,4 @@
-package com.example.fitconnect.domain;
+package com.example.fitconnect.domain.global;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
