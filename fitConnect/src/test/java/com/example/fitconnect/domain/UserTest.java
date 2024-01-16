@@ -1,9 +1,9 @@
 package com.example.fitconnect.domain;
 
 import com.example.fitconnect.config.exception.BusinessException;
-import com.example.fitconnect.domain.user.Role;
-import com.example.fitconnect.domain.user.User;
-import com.example.fitconnect.domain.user.UserBaseInfo;
+import com.example.fitconnect.domain.user.domain.Role;
+import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

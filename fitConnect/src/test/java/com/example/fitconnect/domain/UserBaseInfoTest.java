@@ -1,9 +1,8 @@
 package com.example.fitconnect.domain;
 
 import com.example.fitconnect.config.exception.BusinessException;
-import com.example.fitconnect.domain.user.UserBaseInfo;
+import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
