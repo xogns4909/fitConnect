@@ -1,4 +1,4 @@
-package com.example.fitconnect.domain.user;
+package com.example.fitconnect.domain.user.domain;
 
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;

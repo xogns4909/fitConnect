@@ -1,4 +1,4 @@
-package com.example.fitconnect.domain.user;
+package com.example.fitconnect.domain.user.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

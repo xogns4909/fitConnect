@@ -1,4 +1,4 @@
-package com.example.fitconnect.domain.user;
+package com.example.fitconnect.domain.user.domain;
 
 import static com.example.fitconnect.config.error.ErrorMessages.*;
 
@@ -11,8 +11,10 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 @Entity
+@Table(name = "users")
 @Getter
 public class User extends BaseEntity {
     @Id
