@@ -1,14 +1,19 @@
 package com.example.fitconnect.service.user;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 
+import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.domain.user.domain.UserBaseInfo;
+import com.example.fitconnect.domain.user.dto.UserRegistrationDto;
 import com.example.fitconnect.repository.user.UserRepository;
 import java.util.Optional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,25 +27,29 @@ public class UserFindServiceTest {
     @InjectMocks
     private UserFindService userFindService;
 
-    @Test
-    public void findUserByEmailReturnsUser() {
-        String existingEmail = "existing@example.com";
-        User mockUser = new User(); // User 객체 생성 로직 추가
-        when(userRepository.findByUserBaseInfo_Email(existingEmail)).thenReturn(Optional.of(mockUser));
+    @ParameterizedTest
+    @ValueSource(strings = {"user@example.com", "user@example234.com", "user@example123.com"})
+    void findUserByEmail_Found(String email) {
+        UserRegistrationDto userRegistrationDto = new UserRegistrationDto(email,
+                "user", ".jpg");
+        User user = userRegistrationDto.toEntity();
+        given(userRepository.findByUserBaseInfo_Email(userRegistrationDto.getEmail())).willReturn(
+                Optional.of(user));
 
-        Optional<User> result = userFindService.findUserByEmail(existingEmail);
+        Optional<User> result = userFindService.findUserByEmail(email);
 
-        assertThat(result.isPresent()).isTrue();
-        assertThat(mockUser).isEqualTo(result.get());
+        UserBaseInfo userBaseInfo = result.get().getUserBaseInfo();
+        assertThat(result).isPresent();
+        assertThat(userBaseInfo.getEmail()).isEqualTo(email);
     }
 
     @Test
-    public void findUserByEmailReturnsEmpty() {
-        String nonExistingEmail = "nonexisting@example.com";
-        when(userRepository.findByUserBaseInfo_Email(nonExistingEmail)).thenReturn(Optional.empty());
+    void findUserByEmail_NotFound() {
+        String email = "nonexistent@example.com";
+        given(userRepository.findByUserBaseInfo_Email(email)).willReturn(Optional.empty());
 
-        Optional<User> result = userFindService.findUserByEmail(nonExistingEmail);
+        Optional<User> result = userFindService.findUserByEmail(email);
 
-        assertThat(result.isPresent()).isFalse();
+        assertThat(result).isNotPresent();
     }
 }
