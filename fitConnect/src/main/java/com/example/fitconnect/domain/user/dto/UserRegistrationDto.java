@@ -3,11 +3,11 @@ package com.example.fitconnect.domain.user.dto;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class UserRegistrationDto {
-
     private String email;
     private String nickname;
     private String profilePictureUrl;

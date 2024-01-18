@@ -1,6 +1,7 @@
 package com.example.fitconnect.service.user;
 
-
+import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.dto.UserRegistrationDto;
 import com.example.fitconnect.repository.user.UserRepository;
@@ -14,9 +15,15 @@ public class UserRegisterService {
 
     private final UserRepository userRepository;
 
+
     @Transactional
     public User registerUser(UserRegistrationDto registrationDto) {
         User newUser = registrationDto.toEntity();
-        return userRepository.save(newUser);
+        try {
+            return userRepository.save(newUser);
+        }catch (RuntimeException e){
+            throw new BusinessException(ErrorMessages.REGISTRATION_FAILED);
+        }
     }
 }
+
