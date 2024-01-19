@@ -3,6 +3,7 @@ package com.example.fitconnect.controller.user;
 import com.example.fitconnect.auth.dto.GoogleInfoDto;
 import com.example.fitconnect.auth.service.AuthService;
 import com.example.fitconnect.service.user.LoginService;
+import jakarta.servlet.http.HttpSession;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,12 @@ public class UserController {
     private final AuthService authService;
 
     @PostMapping("/api/auth/google")
-    public ResponseEntity<Map<String,String>> login(@RequestBody String token) {
+    public ResponseEntity<Map<String,String>> login(@RequestBody String token, HttpSession session) {
         GoogleInfoDto authenticate = authService.authenticate(token);
-        Map<String, String> stringStringMap = loginService.processUserLogin(authenticate);
-        return ResponseEntity.ok(stringStringMap);
+        Map<String, String> tokens = loginService.processUserLogin(authenticate);
+        session.setAttribute("accessToken", tokens.get("accessToken"));
+        session.setAttribute("refreshToken", tokens.get("refreshToken"));
+        return ResponseEntity.ok(tokens);
 
     }
 }

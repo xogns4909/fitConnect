@@ -14,7 +14,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,11 +22,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AuthService {
 
-    private String clientId;
-
-    public AuthService(Environment env) {
-        this.clientId = env.getProperty("security.oauth2.client.registration.google.client-id");
-    }
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    String clientId;
 
 
     public GoogleInfoDto authenticate(String token) {
@@ -36,8 +33,10 @@ public class AuthService {
 
     private GoogleInfoDto getGoogleUserInfo(String token) {
         try {
+            log.info("token : {}",token);
             GoogleIdTokenVerifier verifier = getGoogleIdTokenVerifier();
             GoogleIdToken idToken = verifier.verify(token.substring(1, token.length() - 1));
+            log.info("idToken : {}",idToken.toString());
             Payload payload = idToken.getPayload();
             return getGoogleInfoDto(payload);
 
