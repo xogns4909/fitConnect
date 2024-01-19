@@ -23,8 +23,9 @@ public class SecurityConfig {
         return http
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/auth/google").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers((headers -> headers

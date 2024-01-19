@@ -24,6 +24,12 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
             FilterChain filterChain)
             throws ServletException, IOException {
+
+        if (request.getRequestURI().equals("/api/auth/google")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         HttpSession session = request.getSession();
         String accessToken = session.getAttribute("accessToken").toString();
         String refreshToken = session.getAttribute("refreshToken").toString();
