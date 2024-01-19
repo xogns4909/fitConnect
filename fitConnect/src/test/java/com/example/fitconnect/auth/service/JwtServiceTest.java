@@ -1,6 +1,8 @@
 package com.example.fitconnect.auth.service;
 
 
+import static org.assertj.core.api.Assertions.*;
+
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
@@ -39,7 +41,7 @@ public class JwtServiceTest {
     void generateAccessToken_Success(User user) {
         user.setId(1L);
         String accessToken = jwtService.generateAccessToken(user);
-        Assertions.assertThat(accessToken).isNotNull();
+        assertThat(accessToken).isNotNull();
     }
 
     @ParameterizedTest
@@ -48,7 +50,18 @@ public class JwtServiceTest {
         user.setId(1L);
         String validToken = jwtService.generateAccessToken(user);
         boolean isValid = jwtService.validateAccessToken(validToken);
-        Assertions.assertThat(isValid).isTrue();
+        assertThat(isValid).isTrue();
     }
+    @ParameterizedTest
+    @MethodSource("createUser")
+    void createNewAccessToken_And_ValidationRefreshToken() {
+        User user = new User();
+        user.setId(1L);
 
+        String refreshToken = jwtService.generateRefreshToken(user);
+        String newAccessToken = jwtService.renewAccessTokenUsingRefreshToken(refreshToken);
+
+        assertThat(newAccessToken).isNotNull();
+        assertThat(jwtService.validateAccessToken(newAccessToken)).isTrue();
+    }
 }
