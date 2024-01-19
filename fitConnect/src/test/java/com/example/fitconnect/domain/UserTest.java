@@ -13,7 +13,7 @@ class UserTest {
 
     @DisplayName("유효한 UserBaseInfo와 Role로 User 객체 생성")
     @Test
-    void whenValidUserBaseInfoAndRole_thenSuccessfullyCreated() {
+    void createUserTest() {
         UserBaseInfo baseInfo = new UserBaseInfo("test@example.com", "TestNickname",
                 "http://example.com/profile.jpg");
         Role role = Role.MEMBER;
@@ -28,7 +28,7 @@ class UserTest {
 
     @DisplayName("UserBaseInfo가 null일 때 예외 발생")
     @Test
-    void whenUserBaseInfoIsNull_thenThrowException() {
+    void userBaseInfoNullTest() {
         Role role = Role.MEMBER;
 
         assertThrows(BusinessException.class, () -> {
@@ -38,7 +38,7 @@ class UserTest {
 
     @DisplayName("Role이 null일 때 예외 발생")
     @Test
-    void whenRoleIsNull_thenThrowException() {
+    void roleNullTest() {
         UserBaseInfo baseInfo = new UserBaseInfo("test@example.com", "TestNickname",
                 "http://example.com/profile.jpg");
 

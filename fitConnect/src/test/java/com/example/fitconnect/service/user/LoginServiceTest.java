@@ -29,8 +29,6 @@ class LoginServiceTest {
     @Mock
     private UserFindService userFindService;
 
-    @Mock
-    private UserRegisterService userRegisterService;
 
     @Mock
     private JwtService jwtService;

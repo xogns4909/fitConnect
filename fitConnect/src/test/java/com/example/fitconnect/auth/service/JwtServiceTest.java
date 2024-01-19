@@ -18,17 +18,12 @@ import org.springframework.core.env.Environment;
 
 public class JwtServiceTest {
 
-    @Mock
-    private Environment env;
 
     @InjectMocks
     private JwtService jwtService;
 
     public JwtServiceTest() {
         openMocks(this);
-        when(env.getProperty("jwt.secret")).thenReturn("your-secret-key");
-        when(env.getProperty("jwt.expiration")).thenReturn("3600000"); // 1 hour
-        when(env.getProperty("jwt.refreshExpiration")).thenReturn("604800000"); // 1 week
     }
 
     private static Stream<User> createUser() {
@@ -48,13 +43,5 @@ public class JwtServiceTest {
         user.setId(1L);
         String accessToken = jwtService.generateAccessToken(user);
         Assertions.assertThat(accessToken).isNotNull();
-    }
-
-    @ParameterizedTest
-    @MethodSource("createUser")
-    void generateRefreshToken_Success(User user) {
-        user.setId(1L);
-        String refreshToken = jwtService.generateAccessToken(user);
-        Assertions.assertThat(refreshToken).isNotNull();
     }
 }

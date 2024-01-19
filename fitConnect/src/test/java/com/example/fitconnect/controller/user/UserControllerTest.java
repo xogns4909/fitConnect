@@ -43,7 +43,8 @@ class UserControllerTest {
     @Test
     void loginTest() throws Exception {
         String token = "mockGoogleToken";
-        GoogleInfoDto mockGoogleInfo = new GoogleInfoDto("user@example.com", "User", "http://example.com/profile.jpg");
+        GoogleInfoDto mockGoogleInfo = new GoogleInfoDto("user@example.com", "User",
+                "http://example.com/profile.jpg");
         Map<String, String> expectedResponse = new HashMap<>();
         expectedResponse.put("accessToken", "mockAccessToken");
         expectedResponse.put("refreshToken", "mockRefreshToken");
