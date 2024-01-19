@@ -14,8 +14,8 @@ public enum ErrorMessages {
     NICKNAME_LENGTH_EXCEEDED("닉네임은 30자 이하여야합니다."),
     EMAIL_ALREADY_EXISTS("이미 존재하는 아이디 입니다."),
     REGISTRATION_FAILED("등록에 실패하였습니다"),
-    SECURITY_EXCEPTION("인증 과정 중 보안 문제가 생겼습니다.");
-
+    SECURITY_EXCEPTION("인증 과정 중 보안 문제가 생겼습니다."),
+    Invalid_Token("유효하지 않은 토큰 입니다");
 
     private final String message;
 

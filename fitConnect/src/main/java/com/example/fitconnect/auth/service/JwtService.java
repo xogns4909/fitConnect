@@ -1,11 +1,16 @@
 package com.example.fitconnect.auth.service;
 
+import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.user.domain.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +24,7 @@ public class JwtService {
     private Long expiration;
 
     @Value("${jwt.refreshExpiration}")
-    private Long refreshExpiration ;
+    private Long refreshExpiration;
 
     public String generateAccessToken(User user) {
         return generateToken(user.getId(), expiration);
@@ -40,4 +45,36 @@ public class JwtService {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
+
+    public boolean validateAccessToken(String accessToken) {
+        try {
+            return isTokenTimeValid(accessToken);
+        } catch (ExpiredJwtException e) {
+            return false;
+        } catch (JwtException e) {
+            throw new BusinessException(ErrorMessages.Invalid_Token);
+        }
+    }
+
+    public String renewAccessTokenUsingRefreshToken(String refreshToken)  {
+        try {
+            Claims claims = parseToken(refreshToken).getBody();
+            Long userId = Long.valueOf(claims.getSubject());
+            return generateToken(userId, expiration);
+        } catch (JwtException e) {
+            throw new BusinessException(ErrorMessages.Invalid_Token);
+        }
+    }
+
+    private Jws<Claims> parseToken(String token) throws JwtException {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token);
+    }
+
+    private boolean isTokenTimeValid(String token) throws JwtException {
+        Jws<Claims> claims = parseToken(token);
+        return !claims.getBody().getExpiration().before(new Date());
+    }
 }
+
