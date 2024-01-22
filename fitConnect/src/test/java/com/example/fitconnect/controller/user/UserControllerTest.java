@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -32,7 +34,7 @@ class UserControllerTest {
     private UserController userController;
 
     private MockMvc mockMvc;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setUp() {
@@ -57,5 +59,19 @@ class UserControllerTest {
                         .content(token))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse)));
+    }
+
+    @Test
+    void logoutTest() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("accessToken", "mockAccessToken");
+        session.setAttribute("refreshToken", "mockRefreshToken");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/logout")
+                        .session(session))
+                .andExpect(status().isOk());
+
+        assertThat(session.getAttribute("accessToken")).isNull();
+        assertThat(session.getAttribute("refreshToken")).isNull();
     }
 }

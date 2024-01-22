@@ -27,4 +27,12 @@ public class UserController {
         return ResponseEntity.ok(tokens);
 
     }
+
+    @PostMapping("/api/auth/logout")
+    public ResponseEntity<?> logout(HttpSession session) {
+        session.removeAttribute("accessToken");
+        session.removeAttribute("refreshToken");
+        return ResponseEntity.ok().build();
+    }
+
 }
