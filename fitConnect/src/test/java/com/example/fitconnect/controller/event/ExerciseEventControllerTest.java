@@ -11,6 +11,7 @@ import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
 import com.example.fitconnect.domain.event.dto.LocationDto;
 import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.service.event.ExerciseEventDeleteService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.event.ExerciseEventRegistrationService;
 import com.example.fitconnect.service.event.ExerciseEventUpdateService;
@@ -36,6 +37,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -58,6 +60,9 @@ public class ExerciseEventControllerTest {
     @MockBean
     private ExerciseEventUpdateService exerciseEventUpdateService;
 
+    @MockBean
+    private ExerciseEventDeleteService exerciseEventDeleteService;
+
     private final Long userId = 1L;
     private final Long eventId = 1L;
 
@@ -65,7 +70,7 @@ public class ExerciseEventControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
                 new ExerciseEventController(registrationService, exerciseEventFindService,
-                        exerciseEventUpdateService, commonService)).build();
+                        exerciseEventUpdateService,exerciseEventDeleteService, commonService)).build();
         given(commonService.extractUserIdFromSession(any())).willReturn(userId);
     }
 
@@ -96,6 +101,15 @@ public class ExerciseEventControllerTest {
         performPut("/api/events/" + eventId, updateDto)
                 .andExpect(status().isOk());
     }
+    @Test
+    public void deleteEventShouldReturnStatusOk() throws Exception {
+        Long eventId = 1L;
+        setupDeleteService(eventId);
+
+        performDelete("/api/events/" + eventId)
+                .andExpect(status().isOk());
+    }
+
 
     private void setupRegistrationService(ExerciseEventRegistrationDto dto) {
         given(registrationService.registerEvent(eq(userId), eq(dto)))
@@ -115,6 +129,10 @@ public class ExerciseEventControllerTest {
                 .willReturn(new ExerciseEvent());
     }
 
+    private void setupDeleteService(Long eventId) {
+        doNothing().when(exerciseEventDeleteService).deleteEvent(eq(eventId), eq(userId));
+    }
+
     private ResultActions performPost(String url, Object dto) throws Exception {
         return mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -132,6 +150,10 @@ public class ExerciseEventControllerTest {
         return mockMvc.perform(put(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(dto)));
+    }
+
+    private ResultActions performDelete(String url) throws Exception {
+        return mockMvc.perform(MockMvcRequestBuilders.delete(url));
     }
 
     private String asJsonString(final Object obj) {
