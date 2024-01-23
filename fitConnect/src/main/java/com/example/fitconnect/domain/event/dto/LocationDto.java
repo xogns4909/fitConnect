@@ -2,7 +2,9 @@ package com.example.fitconnect.domain.event.dto;
 
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.Location;
+import lombok.Getter;
 
+@Getter
 public class LocationDto {
     private City city;
     private String address;

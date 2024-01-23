@@ -2,7 +2,9 @@ package com.example.fitconnect.domain.event.dto;
 
 import com.example.fitconnect.domain.event.domain.RecruitmentPolicy;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 public class RecruitmentPolicyDto {
 
 

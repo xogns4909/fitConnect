@@ -3,7 +3,9 @@ package com.example.fitconnect.domain.event.dto;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
+import lombok.Getter;
 
+@Getter
 public class ExerciseEventRegistrationDto {
     private EventDetailDto eventDetail;
     private RecruitmentPolicyDto recruitmentPolicy;
