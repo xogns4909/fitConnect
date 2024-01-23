@@ -15,4 +15,9 @@ public class UserFindService {
     public Optional<User> findUserByEmail(String email) {
         return userRepository.findByUserBaseInfo_Email(email);
     }
+
+    public Optional<User> findUserByUserId(Long userId){
+        return userRepository.findById(userId);
+    }
+
 }

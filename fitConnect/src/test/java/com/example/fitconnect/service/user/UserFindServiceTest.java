@@ -52,4 +52,28 @@ public class UserFindServiceTest {
 
         assertThat(result).isNotPresent();
     }
+
+    @ParameterizedTest
+    @ValueSource(longs = {1L, 2L, 3L})
+    void findUserByUserId_Found(Long userId) {
+        User user = new User();
+        user.setUserBaseInfo(new UserBaseInfo("user@example.com", "user", ".jpg"));
+        user.setRole(Role.MEMBER);
+        given(userRepository.findById(userId)).willReturn(Optional.of(user));
+
+        Optional<User> result = userFindService.findUserByUserId(userId);
+
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(user);
+    }
+
+    @Test
+    void findUserByUserId_NotFound() {
+        Long userId = 999L;
+        given(userRepository.findById(userId)).willReturn(Optional.empty());
+
+        Optional<User> result = userFindService.findUserByUserId(userId);
+
+        assertThat(result).isNotPresent();
+    }
 }
