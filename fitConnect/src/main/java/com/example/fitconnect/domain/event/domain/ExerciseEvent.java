@@ -55,7 +55,7 @@ public class ExerciseEvent extends BaseEntity {
     public ExerciseEvent(User organizer, EventDetail eventDetail,
             RecruitmentPolicy registrationPolicy, Location location,
             Category category) {
-        this.organizer = organizer;
+        setOrganizer(organizer);
         this.eventDetail = eventDetail;
         this.registrationPolicy = registrationPolicy;
         this.location = location;
@@ -64,5 +64,12 @@ public class ExerciseEvent extends BaseEntity {
 
     public ExerciseEvent() {
 
+    }
+
+    public void setOrganizer(User organizer) {
+        this.organizer = organizer;
+        if (!organizer.getOrganizedEvents().contains(this)) {
+            organizer.getOrganizedEvents().add(this);
+        }
     }
 }
