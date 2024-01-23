@@ -66,6 +66,12 @@ public class JwtService {
         }
     }
 
+    public Long getUserIdByParseToken(String token){
+        Jws<Claims> claimsJws = parseToken(token);
+        String subject = claimsJws.getBody().getSubject();
+        return Long.parseLong(subject);
+    }
+
     private Jws<Claims> parseToken(String token) throws JwtException {
         return Jwts.parser()
                 .setSigningKey(secretKey)
