@@ -1,8 +1,14 @@
 package com.example.fitconnect.service.event;
 
 import com.example.fitconnect.domain.event.domain.Category;
+import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.domain.event.dto.EventDetailDto;
+import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
+import com.example.fitconnect.domain.event.dto.LocationDto;
+import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,10 +33,10 @@ public class ExerciseEventFindServiceTest {
 
     @InjectMocks
     private ExerciseEventFindService exerciseEventFindService;
-    
+
 
     @Test
-    void whenFindEvents_thenReturnsPageOfEvents() {
+    void FindEvents_thenReturnsPageOfEvents() {
         Category category = Category.SOCCER;
         String description = "Soccer match in Seoul";
         int page = 0;
@@ -38,13 +44,17 @@ public class ExerciseEventFindServiceTest {
         ExerciseEvent event2 = new ExerciseEvent();
 
         List<ExerciseEvent> events = Arrays.asList(event1, event2);
-        Page<ExerciseEvent> expectedPage = new PageImpl<>(events, PageRequest.of(page, 10), events.size());
+        Page<ExerciseEvent> expectedPage = new PageImpl<>(events, PageRequest.of(page, 10),
+                events.size());
 
         given(exerciseEventRepository.findEventsWithConditions(category, description, page))
                 .willReturn(expectedPage);
 
-        Page<ExerciseEvent> result = exerciseEventFindService.findEvents(category, description, page);
+        Page<ExerciseEvent> result = exerciseEventFindService.findEvents(category, description,
+                page);
 
         assertThat(result).isEqualTo(expectedPage);
     }
+
+
 }
