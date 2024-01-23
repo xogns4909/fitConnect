@@ -4,13 +4,17 @@ import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
+import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.event.ExerciseEventRegistrationService;
+import com.example.fitconnect.service.event.ExerciseEventUpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,6 +30,8 @@ public class ExerciseEventController {
     private final ExerciseEventRegistrationService registrationService;
 
     private final ExerciseEventFindService exerciseEventFindService;
+
+    private final ExerciseEventUpdateService updateService;
     private final CommonService commonService;
 
     @PostMapping("/register")
@@ -44,5 +50,15 @@ public class ExerciseEventController {
             @RequestParam(required = false) String description) {
         Page<ExerciseEvent> events = exerciseEventFindService.findEvents(category, description, page);
         return ResponseEntity.ok(events);
+    }
+
+    @PutMapping("/{eventId}")
+    public ResponseEntity<ExerciseEvent> updateEvent(
+            @PathVariable Long eventId,
+            @RequestBody ExerciseEventUpdateDto updateDto,
+            HttpSession session) {
+        Long userId = commonService.extractUserIdFromSession(session);
+        ExerciseEvent updatedEvent = updateService.updateEvent(eventId, updateDto, userId);
+        return ResponseEntity.ok(updatedEvent);
     }
 }
