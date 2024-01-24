@@ -6,6 +6,8 @@ import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,13 +25,26 @@ import lombok.Setter;
 @Table(name = "reviews")
 public class Review extends BaseEntity {
 
-    private final int MIN_RATING = 1;
-    private final int MAX_RATING = 5;
-    private final int MAX_CONTENT_LENGTH = 100;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+
+    @Column(length = 1000)
+    private String content;
+
+    private double rating;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "exerciseEvent_id")
+    private ExerciseEvent exerciseEvent;
 
     public Review(String content, double rating, User user, ExerciseEvent exerciseEvent) {
         validationRation(rating);
@@ -39,35 +54,19 @@ public class Review extends BaseEntity {
         this.content = content;
         this.rating = rating;
     }
-
-    @Column(length = 1000)
-    private String content;
-
-    private double rating;
-
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "exerciseEvent_id")
-    private ExerciseEvent exerciseEvent;
-
     public Review() {
 
     }
 
 
     private void validationRation(double rating) {
-        if (rating < MIN_RATING || rating > MAX_RATING) {
+        if (rating < 1|| rating >5) {
             throw new BusinessException(ErrorMessages.INVALID_RATING);
         }
     }
 
     private void validationContent(String content) {
-        if (content.trim().length() == 0 || content.length() >= MAX_CONTENT_LENGTH) {
+        if (content.trim().length() == 0 || content.length() >= 10) {
             throw new BusinessException(ErrorMessages.INVALID_CONTENT);
         }
     }

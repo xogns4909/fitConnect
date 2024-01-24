@@ -42,7 +42,7 @@ public class ExerciseEvent extends BaseEntity {
     @OneToMany(mappedBy = "exerciseEvent",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<Registration> registrations = new ArrayList<>();
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
