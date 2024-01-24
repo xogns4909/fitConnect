@@ -29,6 +29,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -50,6 +51,7 @@ public class User extends BaseEntity {
     @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
     public User(UserBaseInfo userBaseInfo, Role role) {
 
         validateUserBaseInfo(userBaseInfo);
@@ -72,12 +74,6 @@ public class User extends BaseEntity {
     private void validateRole(Role role) {
         if (role == null) {
             throw new BusinessException(ROLE_NULL);
-        }
-    }
-    public void addReview(Review review) {
-        this.reviews.add(review);
-        if (review.getUser() != this) {
-            review.setUser(this);
         }
     }
 }

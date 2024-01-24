@@ -53,13 +53,13 @@ public class Registration extends BaseEntity {
 
     }
 
-    public void setUser(User user) {
+    private void setUser(User user) {
         this.user = user;
         if(!user.getRegistrations().contains(this)) {
             user.getRegistrations().add(this);
         }
     }
-    public void setExerciseEvent(ExerciseEvent exerciseEvent) {
+    private void setExerciseEvent(ExerciseEvent exerciseEvent) {
         this.exerciseEvent = exerciseEvent;
         if(!exerciseEvent.getRegistrations().contains(exerciseEvent)){
             exerciseEvent.getRegistrations().add(this);

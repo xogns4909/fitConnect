@@ -31,9 +31,11 @@ public class Review extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Review(String content, double rating) {
+    public Review(String content, double rating, User user, ExerciseEvent exerciseEvent) {
         validationRation(rating);
         validationContent(content);
+        setUser(user);
+        setExerciseEvent(exerciseEvent);
         this.content = content;
         this.rating = rating;
     }
@@ -58,17 +60,30 @@ public class Review extends BaseEntity {
     }
 
 
-    public void validationRation(double rating) {
+    private void validationRation(double rating) {
         if (rating < MIN_RATING || rating > MAX_RATING) {
             throw new BusinessException(ErrorMessages.INVALID_RATING);
         }
     }
-    public void validationContent(String content){
-        if(content.trim().length() == 0 || content.length() >= MAX_CONTENT_LENGTH){
+
+    private void validationContent(String content) {
+        if (content.trim().length() == 0 || content.length() >= MAX_CONTENT_LENGTH) {
             throw new BusinessException(ErrorMessages.INVALID_CONTENT);
         }
     }
 
+    private void setUser(User user) {
+        this.user = user;
+        if (!user.getReviews().contains(this)) {
+            user.getReviews().add(this);
+        }
+    }
 
+    private void setExerciseEvent(ExerciseEvent exerciseEvent) {
+        this.exerciseEvent = exerciseEvent;
+        if (!exerciseEvent.getReviews().contains(this)) {
+            exerciseEvent.getReviews().add(this);
+        }
+    }
 
 }
