@@ -77,7 +77,7 @@ public class Review extends BaseEntity {
     }
 
     private void validationContent(String content) {
-        if (content.trim().length() == 0 || content.length() >= 10) {
+        if (content.trim().length() == 0 || content.length() >= 100) {
             throw new BusinessException(ErrorMessages.INVALID_CONTENT);
         }
     }
