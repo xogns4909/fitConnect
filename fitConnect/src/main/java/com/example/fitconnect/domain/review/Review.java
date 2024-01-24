@@ -4,6 +4,7 @@ import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.global.BaseEntity;
+import com.example.fitconnect.domain.review.dto.ReviewUpdateDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -45,6 +46,16 @@ public class Review extends BaseEntity {
     @JsonIgnore
     @JoinColumn(name = "exerciseEvent_id")
     private ExerciseEvent exerciseEvent;
+
+    public void updateReview(ReviewUpdateDto reviewUpdateDto, User currentUser) {
+        if (!this.user.equals(currentUser)) {
+            throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
+        }
+
+        this.content = reviewUpdateDto.getContent();
+        this.rating = reviewUpdateDto.getRating();
+    }
+
 
     public Review(String content, double rating, User user, ExerciseEvent exerciseEvent) {
         validationRation(rating);
