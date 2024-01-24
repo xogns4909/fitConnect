@@ -36,15 +36,19 @@ public class JwtFilter extends OncePerRequestFilter {
             HttpSession session = request.getSession();
             String accessToken = session.getAttribute("accessToken").toString();
             String refreshToken = session.getAttribute("refreshToken").toString();
-            log.info("세션 정보{}", session);
+            log.info("세션 정보{} {} {}", session , accessToken , refreshToken);
             if (accessToken != null && jwtService.validateAccessToken(accessToken)) {
+                log.info("엑섹스 토큰 {}",accessToken);
                 filterChain.doFilter(request, response);
             } else if (refreshToken != null) {
+                log.info("리프레시 토큰 {}",refreshToken);
                 String newAccessToken = jwtService.renewAccessTokenUsingRefreshToken(refreshToken);
+                log.info("새로운 토큰 {}",newAccessToken);
                 session.setAttribute("accessToken", newAccessToken);
                 filterChain.doFilter(request, response);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             log.info("어디에온 요청일까요 ?? {}", request.getRequestURI());
             throw new BusinessException(ErrorMessages.Invalid_Token);
         }

@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class JwtService {
+public class
+JwtService {
 
 
     @Value("${jwt.secret}")
@@ -64,6 +65,12 @@ public class JwtService {
         } catch (JwtException e) {
             throw new BusinessException(ErrorMessages.Invalid_Token);
         }
+    }
+
+    public Long getUserIdByParseToken(String token){
+        Jws<Claims> claimsJws = parseToken(token);
+        String subject = claimsJws.getBody().getSubject();
+        return Long.parseLong(subject);
     }
 
     private Jws<Claims> parseToken(String token) throws JwtException {
