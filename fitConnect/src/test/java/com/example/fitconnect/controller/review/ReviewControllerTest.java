@@ -5,8 +5,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,11 +21,14 @@ import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
 import com.example.fitconnect.domain.review.dto.ReviewUpdateDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.service.review.ReviewCreationService;
+import com.example.fitconnect.service.review.ReviewDeletionService;
 import com.example.fitconnect.service.review.ReviewUpdateService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,18 +50,24 @@ class ReviewControllerTest {
 
     @Mock
     private ReviewUpdateService reviewUpdateService;
+
+    @Mock
+    private ReviewDeletionService reviewDeletionService;
     @Mock
     private CommonService commonService;
 
     @Mock
     private JwtService jwtService;
 
+    @Mock
+    private ReviewRepository reviewRepository;
     @InjectMocks
     private ReviewController reviewController;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(reviewController, reviewUpdateService,
+                reviewDeletionService,
                 commonService).build();
     }
 
@@ -98,6 +110,23 @@ class ReviewControllerTest {
         verify(reviewUpdateService, times(1)).updateReview(anyLong(), any(ReviewUpdateDto.class),
                 anyLong());
     }
+
+    @Test
+    void deleteReviewTest() throws Exception {
+        Long reviewId = 1L;
+        Long userId = 1L;
+
+        ReviewRegistrationDto testReviewRegistrationDto = createTestReviewRegistrationDto();
+        Review review = createTestReview(testReviewRegistrationDto);
+        given(reviewRepository.findById(reviewId)).willReturn(Optional.of(review));
+
+        mockMvc.perform(delete("/api/reviews/" + reviewId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .sessionAttr("userId", userId))
+                .andExpect(status().isOk());
+
+    }
+
 
     private Review createUpdatedTestReview(ReviewUpdateDto dto) {
         return new Review(dto.getContent(), dto.getRating(), new User(), new ExerciseEvent());
