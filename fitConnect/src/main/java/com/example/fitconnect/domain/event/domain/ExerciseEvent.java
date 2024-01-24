@@ -95,11 +95,6 @@ public class ExerciseEvent extends BaseEntity {
         }
     }
 
-    public void setRegistration(Registration registration) {
-        this.registrations.add(registration);
-        if (registration.getExerciseEvent() != this) {
-            registration.setExerciseEvent(this);
-        }
-    }
+
 
 }
