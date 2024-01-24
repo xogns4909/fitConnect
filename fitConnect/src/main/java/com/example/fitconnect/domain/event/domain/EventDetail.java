@@ -21,9 +21,6 @@ public class EventDetail {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Registration> registrations = new ArrayList<>();
-
     public EventDetail(String description, LocalDateTime startDate, LocalDateTime endDate) {
         validateDates(startDate, endDate);;
         this.description = description;
