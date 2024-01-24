@@ -24,7 +24,12 @@ public enum ErrorMessages {
     EVENT_NOT_FOUND("글을 찾을 수 없습니다."),
 
     REGISTRATION_NOT_FOUND("신청현황을 찾을 수 없습니다."),
-    UNAUTHORIZED_USER("수정 권한이 없습니다.");
+    UNAUTHORIZED_USER("수정 권한이 없습니다."),
+
+    INVALID_CONTENT("내용을 100글자 이하여야 합니다"),
+
+    INVALID_RATING ("레이팅은 1점이상 5점 이하여야 합니다");
+
 
 
 
