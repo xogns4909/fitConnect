@@ -17,9 +17,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "registrations")
 public class Registration extends BaseEntity {
 
@@ -57,9 +59,25 @@ public class Registration extends BaseEntity {
     }
 
     public void cancel(Long userId) {
+        checkAuthentication(userId);
+        this.status = RegistrationStatus.CANCELED;
+    }
+
+    public void approve(Long userId) {
+        checkAuthentication(userId);
+        this.status = RegistrationStatus.APPROVED;
+    }
+
+    public void deny(Long userId){
+        checkAuthentication(userId);
+        this.status = RegistrationStatus.REJECTED;
+    }
+
+    private void checkAuthentication(Long userId) {
         if(user.getId() != userId){
             throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
         }
-        this.status = RegistrationStatus.CANCELED;
     }
+
+
 }

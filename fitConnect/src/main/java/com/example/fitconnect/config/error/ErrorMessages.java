@@ -22,6 +22,8 @@ public enum ErrorMessages {
     TIME_NULL("시작시간 혹은 종료시간이 NULL 입니다."),
     USER_NOT_FOUND("회원은 찾을 수 없습니다."),
     EVENT_NOT_FOUND("글을 찾을 수 없습니다."),
+
+    REGISTRATION_NOT_FOUND("신청현황을 찾을 수 없습니다."),
     UNAUTHORIZED_USER("수정 권한이 없습니다.");
 
 

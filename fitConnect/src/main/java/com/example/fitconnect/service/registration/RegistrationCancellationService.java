@@ -21,7 +21,7 @@ public class RegistrationCancellationService {
     public void cancelRegistration(Long registrationId, Long userId) {
 
         Registration registration = registrationRepository.findById(registrationId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.REGISTRATION_NOT_FOUND));
 
         registration.cancel(userId);
 
