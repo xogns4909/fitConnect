@@ -1,5 +1,7 @@
 package com.example.fitconnect.controller.registration;
 
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -7,10 +9,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.registration.Registration;
+import com.example.fitconnect.service.registration.RegistrationCancellationService;
 import com.example.fitconnect.service.registration.RegistrationCreationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -33,10 +35,14 @@ class RegistrationControllerTest {
     @MockBean
     private JwtService jwtService;
 
+    @MockBean
+    RegistrationCancellationService cancellationService;
+
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
-                new RegistrationController(registrationService, commonService)).build();
+                new RegistrationController(registrationService,cancellationService, commonService)).build();
+        given(commonService.extractUserIdFromSession(any())).willReturn(1L);
     }
 
     @Test
@@ -44,8 +50,6 @@ class RegistrationControllerTest {
         Long userId = 1L;
         Long eventId = 1L;
         Registration registration = new Registration();
-
-        given(commonService.extractUserIdFromSession(any())).willReturn(userId);
         given(registrationService.createRegistration(userId, eventId)).willReturn(registration);
 
         mockMvc.perform(post("/api/registrations")
@@ -53,5 +57,16 @@ class RegistrationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    void cancelRegistration_Success() throws Exception {
+        Long registrationId = 1L;
+
+        doNothing().when(cancellationService).cancelRegistration(any(), any());
+
+        mockMvc.perform(delete("/api/registrations/" + registrationId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
