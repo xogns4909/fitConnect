@@ -1,5 +1,7 @@
 package com.example.fitconnect.domain.registration;
 
+import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.user.domain.User;
@@ -54,4 +56,10 @@ public class Registration extends BaseEntity {
         }
     }
 
+    public void cancel(Long userId) {
+        if(user.getId() != userId){
+            throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
+        }
+        this.status = RegistrationStatus.CANCELED;
+    }
 }
