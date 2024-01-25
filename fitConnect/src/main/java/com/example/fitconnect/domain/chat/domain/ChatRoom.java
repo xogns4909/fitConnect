@@ -1,9 +1,10 @@
-package com.example.fitconnect.domain.chat;
+package com.example.fitconnect.domain.chat.domain;
 
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
 @Entity
@@ -15,6 +16,9 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    @Size(min = 1 ,max = 100)
+    private String title;
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     @JoinColumn(name = "exercise_event_id")
@@ -30,14 +34,14 @@ public class ChatRoom {
     @JoinColumn(name = "participant_id")
     private User participant;
 
-    public ChatRoom(ExerciseEvent exerciseEvent, User creator, User participant) {
-        this.exerciseEvent = exerciseEvent;
-        this.creator = creator;
-        this.participant = participant;
+    public ChatRoom(String title,ExerciseEvent exerciseEvent, User creator, User participant) {
+        this.title = title;
+        setExerciseEvent(exerciseEvent);
+        setCreator(creator);
+        setParticipant(participant);
     }
 
     public ChatRoom() {
-
     }
 
     private void setExerciseEvent(ExerciseEvent exerciseEvent) {

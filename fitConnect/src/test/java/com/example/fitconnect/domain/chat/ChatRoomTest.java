@@ -1,8 +1,7 @@
 package com.example.fitconnect.domain.chat;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import org.junit.jupiter.api.Test;
@@ -16,9 +15,10 @@ public class ChatRoomTest {
         User mockCreator = new User();
         User mockParticipant = new User();
 
-        ChatRoom chatRoom = new ChatRoom(mockEvent, mockCreator, mockParticipant);
+        ChatRoom chatRoom = new ChatRoom("title",mockEvent, mockCreator, mockParticipant);
 
         assertThat(chatRoom).isNotNull();
+        assertThat(chatRoom.getTitle()).isEqualTo("title");
         assertThat(chatRoom.getExerciseEvent()).isEqualTo(mockEvent);
         assertThat(chatRoom.getCreator()).isEqualTo(mockCreator);
         assertThat(chatRoom.getParticipant()).isEqualTo(mockParticipant);

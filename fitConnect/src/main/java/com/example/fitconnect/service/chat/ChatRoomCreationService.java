@@ -3,16 +3,15 @@ package com.example.fitconnect.service.chat;
 
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
-import com.example.fitconnect.domain.chat.ChatRoom;
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
+import com.example.fitconnect.domain.chat.dto.ChatRoomRegistrationDto;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
 
 import com.example.fitconnect.repository.chat.ChatRoomRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.user.UserFindService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +26,13 @@ public class ChatRoomCreationService {
     private final ChatRoomRepository chatRoomRepository;
 
     @Transactional
-    public ChatRoom createChatRoom(Long exerciseEventId, Long creatorId) {
+    public ChatRoom createChatRoom(ChatRoomRegistrationDto chatRoomRegistrationDto) {
 
-        User user = findUser(creatorId);
-        ExerciseEvent exercise = findExercise(exerciseEventId);
+        User user = findUser(chatRoomRegistrationDto.getCreatorId());
+        ExerciseEvent exercise = findExercise(chatRoomRegistrationDto.getExerciseEventId());
 
-        ChatRoom chatRoom = new ChatRoom(exercise, user, exercise.getOrganizer());
+        ChatRoom chatRoom = new ChatRoom(chatRoomRegistrationDto.getTitle(), exercise, user,
+                exercise.getOrganizer());
         return chatRoomRepository.save(chatRoom);
     }
 

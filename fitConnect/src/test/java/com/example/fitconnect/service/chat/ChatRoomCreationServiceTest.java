@@ -1,9 +1,8 @@
 package com.example.fitconnect.service.chat;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.fitconnect.config.exception.EntityNotFoundException;
-import com.example.fitconnect.domain.chat.ChatRoom;
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
+import com.example.fitconnect.domain.chat.dto.ChatRoomRegistrationDto;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.repository.chat.ChatRoomRepository;
@@ -14,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -37,10 +37,13 @@ public class ChatRoomCreationServiceTest {
         User mockUser = mock(User.class);
         ExerciseEvent mockEvent = mock(ExerciseEvent.class);
         when(userFindService.findUserByUserId(anyLong())).thenReturn(Optional.of(mockUser));
-        when(exerciseEventFindService.findEventByEventId(anyLong())).thenReturn(Optional.of(mockEvent));
-        when(chatRoomRepository.save(any(ChatRoom.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        when(exerciseEventFindService.findEventByEventId(anyLong())).thenReturn(
+                Optional.of(mockEvent));
+        when(chatRoomRepository.save(any(ChatRoom.class))).thenAnswer(
+                invocation -> invocation.getArgument(0));
 
-        ChatRoom result = chatRoomCreationService.createChatRoom(1L, 1L);
+        ChatRoom result = chatRoomCreationService.createChatRoom(
+                new ChatRoomRegistrationDto("title", 1L, 1L));
 
         assertThat(result).isNotNull();
         assertThat(result.getCreator()).isEqualTo(mockUser);
@@ -52,7 +55,8 @@ public class ChatRoomCreationServiceTest {
 
         when(userFindService.findUserByUserId(anyLong())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> chatRoomCreationService.createChatRoom(1L, 1L))
+        assertThatThrownBy(() -> chatRoomCreationService.createChatRoom(
+                        new ChatRoomRegistrationDto("title", 1L, 1L)))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
@@ -62,7 +66,8 @@ public class ChatRoomCreationServiceTest {
         when(userFindService.findUserByUserId(anyLong())).thenReturn(Optional.of(mockUser));
         when(exerciseEventFindService.findEventByEventId(anyLong())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> chatRoomCreationService.createChatRoom(1L, 1L))
+        assertThatThrownBy(() -> chatRoomCreationService.createChatRoom(
+                new ChatRoomRegistrationDto("title", 1L, 1L)))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
