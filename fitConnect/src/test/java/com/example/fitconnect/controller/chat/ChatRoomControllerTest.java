@@ -12,6 +12,7 @@ import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.repository.chat.ChatRoomRepository;
 import com.example.fitconnect.service.chat.ChatRoomCreationService;
+import com.example.fitconnect.service.chat.ChatRoomDeleteService;
 import com.example.fitconnect.service.chat.ChatRoomUpdateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
@@ -46,7 +47,8 @@ public class ChatRoomControllerTest {
     private ChatRoomRepository chatRoomRepository;
     @MockBean
     private ChatRoomUpdateService chatRoomUpdateService;
-
+    @MockBean
+    private ChatRoomDeleteService chatRoomDeleteService;
     @MockBean
     private CommonService commonService;
 
@@ -54,6 +56,7 @@ public class ChatRoomControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
                         new ChatRoomController(chatRoomCreationService, chatRoomUpdateService,
+                                chatRoomDeleteService,
                                 commonService))
                 .build();
 
@@ -82,7 +85,8 @@ public class ChatRoomControllerTest {
 
         ChatRoomUpdateDto updateDto = new ChatRoomUpdateDto("New Title", 1L);
         Long chatRoomId = 1L;
-        doNothing().when(chatRoomUpdateService).updateTitle(any(ChatRoomUpdateDto.class),anyLong());
+        doNothing().when(chatRoomUpdateService)
+                .updateTitle(any(ChatRoomUpdateDto.class), anyLong());
 
         when(chatRoomRepository.findById(anyLong())).thenReturn(
                 Optional.of(new ChatRoom("title", new ExerciseEvent(), new User(), new User())));
@@ -92,7 +96,24 @@ public class ChatRoomControllerTest {
                         .content(new ObjectMapper().writeValueAsString(updateDto)))
                 .andExpect(status().isOk());
 
-        verify(chatRoomUpdateService, times(1)).updateTitle(any(ChatRoomUpdateDto.class),anyLong());
+        verify(chatRoomUpdateService, times(1)).updateTitle(any(ChatRoomUpdateDto.class),
+                anyLong());
+    }
+
+    @Test
+    public void deleteChatRoom_Success() throws Exception {
+        Long chatRoomId = 1L;
+        Long userId = 1L;
+        MockHttpSession session = new MockHttpSession();
+
+        given(commonService.extractUserIdFromSession(any(HttpSession.class))).willReturn(userId);
+        doNothing().when(chatRoomDeleteService).deleteChatRoom(userId, chatRoomId);
+
+        mockMvc.perform(delete("/api/chatrooms/" + chatRoomId)
+                        .session(session))
+                .andExpect(status().isOk());
+
+        verify(chatRoomDeleteService, times(1)).deleteChatRoom(userId, chatRoomId);
     }
 
 }

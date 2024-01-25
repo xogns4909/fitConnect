@@ -6,6 +6,7 @@ import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.chat.dto.ChatRoomRegistrationDto;
 import com.example.fitconnect.domain.chat.dto.ChatRoomUpdateDto;
 import com.example.fitconnect.service.chat.ChatRoomCreationService;
+import com.example.fitconnect.service.chat.ChatRoomDeleteService;
 import com.example.fitconnect.service.chat.ChatRoomUpdateService;
 import jakarta.servlet.http.HttpSession;
 import jdk.jshell.Snippet.Status;
@@ -21,6 +22,8 @@ public class ChatRoomController {
     private final ChatRoomCreationService chatRoomCreationService;
 
     private final ChatRoomUpdateService chatRoomUpdateService;
+
+    private final ChatRoomDeleteService chatRoomDeleteService;
     private final CommonService commonService;
 
     @PostMapping
@@ -36,6 +39,13 @@ public class ChatRoomController {
             HttpSession session) {
         Long userId = commonService.extractUserIdFromSession(session);
         chatRoomUpdateService.updateTitle(chatRoomUpdateDto,userId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{chatRoomId}")
+    public ResponseEntity<Status> deleteChatRoom(@PathVariable Long chatRoomId,HttpSession session) {
+        Long userId = commonService.extractUserIdFromSession(session);
+        chatRoomDeleteService.deleteChatRoom(userId, chatRoomId);
         return ResponseEntity.ok().build();
     }
 
