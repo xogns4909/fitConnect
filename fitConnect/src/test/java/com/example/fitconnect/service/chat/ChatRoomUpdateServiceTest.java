@@ -26,7 +26,7 @@ public class ChatRoomUpdateServiceTest {
     private ChatRoomUpdateService chatRoomUpdateService;
 
     @Mock
-    private ChatRoomRepository chatRoomRepository;
+    private ChatRoomFindService chatRoomFindService;
 
     @Mock
     private ChatRoom chatRoom;
@@ -42,22 +42,25 @@ public class ChatRoomUpdateServiceTest {
 
     @Test
     public void updateTitle_Success() {
-        when(chatRoomRepository.findById(any(Long.class))).thenReturn(Optional.of(chatRoom));
+        when(chatRoomFindService.findCharRoomByChatRoomId(any(Long.class))).thenReturn(
+                Optional.of(chatRoom));
 
-        chatRoomUpdateService.updateTitle(chatRoomUpdateDto);
+        chatRoomUpdateService.updateTitle(chatRoomUpdateDto, 1L);
 
-        verify(chatRoomRepository, times(1)).findById(any(Long.class));
+        verify(chatRoomFindService, times(1)).findCharRoomByChatRoomId(any(Long.class));
         verify(chatRoom, times(1)).update(any(String.class));
     }
 
     @Test
     public void updateTitle_Failure() {
-        when(chatRoomRepository.findById(any(Long.class))).thenReturn(Optional.empty());
+        when(chatRoomFindService.findCharRoomByChatRoomId(any(Long.class))).thenReturn(
+                Optional.empty());
 
-        Assertions.assertThatThrownBy(() -> chatRoomUpdateService.updateTitle(chatRoomUpdateDto))
+        Assertions.assertThatThrownBy(
+                        () -> chatRoomUpdateService.updateTitle(chatRoomUpdateDto, anyLong()))
                 .isInstanceOf(EntityNotFoundException.class);
 
-        verify(chatRoomRepository, times(1)).findById(any(Long.class));
+        verify(chatRoomFindService, times(1)).findCharRoomByChatRoomId(any(Long.class));
         verify(chatRoom, never()).update(any(String.class));
     }
 }

@@ -32,8 +32,10 @@ public class ChatRoomController {
     }
 
     @PutMapping
-    public ResponseEntity<Status> updateChatRoom(@RequestBody ChatRoomUpdateDto chatRoomUpdateDto) {
-        chatRoomUpdateService.updateTitle(chatRoomUpdateDto);
+    public ResponseEntity<Status> updateChatRoom(@RequestBody ChatRoomUpdateDto chatRoomUpdateDto,
+            HttpSession session) {
+        Long userId = commonService.extractUserIdFromSession(session);
+        chatRoomUpdateService.updateTitle(chatRoomUpdateDto,userId);
         return ResponseEntity.ok().build();
     }
 

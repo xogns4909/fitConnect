@@ -82,7 +82,7 @@ public class ChatRoomControllerTest {
 
         ChatRoomUpdateDto updateDto = new ChatRoomUpdateDto("New Title", 1L);
         Long chatRoomId = 1L;
-        doNothing().when(chatRoomUpdateService).updateTitle(any(ChatRoomUpdateDto.class));
+        doNothing().when(chatRoomUpdateService).updateTitle(any(ChatRoomUpdateDto.class),anyLong());
 
         when(chatRoomRepository.findById(anyLong())).thenReturn(
                 Optional.of(new ChatRoom("title", new ExerciseEvent(), new User(), new User())));
@@ -92,7 +92,7 @@ public class ChatRoomControllerTest {
                         .content(new ObjectMapper().writeValueAsString(updateDto)))
                 .andExpect(status().isOk());
 
-        verify(chatRoomUpdateService, times(1)).updateTitle(any(ChatRoomUpdateDto.class));
+        verify(chatRoomUpdateService, times(1)).updateTitle(any(ChatRoomUpdateDto.class),anyLong());
     }
-    
+
 }

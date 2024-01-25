@@ -1,5 +1,7 @@
 package com.example.fitconnect.domain.chat.domain;
 
+import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -66,7 +68,13 @@ public class ChatRoom {
     }
 
 
-    public void update(String title) {
+    public void update(String title) {;
         this.title = title;
+    }
+
+    public void validateCreator(Long userId) {
+        if (!userId.equals(this.creator.getId())) {
+            throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
+        }
     }
 }

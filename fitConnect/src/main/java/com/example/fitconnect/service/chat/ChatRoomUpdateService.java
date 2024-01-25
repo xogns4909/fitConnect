@@ -12,14 +12,19 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ChatRoomUpdateService {
+
     private final ChatRoomRepository chatRoomRepository;
 
-    @Transactional
-    public void updateTitle(ChatRoomUpdateDto chatRoomUpdateDto) {
+    private final ChatRoomFindService chatRoomFindService;
 
-        ChatRoom chatRoom = chatRoomRepository.findById(chatRoomUpdateDto.getChatRoomId())
+    @Transactional
+    public void updateTitle(ChatRoomUpdateDto chatRoomUpdateDto,Long userId) {
+
+        ChatRoom chatRoom = chatRoomFindService.findCharRoomByChatRoomId(
+                        chatRoomUpdateDto.getChatRoomId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.CHATROOM_NOT_FOUND));
 
+        chatRoom.validateCreator(userId);
         chatRoom.update(chatRoomUpdateDto.getTitle());
     }
 }
