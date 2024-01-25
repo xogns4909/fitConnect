@@ -2,6 +2,7 @@ package com.example.fitconnect.domain.event.domain;
 
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.domain.chat.ChatRoom;
 import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.registration.Registration;
@@ -38,18 +39,22 @@ public class ExerciseEvent extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "exerciseEvent",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<Registration> registrations = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+    @JsonBackReference
     private User organizer;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatRoom> chatRooms = new ArrayList<>();
 
     @Embedded
     private EventDetail eventDetail;
