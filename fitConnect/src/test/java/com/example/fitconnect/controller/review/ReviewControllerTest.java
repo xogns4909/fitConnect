@@ -10,6 +10,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,16 +25,21 @@ import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.service.review.ReviewCreationService;
 import com.example.fitconnect.service.review.ReviewDeletionService;
+import com.example.fitconnect.service.review.ReviewFindService;
 import com.example.fitconnect.service.review.ReviewUpdateService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -53,6 +59,10 @@ class ReviewControllerTest {
 
     @Mock
     private ReviewDeletionService reviewDeletionService;
+
+    @Mock
+    private ReviewFindService reviewFindService;
+
     @Mock
     private CommonService commonService;
 
@@ -64,11 +74,10 @@ class ReviewControllerTest {
     @InjectMocks
     private ReviewController reviewController;
 
+
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(reviewController, reviewUpdateService,
-                reviewDeletionService,
-                commonService).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(reviewController).build();
     }
 
     @Test
@@ -125,6 +134,25 @@ class ReviewControllerTest {
                         .sessionAttr("userId", userId))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void getReviewsByEventTest() throws Exception {
+        Long exerciseEventId = 1L;
+        int page = 1;
+        int size = 10;
+        String sortBy = "rating";
+        Page<Review> expectedPage = new PageImpl<>(Collections.singletonList(new Review()), PageRequest.of(page - 1, size), 1);
+
+        given(reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page, size, sortBy)).willReturn(expectedPage);
+
+        mockMvc.perform(get("/api/reviews/events/" + exerciseEventId)
+                        .param("page", String.valueOf(page))
+                        .param("size", String.valueOf(size))
+                        .param("sortBy", sortBy))
+                .andExpect(status().isOk());
+
+        verify(reviewFindService, times(1)).findReviewsByExerciseEvent(exerciseEventId, page, size, sortBy);
     }
 
 
