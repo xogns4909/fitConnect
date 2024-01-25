@@ -25,6 +25,8 @@ public enum ErrorMessages {
 
     REVIEW_NOT_FOUND("리뷰를 찾을 수 없습니다."),
 
+    CHATROOM_NOT_FOUND("채팅방을 찾을 수 없습니다."),
+
     REGISTRATION_NOT_FOUND("신청현황을 찾을 수 없습니다."),
     UNAUTHORIZED_USER("수정 권한이 없습니다."),
 
