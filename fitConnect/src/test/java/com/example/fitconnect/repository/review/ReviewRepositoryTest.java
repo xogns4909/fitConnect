@@ -8,7 +8,6 @@ import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
-import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.repository.user.UserRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -50,7 +48,7 @@ public class ReviewRepositoryTest {
 
     @Test
     public void testFindReviewsByRating() {
-        Page<Review> reviews = reviewRepository.findReviews(1, 10, "rating");
+        Page<Review> reviews = reviewRepository.findReviews(1, 10, 2L, "rating");
 
         assertThat(reviews).isNotNull();
         assertThat(reviews.getContent()).hasSize(3);
@@ -60,7 +58,7 @@ public class ReviewRepositoryTest {
 
     @Test
     public void testFindReviewsByDefault() {
-        Page<Review> reviews = reviewRepository.findReviews(1, 10, "default");
+        Page<Review> reviews = reviewRepository.findReviews(1, 10, 1L, "default");
 
         assertThat(reviews).isNotNull();
         assertThat(reviews.getContent()).hasSize(3);

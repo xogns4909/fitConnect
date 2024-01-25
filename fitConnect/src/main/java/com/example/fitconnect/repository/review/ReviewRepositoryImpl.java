@@ -20,9 +20,10 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
     }
 
     @Override
-    public Page<Review> findReviews(int page, int size, String sortBy) {
+    public Page<Review> findReviews(int page, int size,Long exerciseEventId, String sortBy) {
         JPAQuery<Review> query = queryFactory
                 .selectFrom(qReview)
+                .where(qReview.exerciseEvent.id.eq(exerciseEventId))
                 .offset((page - 1) * size)
                 .limit(size);
 
