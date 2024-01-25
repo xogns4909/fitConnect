@@ -66,4 +66,7 @@ public class ChatRoom {
     }
 
 
+    public void update(String title) {
+        this.title = title;
+    }
 }
