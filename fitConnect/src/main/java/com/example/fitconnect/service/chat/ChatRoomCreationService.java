@@ -26,9 +26,9 @@ public class ChatRoomCreationService {
     private final ChatRoomRepository chatRoomRepository;
 
     @Transactional
-    public ChatRoom createChatRoom(ChatRoomRegistrationDto chatRoomRegistrationDto) {
+    public ChatRoom createChatRoom(ChatRoomRegistrationDto chatRoomRegistrationDto,Long creatorId) {
 
-        User user = findUser(chatRoomRegistrationDto.getCreatorId());
+        User user = findUser(creatorId);
         ExerciseEvent exercise = findExercise(chatRoomRegistrationDto.getExerciseEventId());
 
         ChatRoom chatRoom = new ChatRoom(chatRoomRegistrationDto.getTitle(), exercise, user,

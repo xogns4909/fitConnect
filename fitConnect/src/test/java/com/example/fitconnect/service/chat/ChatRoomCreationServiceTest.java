@@ -43,7 +43,7 @@ public class ChatRoomCreationServiceTest {
                 invocation -> invocation.getArgument(0));
 
         ChatRoom result = chatRoomCreationService.createChatRoom(
-                new ChatRoomRegistrationDto("title", 1L, 1L));
+                new ChatRoomRegistrationDto("title", 1L),1L);
 
         assertThat(result).isNotNull();
         assertThat(result.getCreator()).isEqualTo(mockUser);
@@ -56,7 +56,7 @@ public class ChatRoomCreationServiceTest {
         when(userFindService.findUserByUserId(anyLong())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> chatRoomCreationService.createChatRoom(
-                        new ChatRoomRegistrationDto("title", 1L, 1L)))
+                        new ChatRoomRegistrationDto("title", 1L),1L))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
@@ -67,7 +67,7 @@ public class ChatRoomCreationServiceTest {
         when(exerciseEventFindService.findEventByEventId(anyLong())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> chatRoomCreationService.createChatRoom(
-                new ChatRoomRegistrationDto("title", 1L, 1L)))
+                new ChatRoomRegistrationDto("title", 1L),1L))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 

@@ -7,11 +7,10 @@ public class ChatRoomRegistrationDto {
 
     private String title;
     private Long exerciseEventId;
-    private Long creatorId;
 
-    public ChatRoomRegistrationDto(String title, Long exerciseEventId, Long creatorId) {
+    public ChatRoomRegistrationDto(String title, Long exerciseEventId) {
         this.title = title;
         this.exerciseEventId = exerciseEventId;
-        this.creatorId = creatorId;
+
     }
 }
