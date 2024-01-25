@@ -9,6 +9,7 @@ import com.example.fitconnect.domain.event.dto.LocationDto;
 import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,6 +55,28 @@ public class ExerciseEventFindServiceTest {
                 page);
 
         assertThat(result).isEqualTo(expectedPage);
+    }
+
+    @Test
+    void findEventByEventId_NotNull() {
+        Long eventId = 1L;
+        ExerciseEvent expectedEvent = new ExerciseEvent();
+        given(exerciseEventRepository.findById(eventId)).willReturn(Optional.of(expectedEvent));
+
+        Optional<ExerciseEvent> result = exerciseEventFindService.findEventByEventId(eventId);
+
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(expectedEvent);
+    }
+
+    @Test
+    void findEventByEventId_Empty() {
+        Long eventId = 2L;
+        given(exerciseEventRepository.findById(eventId)).willReturn(Optional.empty());
+
+        Optional<ExerciseEvent> result = exerciseEventFindService.findEventByEventId(eventId);
+
+        assertThat(result).isNotPresent();
     }
 
 

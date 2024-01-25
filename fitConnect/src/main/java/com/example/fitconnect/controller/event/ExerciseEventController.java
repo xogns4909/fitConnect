@@ -66,10 +66,18 @@ public class ExerciseEventController {
     }
 
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<ExerciseEvent> deleteEvent(@PathVariable Long eventId, HttpSession session) {
+    public ResponseEntity<ExerciseEvent> deleteEvent(@PathVariable Long eventId,
+            HttpSession session) {
         Long userId = commonService.extractUserIdFromSession(session);
         exerciseEventDeleteService.deleteEvent(eventId, userId);
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/{eventId}/detail")
+    public ResponseEntity<ExerciseEvent> getEventDetail(@PathVariable Long eventId) {
+        ExerciseEvent event = exerciseEventFindService.findEventDetail(eventId);
+        return ResponseEntity.ok(event);
+    }
+
 }
+
