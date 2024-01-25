@@ -1,6 +1,7 @@
 package com.example.fitconnect.controller.chat;
 
-import com.example.fitconnect.domain.chat.ChatMessage;
+
+import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;

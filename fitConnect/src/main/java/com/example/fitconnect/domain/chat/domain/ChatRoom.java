@@ -2,17 +2,21 @@ package com.example.fitconnect.domain.chat.domain;
 
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 
 @Entity
 @Getter
 @Table(name = "chat_rooms")
-public class ChatRoom {
+public class ChatRoom extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +39,11 @@ public class ChatRoom {
     @JsonBackReference
     @JoinColumn(name = "participant_id")
     private User participant;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatMessage> messages = new ArrayList<>();
+
 
     public ChatRoom(String title,ExerciseEvent exerciseEvent, User creator, User participant) {
         this.title = title;
