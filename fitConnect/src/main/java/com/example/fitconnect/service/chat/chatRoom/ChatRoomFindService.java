@@ -24,6 +24,8 @@ public class ChatRoomFindService {
     public Page<ChatRoom> getChatMessages(Long chatRoomId, Long userId, Pageable pageable) {
         return chatRoomRepository.findByChatRoomId(chatRoomId, userId, pageable);
     }
-   
+    public ChatRoom findChatRoomDetail(Long chatRoomId){
+        return findChatRoomByChatRoomId(chatRoomId).orElseThrow(()-> new EntityNotFoundException(
+                ErrorMessages.CHATROOM_NOT_FOUND));
     }
 }

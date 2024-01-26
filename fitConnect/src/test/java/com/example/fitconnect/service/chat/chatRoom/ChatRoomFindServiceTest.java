@@ -1,11 +1,15 @@
 package com.example.fitconnect.service.chat.chatRoom;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
+import java.util.Optional;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,10 +32,10 @@ class ChatRoomFindServiceTest {
     private ChatRoomRepository chatRoomRepository;
 
     @InjectMocks
-    private ChatRoomFindService chatRoomService;
+    private ChatRoomFindService chatRoomFindService;
 
     @Test
-    void getChatMessages_WhenCalledWithValidParameters() {
+    void getChatMessages() {
         Long chatRoomId = 1L;
         Long userId = 1L;
         Pageable pageable = PageRequest.of(0, 10);
@@ -42,10 +46,32 @@ class ChatRoomFindServiceTest {
         when(chatRoomRepository.findByChatRoomId(chatRoomId, userId, pageable)).thenReturn(
                 expectedPage);
 
-        Page<ChatRoom> result = chatRoomService.getChatMessages(chatRoomId, userId, pageable);
+        Page<ChatRoom> result = chatRoomFindService.getChatMessages(chatRoomId, userId, pageable);
 
-        assertNotNull(result);
-        assertEquals(expectedPage, result);
+        assertThat(result).isNotNull();
+        assertThat(expectedPage).isEqualTo(result);
         verify(chatRoomRepository).findByChatRoomId(chatRoomId, userId, pageable);
     }
+
+    @Test
+    void findChatRoomDetail_Success() {
+        Long chatRoomId = 1L;
+        ChatRoom chatRoom = new ChatRoom();
+        when(chatRoomRepository.findById(chatRoomId)).thenReturn(Optional.of(chatRoom));
+
+        ChatRoom result = chatRoomFindService.findChatRoomDetail(chatRoomId);
+
+        assertThat(result).isNotNull();
+        assertThat(chatRoom).isEqualTo(result);
+    }
+
+    @Test
+    void ChatRoom_NOT_FOUND() {
+        Long chatRoomId = 1L;
+        when(chatRoomRepository.findById(chatRoomId)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> chatRoomFindService.findChatRoomDetail(chatRoomId))
+                .isInstanceOf(EntityNotFoundException.class);
+    }
+
 }
