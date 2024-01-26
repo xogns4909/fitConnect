@@ -3,17 +3,19 @@ package com.example.fitconnect.domain.user.domain;
 import static com.example.fitconnect.config.error.ErrorMessages.*;
 
 import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.review.Review;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,17 +42,29 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExerciseEvent> organizedEvents = new ArrayList<>();
 
-    @JsonBackReference("user-registration")
+    @JsonManagedReference("user-registration")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Registration> registrations = new ArrayList<>();
 
-    @JsonBackReference("user-review")
+    @JsonManagedReference("user-review")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
+    private List<ChatRoom> participatingChatRooms = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
+    private List<ChatRoom> createdChatRooms = new ArrayList<>();
+
+    @JsonManagedReference("user-message")
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatMessage> messages = new ArrayList<>();
 
     public User(UserBaseInfo userBaseInfo, Role role) {
 

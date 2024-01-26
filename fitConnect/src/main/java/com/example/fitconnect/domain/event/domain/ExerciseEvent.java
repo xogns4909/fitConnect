@@ -2,13 +2,13 @@ package com.example.fitconnect.domain.event.domain;
 
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
@@ -38,18 +38,22 @@ public class ExerciseEvent extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "exerciseEvent",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<Registration> registrations = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonIgnore
+    @JsonBackReference
     private User organizer;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ChatRoom> chatRooms = new ArrayList<>();
 
     @Embedded
     private EventDetail eventDetail;

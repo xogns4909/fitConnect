@@ -5,6 +5,7 @@ import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
@@ -30,12 +31,12 @@ public class Registration extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonManagedReference("user-registration")
+    @JsonBackReference("user-registration")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @JsonManagedReference
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_event_id")
     private ExerciseEvent exerciseEvent;
