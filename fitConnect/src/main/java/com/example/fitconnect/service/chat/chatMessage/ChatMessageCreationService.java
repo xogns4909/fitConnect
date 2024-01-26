@@ -40,7 +40,7 @@ public class ChatMessageCreationService {
     }
 
     private ChatRoom findChatRoom(ChatMessageRegistrationDto dto) {
-        ChatRoom chatRoom = chatRoomFindService.findCharRoomByChatRoomId(dto.getChatRoomId())
+        ChatRoom chatRoom = chatRoomFindService.findChatRoomByChatRoomId(dto.getChatRoomId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.CHATROOM_NOT_FOUND));
         return chatRoom;
     }

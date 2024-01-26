@@ -20,7 +20,7 @@ public class ChatRoomUpdateService {
     @Transactional
     public void updateTitle(ChatRoomUpdateDto chatRoomUpdateDto,Long userId) {
 
-        ChatRoom chatRoom = chatRoomFindService.findCharRoomByChatRoomId(
+        ChatRoom chatRoom = chatRoomFindService.findChatRoomByChatRoomId(
                         chatRoomUpdateDto.getChatRoomId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.CHATROOM_NOT_FOUND));
 

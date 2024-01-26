@@ -42,25 +42,25 @@ public class ChatRoomUpdateServiceTest {
 
     @Test
     public void updateTitle_Success() {
-        when(chatRoomFindService.findCharRoomByChatRoomId(any(Long.class))).thenReturn(
+        when(chatRoomFindService.findChatRoomByChatRoomId(any(Long.class))).thenReturn(
                 Optional.of(chatRoom));
 
         chatRoomUpdateService.updateTitle(chatRoomUpdateDto, 1L);
 
-        verify(chatRoomFindService, times(1)).findCharRoomByChatRoomId(any(Long.class));
+        verify(chatRoomFindService, times(1)).findChatRoomByChatRoomId(any(Long.class));
         verify(chatRoom, times(1)).update(any(String.class));
     }
 
     @Test
     public void updateTitle_Failure() {
-        when(chatRoomFindService.findCharRoomByChatRoomId(any(Long.class))).thenReturn(
+        when(chatRoomFindService.findChatRoomByChatRoomId(any(Long.class))).thenReturn(
                 Optional.empty());
 
         Assertions.assertThatThrownBy(
                         () -> chatRoomUpdateService.updateTitle(chatRoomUpdateDto, anyLong()))
                 .isInstanceOf(EntityNotFoundException.class);
 
-        verify(chatRoomFindService, times(1)).findCharRoomByChatRoomId(any(Long.class));
+        verify(chatRoomFindService, times(1)).findChatRoomByChatRoomId(any(Long.class));
         verify(chatRoom, never()).update(any(String.class));
     }
 }

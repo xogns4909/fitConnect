@@ -46,7 +46,7 @@ public class ChatMessageCreationServiceTest {
         ChatMessage mockChatMessage = new ChatMessage("테스트 메시지", mockChatRoom, mockUser);
 
         when(userFindService.findUserByUserId(userId)).thenReturn(Optional.of(mockUser));
-        when(chatRoomFindService.findCharRoomByChatRoomId(dto.getChatRoomId())).thenReturn(
+        when(chatRoomFindService.findChatRoomByChatRoomId(dto.getChatRoomId())).thenReturn(
                 Optional.of(mockChatRoom));
         when(chatMessageRepository.save(any(ChatMessage.class))).thenReturn(mockChatMessage);
 
@@ -73,7 +73,7 @@ public class ChatMessageCreationServiceTest {
         User mockUser = new User();
 
         when(userFindService.findUserByUserId(userId)).thenReturn(Optional.of(mockUser));
-        when(chatRoomFindService.findCharRoomByChatRoomId(dto.getChatRoomId())).thenReturn(Optional.empty());
+        when(chatRoomFindService.findChatRoomByChatRoomId(dto.getChatRoomId())).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> chatMessageCreationService.createChatMessage(dto, userId))
                 .isInstanceOf(EntityNotFoundException.class);

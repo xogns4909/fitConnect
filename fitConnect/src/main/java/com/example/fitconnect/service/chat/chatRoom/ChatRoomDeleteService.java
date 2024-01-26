@@ -18,7 +18,7 @@ public class ChatRoomDeleteService {
     public void deleteChatRoom(Long userId, Long chatRoomId) {
 
 
-        ChatRoom chatRoom = chatRoomFindService.findCharRoomByChatRoomId(chatRoomId)
+        ChatRoom chatRoom = chatRoomFindService.findChatRoomByChatRoomId(chatRoomId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.CHATROOM_NOT_FOUND));
 
         chatRoom.validateCreator(userId);
