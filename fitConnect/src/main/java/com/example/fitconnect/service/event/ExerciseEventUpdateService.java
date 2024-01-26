@@ -7,13 +7,14 @@ import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class ExerciseEventUpdateService {
 
     private final ExerciseEventRepository exerciseEventRepository;
-
+    @Transactional
     public ExerciseEvent updateEvent(Long eventId, ExerciseEventUpdateDto updateDto,Long userId) {
         ExerciseEvent event = exerciseEventRepository.findById(eventId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
