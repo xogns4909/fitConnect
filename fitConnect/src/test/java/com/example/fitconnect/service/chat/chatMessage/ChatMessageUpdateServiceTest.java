@@ -67,7 +67,7 @@ public class ChatMessageUpdateServiceTest {
         User sender = new User();
         sender.setId(1L);
         ChatMessage message = new ChatMessage("Original content", new ChatRoom(), sender);
-        message.setCreatedAt(LocalDateTime.now().minusMinutes(6)); 
+        message.setCreatedAt(LocalDateTime.now().minusMinutes(6));
 
         when(chatMessageFindService.findChatMessageByChatMessageId(chatMessageId))
                 .thenReturn(Optional.of(message));

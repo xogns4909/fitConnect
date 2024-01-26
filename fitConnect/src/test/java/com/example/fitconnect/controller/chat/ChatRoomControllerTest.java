@@ -1,9 +1,6 @@
 package com.example.fitconnect.controller.chat;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.fitconnect.auth.service.JwtService;
-import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.chat.dto.ChatRoomRegistrationDto;
@@ -11,17 +8,14 @@ import com.example.fitconnect.domain.chat.dto.ChatRoomUpdateDto;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.repository.chat.ChatRoomRepository;
-import com.example.fitconnect.service.chat.ChatRoomCreationService;
-import com.example.fitconnect.service.chat.ChatRoomDeleteService;
-import com.example.fitconnect.service.chat.ChatRoomUpdateService;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomCreationService;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomUpdateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;

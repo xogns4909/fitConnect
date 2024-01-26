@@ -1,13 +1,11 @@
 package com.example.fitconnect.service.chat;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-
-import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.chat.dto.ChatRoomUpdateDto;
-import com.example.fitconnect.repository.chat.ChatRoomRepository;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomUpdateService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

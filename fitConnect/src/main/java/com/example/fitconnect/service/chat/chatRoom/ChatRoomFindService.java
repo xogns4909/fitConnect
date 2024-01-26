@@ -1,4 +1,4 @@
-package com.example.fitconnect.service.chat;
+package com.example.fitconnect.service.chat.chatRoom;
 
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.repository.chat.ChatRoomRepository;

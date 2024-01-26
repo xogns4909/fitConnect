@@ -1,4 +1,4 @@
-package com.example.fitconnect.service.chat;
+package com.example.fitconnect.service.chat.chatRoom;
 
 
 import com.example.fitconnect.config.error.ErrorMessages;
