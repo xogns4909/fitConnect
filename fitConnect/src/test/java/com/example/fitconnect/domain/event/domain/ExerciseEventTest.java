@@ -41,7 +41,7 @@ public class ExerciseEventTest {
                 Arguments.of(
                         new User(new UserBaseInfo("xogns4909@naver.com", "그zi운아이", ".com"),
                                 Role.MEMBER),
-                        new EventDetail("Description 1", LocalDateTime.now(),
+                        new EventDetail("title","Description 1", LocalDateTime.now(),
                                 LocalDateTime.now().plusHours(2)),
                         new RecruitmentPolicy(3, LocalDateTime.now(),
                                 LocalDateTime.now().plusHours(2)),

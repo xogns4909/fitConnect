@@ -8,17 +8,19 @@ import lombok.Getter;
 @Data
 @Getter
 public class EventDetailDto {
+    private String title;
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    public EventDetailDto(String description, LocalDateTime startDate, LocalDateTime endDate) {
+    public EventDetailDto(String title,String description, LocalDateTime startDate, LocalDateTime endDate) {
+        this.title = title;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
     public EventDetail toEntity() {
-        return new EventDetail(description, startDate, endDate);
+        return new EventDetail(title,description, startDate, endDate);
     }
 }
