@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.chat.dto.ChatMessageUpdateDto;
+import com.example.fitconnect.service.chat.chatMessage.ChatMessageDeleteService;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageUpdateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -33,7 +38,8 @@ public class ChatMessageControllerTest {
 
     @MockBean
     private ChatMessageUpdateService chatMessageUpdateService;
-
+    @MockBean
+    private ChatMessageDeleteService chatMessageDeleteService;
     @MockBean
     private CommonService commonService;
 
@@ -46,7 +52,7 @@ public class ChatMessageControllerTest {
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
-                new ChatMessageController(chatMessageUpdateService, commonService)).build();
+                new ChatMessageController(chatMessageUpdateService,chatMessageDeleteService, commonService)).build();
     }
 
     @Test
@@ -56,9 +62,24 @@ public class ChatMessageControllerTest {
 
         when(commonService.extractUserIdFromSession(any())).thenReturn(userId);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/chatmessages/1")
+        mockMvc.perform(put("/api/chatmessages/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(updateDto)))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void deleteChatMessage_Success() throws Exception {
+        Long messageId = 1L;
+        Long userId = 1L;
+
+        when(commonService.extractUserIdFromSession(any())).thenReturn(userId);
+        doNothing().when(chatMessageDeleteService).deleteMessage(messageId, userId);
+
+        mockMvc.perform(delete("/api/chatmessages/" + messageId))
+                .andExpect(status().isOk());
+
+        verify(chatMessageDeleteService).deleteMessage(messageId, userId);
+    }
+
 }
