@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,14 +35,14 @@ class ChatRoomFindServiceTest {
         Long chatRoomId = 1L;
         Long userId = 1L;
         Pageable pageable = PageRequest.of(0, 10);
-        List<ChatMessage> mockMessages = Arrays.asList(new ChatMessage(), new ChatMessage());
-        Page<ChatMessage> expectedPage = new PageImpl<>(mockMessages, pageable,
+        List<ChatRoom> mockMessages = Arrays.asList(new ChatRoom(), new ChatRoom());
+        Page<ChatRoom> expectedPage = new PageImpl<>(mockMessages, pageable,
                 mockMessages.size());
 
         when(chatRoomRepository.findByChatRoomId(chatRoomId, userId, pageable)).thenReturn(
                 expectedPage);
 
-        Page<ChatMessage> result = chatRoomService.getChatMessages(chatRoomId, userId, pageable);
+        Page<ChatRoom> result = chatRoomService.getChatMessages(chatRoomId, userId, pageable);
 
         assertNotNull(result);
         assertEquals(expectedPage, result);

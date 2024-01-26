@@ -19,7 +19,7 @@ public class ChatRoomFindService {
         return chatRoomRepository.findById(chatRoomId);
     }
 
-    public Page<ChatMessage> getChatMessages(Long chatRoomId, Long userId, Pageable pageable) {
+    public Page<ChatRoom> getChatMessages(Long chatRoomId, Long userId, Pageable pageable) {
         return chatRoomRepository.findByChatRoomId(chatRoomId, userId, pageable);
     }
 }

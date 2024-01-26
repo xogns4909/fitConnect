@@ -1,6 +1,7 @@
 package com.example.fitconnect.repository.chat.chatRoom;
 
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.chat.domain.QChatMessage;
 import com.example.fitconnect.domain.chat.domain.QChatRoom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -17,13 +18,13 @@ public class ChatRoomRepositoryImpl implements CustomChatRoomRepository {
     private EntityManager entityManager;
 
     @Override
-    public Page<ChatMessage> findByChatRoomId(Long chatRoomId, Long userId, Pageable pageable) {
+    public Page<ChatRoom> findByChatRoomId(Long chatRoomId, Long userId, Pageable pageable) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QChatMessage qChatMessage = QChatMessage.chatMessage;
         QChatRoom qChatRoom = qChatMessage.chatRoom;
 
-        List<ChatMessage> chatMessages = queryFactory
-                .selectFrom(qChatMessage)
+        List<ChatRoom> chatMessages = queryFactory
+                .selectFrom(qChatRoom)
                 .where(qChatMessage.chatRoom.id.eq(chatRoomId)
                         .and(qChatRoom.creator.id.eq(userId)
                         .or(qChatRoom.participant.id.eq(userId))))
