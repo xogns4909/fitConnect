@@ -3,7 +3,7 @@ package com.example.fitconnect.service.chat.chatMessage;
 import static org.assertj.core.api.Assertions.*;
 
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
-import com.example.fitconnect.repository.chat.ChatMessageRepository;
+import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,10 +1,8 @@
 package com.example.fitconnect.service.chat.chatMessage;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
-import com.example.fitconnect.repository.chat.ChatMessageRepository;
+import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

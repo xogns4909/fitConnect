@@ -7,7 +7,7 @@ import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.chat.dto.ChatMessageRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
-import com.example.fitconnect.repository.chat.ChatMessageRepository;
+import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
 import com.example.fitconnect.service.user.UserFindService;
 import java.util.Optional;

@@ -2,12 +2,9 @@ package com.example.fitconnect.service.chat.chatMessage;
 
 import static com.example.fitconnect.config.error.ErrorMessages.*;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.dto.ChatMessageUpdateDto;
-import com.example.fitconnect.repository.chat.ChatMessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

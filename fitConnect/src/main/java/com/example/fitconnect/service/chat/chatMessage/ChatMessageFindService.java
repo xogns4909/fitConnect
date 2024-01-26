@@ -1,7 +1,7 @@
 package com.example.fitconnect.service.chat.chatMessage;
 
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
-import com.example.fitconnect.repository.chat.ChatMessageRepository;
+import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

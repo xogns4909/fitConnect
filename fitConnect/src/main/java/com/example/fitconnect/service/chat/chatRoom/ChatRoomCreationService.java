@@ -8,7 +8,7 @@ import com.example.fitconnect.domain.chat.dto.ChatRoomRegistrationDto;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
 
-import com.example.fitconnect.repository.chat.ChatRoomRepository;
+import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.user.UserFindService;
 import lombok.RequiredArgsConstructor;
