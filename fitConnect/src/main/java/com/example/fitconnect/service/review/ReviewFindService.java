@@ -10,6 +10,7 @@ import com.example.fitconnect.service.event.ExerciseEventFindService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,5 +28,9 @@ public class ReviewFindService {
                         ErrorMessages.EVENT_NOT_FOUND));
 
         return reviewRepository.findReviews(page, size, exerciseEventId, sortBy);
+    }
+
+    public Page<Review> findReviewsByUserId(Long userId, Pageable pageable){
+        return  reviewRepository.findReviewsByUserId(userId,pageable);
     }
 }

@@ -7,6 +7,7 @@ import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.Collections;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
@@ -58,6 +60,28 @@ public class ReviewFindServiceTest {
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
     }
+    
+    @Test
+    public void findReviewByUserId_WithData() {
+        Long userId = 1L;
+        int page = 0;
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+
+        Review mockReview = new Review();
+        List<Review> reviews = Collections.singletonList(mockReview);
+        Page<Review> expectedPage = new PageImpl<>(reviews, pageable, reviews.size());
+
+        when(reviewRepository.findReviewsByUserId(userId, pageable)).thenReturn(expectedPage);
+
+        Page<Review> result = reviewFindService.findReviewsByUserId(userId, pageable);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getContent()).hasSize(1);
+        assertThat(result.getContent()).containsExactly(mockReview);
+    }
+
+
 
     @Test
     public void event_Not_Found() {

@@ -9,6 +9,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,6 +31,10 @@ public class ExerciseEventFindService {
     public ExerciseEvent findEventDetail(Long eventId) {
         return findEventByEventId(eventId).orElseThrow(
                 () -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
+    }
+
+    public Page<ExerciseEvent> findEventByUserId(Long userId, Pageable pageable){
+        return exerciseEventRepository.findEventsByOrganizerId(userId,pageable);
     }
 }
 
