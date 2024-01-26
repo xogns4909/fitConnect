@@ -20,7 +20,9 @@ public enum ErrorMessages {
     REGISTRATION_DATE_INVALID("시작 시간은 종료시간보다 빨라야 합니다"),
     PARTICIPANTS_NUMBER_INVALID("모집 인워은 최소 1명에서 100명 사이 입니다."),
     TIME_NULL("시작시간 혹은 종료시간이 NULL 입니다."),
-    USER_NOT_FOUND("회원은 찾을 수 없습니다.");
+    USER_NOT_FOUND("회원은 찾을 수 없습니다."),
+    EVENT_NOT_FOUND("글을 찾을 수 없습니다."),
+    UNAUTHORIZED_USER("수정 권한이 없습니다.");
 
 
 

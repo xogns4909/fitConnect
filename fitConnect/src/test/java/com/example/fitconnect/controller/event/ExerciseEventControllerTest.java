@@ -7,11 +7,14 @@ import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.event.dto.EventDetailDto;
 import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
+import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
 import com.example.fitconnect.domain.event.dto.LocationDto;
 import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.service.event.ExerciseEventDeleteService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.event.ExerciseEventRegistrationService;
+import com.example.fitconnect.service.event.ExerciseEventUpdateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.time.LocalDateTime;
@@ -26,13 +29,17 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,55 +53,107 @@ public class ExerciseEventControllerTest {
     private JwtService jwtService;
     @MockBean
     private ExerciseEventRegistrationService registrationService;
-
     @MockBean
     private CommonService commonService;
-
     @MockBean
     private ExerciseEventFindService exerciseEventFindService;
+    @MockBean
+    private ExerciseEventUpdateService exerciseEventUpdateService;
+
+    @MockBean
+    private ExerciseEventDeleteService exerciseEventDeleteService;
+
+    private final Long userId = 1L;
+    private final Long eventId = 1L;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
                 new ExerciseEventController(registrationService, exerciseEventFindService,
-                        commonService)).build();
+                        exerciseEventUpdateService,exerciseEventDeleteService, commonService)).build();
+        given(commonService.extractUserIdFromSession(any())).willReturn(userId);
     }
 
     @Test
-    public void registerEvent_Success() throws Exception {
-        Long userId = 1L;
+    public void registerEventShouldReturnStatusOk() throws Exception {
         ExerciseEventRegistrationDto registrationDto = createEventRegistrationDto();
+        setupRegistrationService(registrationDto);
 
-        given(commonService.extractUserIdFromSession(any())).willReturn(userId);
-        given(registrationService.registerEvent(eq(userId), eq(registrationDto)))
-                .willReturn(registrationDto.toEntity(new User()));
-
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/events/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(asJsonString(registrationDto)))
+        performPost("/api/events/register", registrationDto)
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void findEvent_Success() throws Exception {
-        int page = 0;
-        Category category = Category.SOCCER;
-        String description = "Soccer match";
-        ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
+    public void findEventShouldReturnStatusOk() throws Exception {
+        setupFindService();
 
-        Page<ExerciseEvent> expectedPage = new PageImpl<>(Collections.singletonList(event),
-                PageRequest.of(page, 10), 1);
-
-        given(exerciseEventFindService.findEvents(category, description, page))
-                .willReturn(expectedPage);
-
-        mockMvc.perform(get("/api/events")
-                        .param("page", "0")
-                        .param("category", "SOCCER")
-                        .param("description", "Soccer match"))
+        performGet("/api/events", "0", "SOCCER", "Soccer match")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").exists())
                 .andExpect(jsonPath("$.content[0].category").value("SOCCER"));
+    }
+
+    @Test
+    public void updateEventShouldReturnStatusOk() throws Exception {
+        ExerciseEventUpdateDto updateDto = createUpdateDto();
+        setupUpdateService(updateDto);
+
+        performPut("/api/events/" + eventId, updateDto)
+                .andExpect(status().isOk());
+    }
+    @Test
+    public void deleteEventShouldReturnStatusOk() throws Exception {
+        Long eventId = 1L;
+        setupDeleteService(eventId);
+
+        performDelete("/api/events/" + eventId)
+                .andExpect(status().isOk());
+    }
+
+
+    private void setupRegistrationService(ExerciseEventRegistrationDto dto) {
+        given(registrationService.registerEvent(eq(userId), eq(dto)))
+                .willReturn(dto.toEntity(new User()));
+    }
+
+    private void setupFindService() {
+        ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
+        Page<ExerciseEvent> expectedPage = new PageImpl<>(Collections.singletonList(event),
+                PageRequest.of(0, 10), 1);
+        given(exerciseEventFindService.findEvents(any(), any(), anyInt()))
+                .willReturn(expectedPage);
+    }
+
+    private void setupUpdateService(ExerciseEventUpdateDto dto) {
+        given(exerciseEventUpdateService.updateEvent(eq(eventId), eq(dto), eq(userId)))
+                .willReturn(new ExerciseEvent());
+    }
+
+    private void setupDeleteService(Long eventId) {
+        doNothing().when(exerciseEventDeleteService).deleteEvent(eq(eventId), eq(userId));
+    }
+
+    private ResultActions performPost(String url, Object dto) throws Exception {
+        return mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(dto)));
+    }
+
+    private ResultActions performGet(String url, String page, String category, String description) throws Exception {
+        return mockMvc.perform(get(url)
+                .param("page", page)
+                .param("category", category)
+                .param("description", description));
+    }
+
+    private ResultActions performPut(String url, Object dto) throws Exception {
+        return mockMvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(dto)));
+    }
+
+    private ResultActions performDelete(String url) throws Exception {
+        return mockMvc.perform(MockMvcRequestBuilders.delete(url));
     }
 
     private String asJsonString(final Object obj) {
@@ -117,5 +176,14 @@ public class ExerciseEventControllerTest {
 
         return new ExerciseEventRegistrationDto(eventDetailDto,
                 recruitmentPolicyDto, locationDto, category);
+    }
+
+    private ExerciseEventUpdateDto createUpdateDto() {
+        return new ExerciseEventUpdateDto(
+                new EventDetailDto("Updated Description", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(2)),
+                new RecruitmentPolicyDto(50, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2)),
+                new LocationDto(City.SEOUL, "서울시 송파구"),
+                Category.BASKETBALL
+        );
     }
 }
