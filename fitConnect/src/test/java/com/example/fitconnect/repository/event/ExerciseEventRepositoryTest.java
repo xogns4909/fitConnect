@@ -41,7 +41,7 @@ public class ExerciseEventRepositoryTest {
             "BASKETBALL, Basketball game tonight",
             "FITNESS, Fitness event this weekend"
     })
-    public void whenFindByCategory_thenReturnsExerciseEvents(Category category,
+    public void FindByCategory_Success(Category category,
             String description) {
         User user = new User(new UserBaseInfo("xogns4909@naver.com", "그zi운아이", "abc.com"),
                 Role.MEMBER);
