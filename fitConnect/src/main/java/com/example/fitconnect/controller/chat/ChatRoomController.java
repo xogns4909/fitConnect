@@ -7,10 +7,13 @@ import com.example.fitconnect.domain.chat.dto.ChatRoomRegistrationDto;
 import com.example.fitconnect.domain.chat.dto.ChatRoomUpdateDto;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomCreationService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomUpdateService;
 import jakarta.servlet.http.HttpSession;
 import jdk.jshell.Snippet.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +25,9 @@ public class ChatRoomController {
     private final ChatRoomCreationService chatRoomCreationService;
 
     private final ChatRoomUpdateService chatRoomUpdateService;
-
     private final ChatRoomDeleteService chatRoomDeleteService;
+
+    private final ChatRoomFindService chatRoomFindService;
     private final CommonService commonService;
 
     @PostMapping
@@ -47,6 +51,15 @@ public class ChatRoomController {
         Long userId = commonService.extractUserIdFromSession(session);
         chatRoomDeleteService.deleteChatRoom(userId, chatRoomId);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{chatRoomId}/messages")
+    public ResponseEntity<Page<ChatRoom>> getChatRoomMessages(@PathVariable Long chatRoomId,
+            HttpSession session,
+            Pageable pageable) {
+        Long userId = commonService.extractUserIdFromSession(session);
+        Page<ChatRoom> chatMessages = chatRoomFindService.getChatMessages(chatRoomId, userId, pageable);
+        return ResponseEntity.ok(chatMessages);
     }
 
 }

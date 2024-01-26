@@ -10,14 +10,21 @@ import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomCreationService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomUpdateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpSession;
+import java.util.Arrays;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -43,6 +50,9 @@ public class ChatRoomControllerTest {
     private ChatRoomUpdateService chatRoomUpdateService;
     @MockBean
     private ChatRoomDeleteService chatRoomDeleteService;
+
+    @MockBean
+    private ChatRoomFindService chatRoomFindService;
     @MockBean
     private CommonService commonService;
 
@@ -50,8 +60,9 @@ public class ChatRoomControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
                         new ChatRoomController(chatRoomCreationService, chatRoomUpdateService,
-                                chatRoomDeleteService,
+                                chatRoomDeleteService, chatRoomFindService,
                                 commonService))
+                .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                 .build();
 
     }
@@ -108,6 +119,28 @@ public class ChatRoomControllerTest {
                 .andExpect(status().isOk());
 
         verify(chatRoomDeleteService, times(1)).deleteChatRoom(userId, chatRoomId);
+    }
+
+    @Test
+    public void getChatRoomMessages_Success() throws Exception {
+        Long chatRoomId = 1L;
+        Long userId = 1L;
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<ChatRoom> mockPage = new PageImpl<>(Arrays.asList(new ChatRoom(), new ChatRoom()),
+                pageable, 2);
+        given(commonService.extractUserIdFromSession(any(HttpSession.class))).willReturn(userId);
+
+        given(chatRoomFindService.getChatMessages(chatRoomId, userId, pageable)).willReturn(
+                mockPage);
+
+        mockMvc.perform(get("/api/chatrooms/" + chatRoomId + "/messages")
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").exists())
+                .andExpect(jsonPath("$.content.size()").value(2))
+                .andExpect(jsonPath("$.totalElements").value(2));
     }
 
 }
