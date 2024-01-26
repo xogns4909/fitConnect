@@ -64,7 +64,7 @@ public class ChatMessage extends BaseEntity {
         this.content = content;
     }
 
-    private void validateUpdateOrDelete(Long userId) {
+    public void validateUpdateOrDelete(Long userId) {
         if(!this.sender.getId().equals(userId)){
             throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
         }
