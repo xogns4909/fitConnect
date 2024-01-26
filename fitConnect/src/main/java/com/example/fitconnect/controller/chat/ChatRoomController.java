@@ -61,5 +61,12 @@ public class ChatRoomController {
         Page<ChatRoom> chatMessages = chatRoomFindService.getChatMessages(chatRoomId, userId, pageable);
         return ResponseEntity.ok(chatMessages);
     }
+    @GetMapping("/{chatRoomId}")
+    public ResponseEntity<ChatRoom> getChatRoomDetail(@PathVariable Long chatRoomId) {
+        ChatRoom chatRoom = chatRoomFindService.findChatRoomDetail(chatRoomId);
+        return ResponseEntity.ok(chatRoom);
+    }
+
+
 
 }

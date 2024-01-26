@@ -142,5 +142,16 @@ public class ChatRoomControllerTest {
                 .andExpect(jsonPath("$.content.size()").value(2))
                 .andExpect(jsonPath("$.totalElements").value(2));
     }
+    @Test
+    public void getChatRoomDetail() throws Exception{
+        Long chatRoomId = 1L;
+        ChatRoom chatRoom = new ChatRoom("title",new ExerciseEvent(),new User(),new User());
+        given(chatRoomFindService.findChatRoomDetail(chatRoomId)).willReturn(chatRoom);
+        mockMvc.perform(get("/api/chatrooms/" + chatRoomId)
+                .param("chatRoomId" ,"1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value("title"));
+
+    }
 
 }
