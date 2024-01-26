@@ -1,9 +1,12 @@
 package com.example.fitconnect.domain.chat.domain;
 
+import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.Getter;
 
 
@@ -54,5 +57,19 @@ public class ChatMessage extends BaseEntity {
 
         this.sender = sender;
         sender.getMessages().add(this);
+    }
+
+    public void update(String content,Long userId) {
+        validateUpdateOrDelete(userId);
+        this.content = content;
+    }
+
+    private void validateUpdateOrDelete(Long userId) {
+        if(!this.sender.getId().equals(userId)){
+            throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
+        }
+        if(super.getCreatedAt().plusMinutes(5).isBefore(LocalDateTime.now())){
+            throw new BusinessException(ErrorMessages.INVALID_MESSAGE_TIME);
+        }
     }
 }
