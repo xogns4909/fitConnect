@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
 import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.registration.RegistrationStatus;
 import com.example.fitconnect.domain.user.domain.User;
@@ -32,10 +33,11 @@ public class RegistrationApprovalServiceTest {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        registration = new Registration();
         User user = new User();
         user.setId(userId);
-        registration.setUser(user);
+        ExerciseEvent exerciseEvent = new ExerciseEvent();
+        registration = new Registration(user,exerciseEvent);
+
     }
 
     @Test

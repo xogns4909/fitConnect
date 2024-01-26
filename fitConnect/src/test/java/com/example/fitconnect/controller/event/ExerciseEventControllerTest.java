@@ -84,7 +84,7 @@ public class ExerciseEventControllerTest {
     }
 
     @Test
-    public void findEventShouldReturnStatusOk() throws Exception {
+    public void findEvent_Success() throws Exception {
         setupFindService();
 
         performGet("/api/events", "0", "SOCCER", "Soccer match")
@@ -94,7 +94,7 @@ public class ExerciseEventControllerTest {
     }
 
     @Test
-    public void updateEventShouldReturnStatusOk() throws Exception {
+    public void updateEvent_Success() throws Exception {
         ExerciseEventUpdateDto updateDto = createUpdateDto();
         setupUpdateService(updateDto);
 
@@ -102,12 +102,21 @@ public class ExerciseEventControllerTest {
                 .andExpect(status().isOk());
     }
     @Test
-    public void deleteEventShouldReturnStatusOk() throws Exception {
+    public void deleteEvent_Success() throws Exception {
         Long eventId = 1L;
         setupDeleteService(eventId);
 
         performDelete("/api/events/" + eventId)
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void getEventDetail_Success() throws Exception {
+        ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
+        given(exerciseEventFindService.findEventDetail(eventId)).willReturn(event);
+        mockMvc.perform(get("/api/events/" + eventId + "/detail"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.category").value(event.getCategory().toString()));
     }
 
 

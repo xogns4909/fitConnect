@@ -5,6 +5,7 @@ import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.registration.Registration;
+import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,6 +42,9 @@ public class ExerciseEvent extends BaseEntity {
     @OneToMany(mappedBy = "exerciseEvent",cascade = CascadeType.REMOVE,orphanRemoval = true)
     private List<Registration> registrations = new ArrayList<>();
 
+    @JsonBackReference
+    @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -69,6 +73,7 @@ public class ExerciseEvent extends BaseEntity {
         this.location = location;
         this.category = category;
     }
+
     public void update(ExerciseEventUpdateDto updateDto, Long userId) {
         if (!this.organizer.getId().equals(userId)) {
             throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
@@ -89,4 +94,7 @@ public class ExerciseEvent extends BaseEntity {
             organizer.getOrganizedEvents().add(this);
         }
     }
+
+
+
 }

@@ -30,12 +30,12 @@ public class Registration extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonManagedReference
+    @JsonManagedReference("user-registration")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @JsonIgnore
+    @JsonManagedReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_event_id")
     private ExerciseEvent exerciseEvent;
@@ -45,18 +45,24 @@ public class Registration extends BaseEntity {
 
 
     public Registration(User user, ExerciseEvent exerciseEvent) {
-        this.user = user;
-        this.exerciseEvent = exerciseEvent;
+        setUser(user);
+        setExerciseEvent(exerciseEvent);
     }
 
     public Registration() {
 
     }
 
-    public void setUser(User user) {
+    private void setUser(User user) {
         this.user = user;
         if(!user.getRegistrations().contains(this)) {
             user.getRegistrations().add(this);
+        }
+    }
+    private void setExerciseEvent(ExerciseEvent exerciseEvent) {
+        this.exerciseEvent = exerciseEvent;
+        if(!exerciseEvent.getRegistrations().contains(exerciseEvent)){
+            exerciseEvent.getRegistrations().add(this);
         }
     }
 

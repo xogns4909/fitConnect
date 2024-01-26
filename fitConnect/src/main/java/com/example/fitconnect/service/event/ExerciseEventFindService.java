@@ -1,8 +1,11 @@
 package com.example.fitconnect.service.event;
 
+import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,6 +21,15 @@ public class ExerciseEventFindService {
 
     public Page<ExerciseEvent> findEvents(Category category, String description, int page) {
         return exerciseEventRepository.findEventsWithConditions(category, description, page);
+    }
+
+    public Optional<ExerciseEvent> findEventByEventId(Long eventId) {
+        return exerciseEventRepository.findById(eventId);
+    }
+
+    public ExerciseEvent findEventDetail(Long eventId) {
+        return findEventByEventId(eventId).orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
     }
 }
 

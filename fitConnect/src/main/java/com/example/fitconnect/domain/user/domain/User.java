@@ -6,6 +6,7 @@ import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.registration.Registration;
+import com.example.fitconnect.domain.review.Review;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
@@ -28,6 +29,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,13 +40,18 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @JsonManagedReference
+    @JsonBackReference
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ExerciseEvent> organizedEvents = new ArrayList<>();
 
-    @JsonBackReference
+    @JsonBackReference("user-registration")
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Registration> registrations = new ArrayList<>();
+
+    @JsonBackReference("user-review")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Review> reviews = new ArrayList<>();
+
     public User(UserBaseInfo userBaseInfo, Role role) {
 
         validateUserBaseInfo(userBaseInfo);
