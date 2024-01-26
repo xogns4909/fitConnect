@@ -29,6 +29,9 @@ public class UserBaseInfo {
         this.profilePictureUrl = profilePictureUrl;
     }
 
+    public void update(String nickname){
+        this.nickname = nickname;
+    }
     public UserBaseInfo() {
 
     }
