@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 public class ReviewRepositoryImpl implements CustomReviewRepository {
 
@@ -35,5 +36,23 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
         List<Review> content = query.fetch();
         long total = query.fetchCount();
         return new PageImpl<>(content, PageRequest.of(page - 1, size), total);
+    }
+
+    @Override
+    public Page<Review> findReviewsByUserId(Long userId, Pageable pageable) {
+        QReview review = QReview.review;
+        List<Review> reviews = queryFactory
+                .selectFrom(review)
+                .where(review.user.id.eq(userId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long total = queryFactory
+                .selectFrom(review)
+                .where(review.user.id.eq(userId))
+                .fetchCount();
+
+        return new PageImpl<>(reviews, pageable, total);
     }
 }
