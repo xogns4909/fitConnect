@@ -17,12 +17,14 @@ public class EventDetail {
 
     private static final int MAX_PARTICIPANTS = 100;
 
+    private String title;
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    public EventDetail(String description, LocalDateTime startDate, LocalDateTime endDate) {
+    public EventDetail(String title,String description, LocalDateTime startDate, LocalDateTime endDate) {
         validateDates(startDate, endDate);;
+        this.title = title;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;

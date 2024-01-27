@@ -18,10 +18,10 @@ public class EventDetailTest {
 
     @ParameterizedTest
     @MethodSource("provideValidEventDetails")
-    void createEventDetail_Success(String description, LocalDateTime startDate,
+    void createEventDetail_Success(String title,String description, LocalDateTime startDate,
             LocalDateTime endDate) {
 
-        EventDetail eventDetail = new EventDetail(description, startDate, endDate);
+        EventDetail eventDetail = new EventDetail(title,description, startDate, endDate);
 
         assertThat(eventDetail).isNotNull();
         assertThat(eventDetail.getDescription()).isEqualTo(description);
@@ -31,25 +31,25 @@ public class EventDetailTest {
 
     private static Stream<Arguments> provideValidEventDetails() {
         return Stream.of(
-                Arguments.of("Description 1", LocalDateTime.now(), LocalDateTime.now().plusHours(2)),
-                Arguments.of("Description 2", LocalDateTime.now(), LocalDateTime.now().plusDays(1))
+                Arguments.of("title1","Description 1", LocalDateTime.now(), LocalDateTime.now().plusHours(2)),
+                Arguments.of("title2","Description 2", LocalDateTime.now(), LocalDateTime.now().plusDays(1))
         );
     }
 
     @ParameterizedTest
     @MethodSource("provideInvalidEventDetails")
-    void createEventDetail_Failure(String description, LocalDateTime startDate,
+    void createEventDetail_Failure(String title,String description, LocalDateTime startDate,
             LocalDateTime endDate) {
 
-        assertThatThrownBy(() -> new EventDetail(description, startDate, endDate))
+        assertThatThrownBy(() -> new EventDetail(title,description, startDate, endDate))
                 .isInstanceOf(BusinessException.class);
     }
 
     private static Stream<Arguments> provideInvalidEventDetails() {
         return Stream.of(
-                Arguments.of("Description 1", LocalDateTime.now().plusHours(2),
+                Arguments.of("title","Description 1", LocalDateTime.now().plusHours(2),
                         LocalDateTime.now()),
-                Arguments.of("Description 2", null, LocalDateTime.now().plusDays(1))
+                Arguments.of("title","Description 2", null, LocalDateTime.now().plusDays(1))
         );
     }
 }
