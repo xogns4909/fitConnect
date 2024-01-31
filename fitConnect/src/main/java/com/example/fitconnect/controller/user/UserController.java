@@ -2,7 +2,7 @@ package com.example.fitconnect.controller.user;
 
 import com.example.fitconnect.auth.dto.GoogleInfoDto;
 import com.example.fitconnect.auth.service.AuthService;
-import com.example.fitconnect.config.service.CommonService;
+import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.dto.UserUpdateDto;
 import com.example.fitconnect.service.user.LoginService;
@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,7 +34,6 @@ public class UserController {
 
     private final UserDeleteService userDeleteService;
 
-    private final CommonService commonService;
 
     @PostMapping("/api/auth/google")
     public ResponseEntity<Map<String, String>> login(@RequestBody String token,
@@ -56,23 +54,20 @@ public class UserController {
     }
 
     @GetMapping("user")
-    public ResponseEntity<User> getUserInfo(HttpSession session) {
-        Long userId = commonService.extractUserIdFromSession(session);
+    public ResponseEntity<User> getUserInfo(@CurrentUserId Long userId) {
         User user = userFindService.findUserInfo(userId);
         return ResponseEntity.ok(user);
     }
 
     @PutMapping("user")
     public ResponseEntity<Void> updateUser(@RequestBody UserUpdateDto userUpdateDto,
-            HttpSession session) {
-        Long userId = commonService.extractUserIdFromSession(session);
+            @CurrentUserId Long userId) {
         userUpdateService.updateUser(userUpdateDto, userId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("user")
-    public ResponseEntity<Void> deleteUser(HttpSession session) {
-        Long userId = commonService.extractUserIdFromSession(session);
+    public ResponseEntity<Void> deleteUser(@CurrentUserId Long userId) {
         userDeleteService.deleteUser(userId);
         return ResponseEntity.ok().build();
     }

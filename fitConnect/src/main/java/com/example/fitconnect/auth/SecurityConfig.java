@@ -1,6 +1,7 @@
 package com.example.fitconnect.auth;
 
 import com.example.fitconnect.auth.filter.JwtFilter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity
 @Configuration
+@Slf4j
 public class SecurityConfig{
 
     @Autowired

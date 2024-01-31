@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.registration.RegistrationStatus;
 import com.example.fitconnect.domain.user.domain.User;
@@ -39,7 +40,7 @@ class RegistrationCancellationServiceTest {
     void setUp() {
         user = new User();
         user.setId(1L);
-        registration = new Registration(user, null);
+        registration = new Registration(user, new ExerciseEvent());
     }
 
     @Test

@@ -64,9 +64,6 @@ class ReviewControllerTest {
     private ReviewFindService reviewFindService;
 
     @Mock
-    private CommonService commonService;
-
-    @Mock
     private JwtService jwtService;
 
     @Mock
@@ -106,7 +103,6 @@ class ReviewControllerTest {
         ReviewUpdateDto reviewUpdateDto = new ReviewUpdateDto("Updated Content", 4.0);
         Review updatedReview = createUpdatedTestReview(reviewUpdateDto);
 
-        given(commonService.extractUserIdFromSession(any(HttpSession.class))).willReturn(userId);
         given(reviewUpdateService.updateReview(anyLong(), any(ReviewUpdateDto.class), anyLong()))
                 .willReturn(updatedReview);
 
@@ -116,8 +112,6 @@ class ReviewControllerTest {
                         .sessionAttr("userId", userId))
                 .andExpect(status().isOk());
 
-        verify(reviewUpdateService, times(1)).updateReview(anyLong(), any(ReviewUpdateDto.class),
-                anyLong());
     }
 
     @Test

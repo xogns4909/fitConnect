@@ -26,8 +26,6 @@ class RegistrationApprovalControllerTest {
     @MockBean
     private RegistrationApprovalService approvalService;
 
-    @MockBean
-    private CommonService commonService;
 
     @MockBean
     private JwtService jwtService;
@@ -35,7 +33,7 @@ class RegistrationApprovalControllerTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
-                new RegistrationApprovalController(approvalService, commonService)).build();
+                new RegistrationApprovalController(approvalService)).build();
     }
 
     @Test

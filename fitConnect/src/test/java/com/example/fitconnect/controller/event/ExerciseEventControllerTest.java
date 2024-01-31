@@ -54,8 +54,6 @@ public class ExerciseEventControllerTest {
     @MockBean
     private ExerciseEventRegistrationService registrationService;
     @MockBean
-    private CommonService commonService;
-    @MockBean
     private ExerciseEventFindService exerciseEventFindService;
     @MockBean
     private ExerciseEventUpdateService exerciseEventUpdateService;
@@ -70,8 +68,8 @@ public class ExerciseEventControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
                 new ExerciseEventController(registrationService, exerciseEventFindService,
-                        exerciseEventUpdateService,exerciseEventDeleteService, commonService)).build();
-        given(commonService.extractUserIdFromSession(any())).willReturn(userId);
+                        exerciseEventUpdateService, exerciseEventDeleteService)).build();
+
     }
 
     @Test
@@ -101,6 +99,7 @@ public class ExerciseEventControllerTest {
         performPut("/api/events/" + eventId, updateDto)
                 .andExpect(status().isOk());
     }
+
     @Test
     public void deleteEvent_Success() throws Exception {
         Long eventId = 1L;
@@ -148,7 +147,8 @@ public class ExerciseEventControllerTest {
                 .content(asJsonString(dto)));
     }
 
-    private ResultActions performGet(String url, String page, String category, String description) throws Exception {
+    private ResultActions performGet(String url, String page, String category, String description)
+            throws Exception {
         return mockMvc.perform(get(url)
                 .param("page", page)
                 .param("category", category)
@@ -176,7 +176,8 @@ public class ExerciseEventControllerTest {
     }
 
     private static ExerciseEventRegistrationDto createEventRegistrationDto() {
-        EventDetailDto eventDetailDto = new EventDetailDto("Description", LocalDateTime.now(),
+        EventDetailDto eventDetailDto = new EventDetailDto("title", "Description",
+                LocalDateTime.now(),
                 LocalDateTime.now().plusHours(2));
         RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
                 LocalDateTime.now(), LocalDateTime.now().plusDays(1));
@@ -189,8 +190,10 @@ public class ExerciseEventControllerTest {
 
     private ExerciseEventUpdateDto createUpdateDto() {
         return new ExerciseEventUpdateDto(
-                new EventDetailDto("Updated Description", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(2)),
-                new RecruitmentPolicyDto(50, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2)),
+                new EventDetailDto("title", "Updated Description", LocalDateTime.now().plusDays(1),
+                        LocalDateTime.now().plusDays(1).plusHours(2)),
+                new RecruitmentPolicyDto(50, LocalDateTime.now().plusDays(1),
+                        LocalDateTime.now().plusDays(2)),
                 new LocationDto(City.SEOUL, "서울시 송파구"),
                 Category.BASKETBALL
         );
