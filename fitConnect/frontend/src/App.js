@@ -4,6 +4,7 @@ import MainPage from './page/MainPage';
 import LoginPage from './page/LoginPage';
 import PostListPage from './page/PostListPage';
 import {AuthProvider} from "./global/AuthContext";
+import EventCreatePage from "./page/EventCreatePage";
 import Navbar from "./components/Navbar";
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
       <GoogleOAuthProvider clientId="603277392904-gp1jv0er0ve4l2okpcmk7jvllmh72n5r.apps.googleusercontent.com">
         <Router>
           <Routes>
-
+            <Route path="/new-post" element={<EventCreatePage/>} />
             <Route path="/" element={<MainPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/event" element={<PostListPage />} />
