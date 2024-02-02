@@ -1,7 +1,9 @@
 import {GoogleLogin} from "@react-oauth/google";
 import {GoogleOAuthProvider} from "@react-oauth/google";
+import {useAuth} from "../global/AuthContext";
 
-const GoogleLoginButton = () => {
+const GoogleLoginButton = ({ onLoginSuccess }) => {
+  const { login } = useAuth();
   const clientId = '603277392904-gp1jv0er0ve4l2okpcmk7jvllmh72n5r.apps.googleusercontent.com'
 
   const handleLoginSuccess = async (response) => {
@@ -13,9 +15,9 @@ const GoogleLoginButton = () => {
 
 
     try {
-      // 백엔드 서버로 ID 토큰 전송
       const res = await fetch('/api/auth/google', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -26,16 +28,9 @@ const GoogleLoginButton = () => {
         throw new Error('Failed to authenticate');
       }
 
-      const data = await res.json();
-      console.log('User authenticated:', data);
-      const accessToken = data.accessToken;
-      const refreshToken = data.refreshToken;
 
-      // 쿠키에 accessToken과 refreshToken 저장
-      document.cookie = `accessToken=${accessToken}; path=/; max-age=3600`; // 유효기간 1시간
-      document.cookie = `refreshToken=${refreshToken}; path=/; max-age=86400`; // 유효기간 1일
-      window.location.href = '/';
-      console.log(document.cookie);
+      login();
+
     } catch (error) {
       console.error('Error during login:', error);
     }
