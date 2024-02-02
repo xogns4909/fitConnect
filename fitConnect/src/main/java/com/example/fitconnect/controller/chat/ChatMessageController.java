@@ -1,6 +1,7 @@
 package com.example.fitconnect.controller.chat;
 
 
+import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.chat.dto.ChatMessageUpdateDto;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageDeleteService;
@@ -24,20 +25,17 @@ public class ChatMessageController {
     private final ChatMessageUpdateService chatMessageUpdateService;
 
     private final ChatMessageDeleteService chatMessageDeleteService;
-    private final CommonService commonService;
 
     @PutMapping("/{id}")
     public ResponseEntity<Status> updateChatMessage(
-            @RequestBody ChatMessageUpdateDto updateDto, HttpSession session) {
-        Long userId = commonService.extractUserIdFromSession(session);
+            @RequestBody ChatMessageUpdateDto updateDto,@CurrentUserId Long userId) {
         chatMessageUpdateService.updateMessage(updateDto, userId);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{messageId}")
     public ResponseEntity<Status> deleteChatMessage(@PathVariable Long messageId,
-            HttpSession session) {
-        Long userId = commonService.extractUserIdFromSession(session);
+            @CurrentUserId Long userId) {
         chatMessageDeleteService.deleteMessage(messageId, userId);
         return ResponseEntity.ok().build();
     }

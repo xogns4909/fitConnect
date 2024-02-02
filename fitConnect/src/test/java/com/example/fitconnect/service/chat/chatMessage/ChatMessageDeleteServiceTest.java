@@ -28,7 +28,7 @@ public class ChatMessageDeleteServiceTest {
     void deleteMessage_Success() {
         Long messageId = 1L;
         Long userId = 1L;
-        ChatMessage message = new ChatMessage();
+        ChatMessage message = mock(ChatMessage.class);
         when(chatMessageRepository.findById(messageId)).thenReturn(Optional.of(message));
         doNothing().when(message).validateUpdateOrDelete(userId);
 
@@ -44,7 +44,7 @@ public class ChatMessageDeleteServiceTest {
         Long userId = 2L;
         ChatMessage message = mock(ChatMessage.class);
         when(chatMessageRepository.findById(messageId)).thenReturn(Optional.of(message));
-        doThrow(new BusinessException(any(ErrorMessages.class))).when(message)
+        doThrow(new BusinessException(ErrorMessages.UNAUTHORIZED_USER)).when(message)
                 .validateUpdateOrDelete(userId);
 
         assertThatThrownBy(() -> chatMessageDeleteService.deleteMessage(messageId, userId))

@@ -40,8 +40,6 @@ public class MyPageControllerTest {
     @Mock
     private ExerciseEventFindService exerciseEventFindService;
     @Mock
-    private CommonService commonService;
-    @Mock
     private HttpSession session;
 
     @InjectMocks
@@ -59,7 +57,6 @@ public class MyPageControllerTest {
                 .build();
         pageable = PageRequest.of(0, 20);
         userId = 1L;
-        when(commonService.extractUserIdFromSession(any(HttpSession.class))).thenReturn(userId);
     }
 
 
@@ -69,9 +66,9 @@ public class MyPageControllerTest {
         when(reviewFindService.findReviewsByUserId(userId, pageable)).thenReturn(mockPage);
 
         mockMvc.perform(get("/mypage/reviews")
-                        .sessionAttr("session", new MockHttpSession())
                         .param("page", "0")
-                        .param("size", "20"))
+                        .param("size", "20")
+                        .param("userId","1"))
                 .andExpect(status().isOk());
     }
 
@@ -84,7 +81,9 @@ public class MyPageControllerTest {
         mockMvc.perform(get("/mypage/registrations")
                         .sessionAttr("session", new MockHttpSession())
                         .param("page", "0")
-                        .param("size", "20"))
+                        .param("size", "20")
+                        .param("userId","1"))
+
                 .andExpect(status().isOk());
     }
 
@@ -96,7 +95,8 @@ public class MyPageControllerTest {
         mockMvc.perform(get("/mypage/events")
                         .sessionAttr("session", new MockHttpSession())
                         .param("page", "0")
-                        .param("size", "20"))
+                        .param("size", "20")
+                        .param("userId","1"))
                 .andExpect(status().isOk());
     }
 }

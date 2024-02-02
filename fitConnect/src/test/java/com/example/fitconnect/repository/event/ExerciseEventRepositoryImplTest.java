@@ -60,7 +60,7 @@ public class ExerciseEventRepositoryImplTest {
     }
 
     private static ExerciseEvent createExerciseEvent(User user) {
-        EventDetailDto eventDetailDto = new EventDetailDto("Description", LocalDateTime.now(),
+        EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),
                 LocalDateTime.now().plusHours(2));
         RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
                 LocalDateTime.now(), LocalDateTime.now().plusDays(1));

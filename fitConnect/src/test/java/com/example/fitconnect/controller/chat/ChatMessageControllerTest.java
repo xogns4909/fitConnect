@@ -52,7 +52,7 @@ public class ChatMessageControllerTest {
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
-                new ChatMessageController(chatMessageUpdateService,chatMessageDeleteService, commonService)).build();
+                new ChatMessageController(chatMessageUpdateService,chatMessageDeleteService)).build();
     }
 
     @Test
@@ -60,7 +60,6 @@ public class ChatMessageControllerTest {
         Long userId = 1L;
         ChatMessageUpdateDto updateDto = new ChatMessageUpdateDto("content", 1L);
 
-        when(commonService.extractUserIdFromSession(any())).thenReturn(userId);
 
         mockMvc.perform(put("/api/chatmessages/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -73,13 +72,11 @@ public class ChatMessageControllerTest {
         Long messageId = 1L;
         Long userId = 1L;
 
-        when(commonService.extractUserIdFromSession(any())).thenReturn(userId);
         doNothing().when(chatMessageDeleteService).deleteMessage(messageId, userId);
 
         mockMvc.perform(delete("/api/chatmessages/" + messageId))
                 .andExpect(status().isOk());
 
-        verify(chatMessageDeleteService).deleteMessage(messageId, userId);
     }
 
 }

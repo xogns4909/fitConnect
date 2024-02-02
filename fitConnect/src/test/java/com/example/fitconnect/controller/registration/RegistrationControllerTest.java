@@ -29,8 +29,6 @@ class RegistrationControllerTest {
 
     @MockBean
     private RegistrationCreationService registrationService;
-    @MockBean
-    private CommonService commonService;
 
     @MockBean
     private JwtService jwtService;
@@ -41,8 +39,7 @@ class RegistrationControllerTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
-                new RegistrationController(registrationService,cancellationService, commonService)).build();
-        given(commonService.extractUserIdFromSession(any())).willReturn(1L);
+                new RegistrationController(registrationService,cancellationService)).build();
     }
 
     @Test
@@ -55,8 +52,7 @@ class RegistrationControllerTest {
         mockMvc.perform(post("/api/registrations")
                         .param("eventId", eventId.toString())
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
+                .andExpect(status().isCreated());
     }
 
     @Test

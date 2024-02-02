@@ -1,6 +1,6 @@
 package com.example.fitconnect.controller.event;
 
-import com.example.fitconnect.config.service.CommonService;
+import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
-import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,13 +32,12 @@ public class ExerciseEventController {
     private final ExerciseEventUpdateService updateService;
 
     private final ExerciseEventDeleteService exerciseEventDeleteService;
-    private final CommonService commonService;
+
 
     @PostMapping("/register")
     public ResponseEntity<ExerciseEvent> registerEvent(
             @RequestBody ExerciseEventRegistrationDto registrationDto,
-            HttpSession session) {
-        Long userId = commonService.extractUserIdFromSession(session);
+            @CurrentUserId Long userId) {
         ExerciseEvent registeredEvent = registrationService.registerEvent(userId, registrationDto);
         return ResponseEntity.ok(registeredEvent);
     }
@@ -59,16 +56,14 @@ public class ExerciseEventController {
     public ResponseEntity<ExerciseEvent> updateEvent(
             @PathVariable Long eventId,
             @RequestBody ExerciseEventUpdateDto updateDto,
-            HttpSession session) {
-        Long userId = commonService.extractUserIdFromSession(session);
+            @CurrentUserId Long userId) {
         ExerciseEvent updatedEvent = updateService.updateEvent(eventId, updateDto, userId);
         return ResponseEntity.ok(updatedEvent);
     }
 
     @DeleteMapping("/{eventId}")
     public ResponseEntity<ExerciseEvent> deleteEvent(@PathVariable Long eventId,
-            HttpSession session) {
-        Long userId = commonService.extractUserIdFromSession(session);
+            @CurrentUserId Long userId) {
         exerciseEventDeleteService.deleteEvent(eventId, userId);
         return ResponseEntity.ok().build();
     }

@@ -59,7 +59,7 @@ public class ExerciseEventRepositoryTest {
 
     private static ExerciseEventRegistrationDto createEventRegistrationDto(Category category,
             String description) {
-        EventDetailDto eventDetailDto = new EventDetailDto(description, LocalDateTime.now(),
+        EventDetailDto eventDetailDto = new EventDetailDto("title",description, LocalDateTime.now(),
                 LocalDateTime.now().plusHours(2));
         RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
                 LocalDateTime.now(), LocalDateTime.now().plusDays(1));

@@ -66,7 +66,7 @@ class ExerciseEventUpdateServiceTest {
 
     private ExerciseEvent createEvent() {
         return new ExerciseEventRegistrationDto(
-                new EventDetailDto("Description", LocalDateTime.now(), LocalDateTime.now().plusHours(2)),
+                new EventDetailDto("title","Description", LocalDateTime.now(), LocalDateTime.now().plusHours(2)),
                 new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
                 new LocationDto(City.SEOUL, "서울시 강남구"),
                 Category.SOCCER
@@ -75,7 +75,7 @@ class ExerciseEventUpdateServiceTest {
 
     private ExerciseEventUpdateDto createUpdateDto() {
         return new ExerciseEventUpdateDto(
-                new EventDetailDto("Updated Description", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(2)),
+                new EventDetailDto("title","Updated Description", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(2)),
                 new RecruitmentPolicyDto(50, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2)),
                 new LocationDto(City.SEOUL, "서울시 송파구"),
                 Category.BASKETBALL
