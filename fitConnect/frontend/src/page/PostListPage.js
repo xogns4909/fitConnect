@@ -54,6 +54,7 @@ const PostListPage = () => {
     setPage(newPage);
   };
 
+
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
     paginationItems.push(

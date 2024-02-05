@@ -5,8 +5,7 @@ import LoginPage from './page/LoginPage';
 import PostListPage from './page/PostListPage';
 import {AuthProvider} from "./global/AuthContext";
 import EventCreatePage from "./page/EventCreatePage";
-import Navbar from "./components/Navbar";
-
+import EventDetailPage from "./page/EventDetailPage";
 function App() {
   return (
       <AuthProvider>
@@ -17,6 +16,7 @@ function App() {
             <Route path="/" element={<MainPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/event" element={<PostListPage />} />
+            <Route path="/events/:eventId" element={<EventDetailPage />} />
           </Routes>
         </Router>
       </GoogleOAuthProvider>

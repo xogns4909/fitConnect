@@ -1,9 +1,12 @@
-// EventListComponent.js
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
 
 
 const EventListComponent = ({ events }) => {
+
+  const handleClick = (eventId) => {
+    window.location.href = `/events/${eventId}`;
+  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleString('ko-KR', {
@@ -12,9 +15,9 @@ const EventListComponent = ({ events }) => {
   };
 
   return (
-      <div>
+      <>
         {events.map(event => (
-            <Card key={event.id} className="mb-3">
+            <Card key={event.id} className="mb-3" onClick={() => handleClick(event.id)}> {/* 각 카드에 onClick 이벤트 핸들러 추가 */}
               <Card.Body>
                 <Row>
                   <Col md={3}>
@@ -30,8 +33,9 @@ const EventListComponent = ({ events }) => {
               </Card.Body>
             </Card>
         ))}
-      </div>
+      </>
   );
 };
+
 
 export default EventListComponent;
