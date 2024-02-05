@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Card, ListGroup,ListGroupItem } from 'react-bootstrap';
-
+import RegistrationButton from '../components/Registration';
 const EventDetail = ({ eventId }) => {
   const [event, setEvent] = useState(null);
   const [error, setError] = useState('');
@@ -36,7 +36,7 @@ const EventDetail = ({ eventId }) => {
           </ListGroup>
           <Card.Text className="mt-4">{event.eventDetail.description}</Card.Text>
           <div className="mt-4">
-            <Button variant="primary" className="m-2">신청하기</Button>
+            <RegistrationButton eventId={eventId} />
             <Button variant="secondary" className="m-2">채팅하기</Button>
           </div>
         </Card.Body>
