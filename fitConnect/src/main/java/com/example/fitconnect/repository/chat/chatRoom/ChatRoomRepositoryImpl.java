@@ -21,13 +21,13 @@ public class ChatRoomRepositoryImpl implements CustomChatRoomRepository {
     public Page<ChatRoom> findByChatRoomId(Long userId, Pageable pageable) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QChatMessage qChatMessage = QChatMessage.chatMessage;
-        QChatRoom qChatRoom = qChatMessage.chatRoom;
+        QChatRoom qChatRoom = QChatRoom.chatRoom;
 
         List<ChatRoom> chatMessages = queryFactory
                 .selectFrom(qChatRoom)
                 .where((qChatRoom.creator.id.eq(userId)
                         .or(qChatRoom.participant.id.eq(userId))))
-                .orderBy(qChatMessage.createdAt.desc())
+                .orderBy(qChatRoom.updatedAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

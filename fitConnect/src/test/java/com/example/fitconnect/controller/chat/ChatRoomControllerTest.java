@@ -128,7 +128,7 @@ public class ChatRoomControllerTest {
         Page<ChatRoom> mockPage = new PageImpl<>(Arrays.asList(new ChatRoom(), new ChatRoom()),
                 pageable, 2);
 
-        given(chatRoomFindService.getChatMessages(chatRoomId, userId, pageable)).willReturn(
+        given(chatRoomFindService.getChatMessages( userId, pageable)).willReturn(
                 mockPage);
 
         mockMvc.perform(get("/api/chatrooms/" + chatRoomId + "/messages")
