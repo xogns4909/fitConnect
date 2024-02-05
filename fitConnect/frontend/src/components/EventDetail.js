@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Card, ListGroup,ListGroupItem } from 'react-bootstrap';
 import RegistrationButton from '../components/Registration';
+import CreateChatRoom from "../components/CreateChatRoom";
 const EventDetail = ({ eventId }) => {
   const [event, setEvent] = useState(null);
   const [error, setError] = useState('');
@@ -37,11 +38,10 @@ const EventDetail = ({ eventId }) => {
           <Card.Text className="mt-4">{event.eventDetail.description}</Card.Text>
           <div className="mt-4">
             <RegistrationButton eventId={eventId} />
-            <Button variant="secondary" className="m-2">채팅하기</Button>
+            <CreateChatRoom eventId={eventId} />
           </div>
         </Card.Body>
       </Card>
-        {/* 리뷰 섹션 */}
         <Card className="mb-4 shadow">
           <Card.Header>리뷰</Card.Header>
           <ListGroup variant="flush">
