@@ -48,7 +48,8 @@ public class JwtFilter extends OncePerRequestFilter {
         HttpSession session = request.getSession();
         String accessToken = getTokenFromSession(session, "accessToken");
         String refreshToken = getTokenFromSession(session, "refreshToken");
-
+        log.info("엑세스 토큰  :  {}", accessToken);
+        log.info("리프레시 토큰 : {}",refreshToken);
         if (accessToken != null && jwtService.validateAccessToken(accessToken)) {
             setAuthenticationContext(jwtService.getUserIdByParseToken(accessToken));
         } else if (refreshToken != null) {
@@ -69,7 +70,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private boolean isPermitAllPath(String requestURI) {
-        return requestURI.startsWith("/ws") || requestURI.startsWith("/api/auth/google")
+        return  requestURI.startsWith("/api/auth/google")
                 || requestURI.startsWith("/swagger-ui")
                 || requestURI.startsWith("/v3/api-docs") || requestURI.startsWith("/h2-console");
     }

@@ -1,5 +1,6 @@
 package com.example.fitconnect.config.webSocket;
 
+import com.example.fitconnect.config.interceptor.CustomHandshakeInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -15,7 +16,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws/{chatRoomId}").setAllowedOrigins("http://localhost:3000")
-                .withSockJS();
+                .withSockJS()
+                .setInterceptors(new CustomHandshakeInterceptor());;
     }
 
     @Override
