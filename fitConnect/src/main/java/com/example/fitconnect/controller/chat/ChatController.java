@@ -10,8 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,11 +25,10 @@ public class ChatController {
 
     @MessageMapping("/chat/{chatRoomId}/sendMessage")
     @SendTo("/topic/{chatRoomId}")
-    public ResponseEntity<ChatMessage> sendMessage(@DestinationVariable String chatRoomId,
-            ChatMessageRegistrationDto chatMessageRegistrationDto, @CurrentUserId Long userId) {
-        log.info("Received message in chat room {}: {}", chatRoomId, chatMessageRegistrationDto);
+    public ResponseEntity<ChatMessage> sendMessage(SimpMessageHeaderAccessor headerAccessor,String message,@DestinationVariable Long chatRoomId) {
+        Long userId = (Long) headerAccessor.getSessionAttributes().get("userId");
         ChatMessage chatMessage = chatMessageCreationService.createChatMessage(
-                chatMessageRegistrationDto, userId);
+                message,chatRoomId ,userId);
         return ResponseEntity.ok().body(chatMessage);
     }
 }
