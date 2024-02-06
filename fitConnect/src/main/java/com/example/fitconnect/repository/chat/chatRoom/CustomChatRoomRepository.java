@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface CustomChatRoomRepository {
 
-    Page<ChatRoom> findByChatRoomId(Long chatRoomId,Long userId, Pageable pageable);
+    Page<ChatRoom> findByChatRoomId(Long userId, Pageable pageable);
 
 }
 

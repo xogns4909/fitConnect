@@ -49,11 +49,11 @@ public class ChatRoomController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{chatRoomId}/messages")
-    public ResponseEntity<Page<ChatRoom>> getChatRoomMessages(@PathVariable Long chatRoomId,
+    @GetMapping("/messages")
+    public ResponseEntity<Page<ChatRoom>> getChatRoomMessages(
             @CurrentUserId Long userId,
             Pageable pageable) {
-        Page<ChatRoom> chatMessages = chatRoomFindService.getChatMessages(chatRoomId, userId,
+        Page<ChatRoom> chatMessages = chatRoomFindService.getChatMessages(userId,
                 pageable);
         return ResponseEntity.ok(chatMessages);
     }

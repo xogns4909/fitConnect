@@ -43,14 +43,14 @@ class ChatRoomFindServiceTest {
         Page<ChatRoom> expectedPage = new PageImpl<>(mockMessages, pageable,
                 mockMessages.size());
 
-        when(chatRoomRepository.findByChatRoomId(chatRoomId, userId, pageable)).thenReturn(
+        when(chatRoomRepository.findByChatRoomId(userId, pageable)).thenReturn(
                 expectedPage);
 
-        Page<ChatRoom> result = chatRoomFindService.getChatMessages(chatRoomId, userId, pageable);
+        Page<ChatRoom> result = chatRoomFindService.getChatMessages(userId, pageable);
 
         assertThat(result).isNotNull();
         assertThat(expectedPage).isEqualTo(result);
-        verify(chatRoomRepository).findByChatRoomId(chatRoomId, userId, pageable);
+        verify(chatRoomRepository).findByChatRoomId(userId, pageable);
     }
 
     @Test
