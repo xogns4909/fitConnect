@@ -131,7 +131,7 @@ public class ChatRoomControllerTest {
         given(chatRoomFindService.getChatMessages( userId, pageable)).willReturn(
                 mockPage);
 
-        mockMvc.perform(get("/api/chatrooms/" + chatRoomId + "/messages")
+        mockMvc.perform(get("/api/chatrooms/messages")
                         .param("page", "0")
                         .param("size", "10"))
                 .andExpect(status().isOk());

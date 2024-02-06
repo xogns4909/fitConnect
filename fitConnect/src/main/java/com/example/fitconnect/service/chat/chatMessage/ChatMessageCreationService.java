@@ -25,11 +25,11 @@ public class ChatMessageCreationService {
     private final UserFindService userFindService;
 
     @Transactional
-    public ChatMessage createChatMessage(ChatMessageRegistrationDto dto,Long userId) {
-        ChatRoom chatRoom = findChatRoom(dto);
+    public ChatMessage createChatMessage(String message,Long chatRoomId,Long userId) {
+        ChatRoom chatRoom = findChatRoom(message,chatRoomId);
         User sender = findUser(userId);
 
-        ChatMessage chatMessage = new ChatMessage(dto.getContent(), chatRoom, sender);
+        ChatMessage chatMessage = new ChatMessage(message, chatRoom, sender);
         return chatMessageRepository.save(chatMessage);
     }
 
@@ -39,8 +39,8 @@ public class ChatMessageCreationService {
         return sender;
     }
 
-    private ChatRoom findChatRoom(ChatMessageRegistrationDto dto) {
-        ChatRoom chatRoom = chatRoomFindService.findChatRoomByChatRoomId(dto.getChatRoomId())
+    private ChatRoom findChatRoom(String message,Long chatRoomId) {
+        ChatRoom chatRoom = chatRoomFindService.findChatRoomByChatRoomId(chatRoomId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.CHATROOM_NOT_FOUND));
         return chatRoom;
     }
