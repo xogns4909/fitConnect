@@ -3,12 +3,14 @@ import { Modal, Button, Form, ListGroup } from 'react-bootstrap';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import axios from 'axios';
+import MessageUpdateMenu from "./MessageUpdateMenu";
 
 const ChatModal = ({ show, onHide, chatRoomId }) => {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [client, setClient] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [activeMessage, setActiveMessage] = useState(null);
 
   useEffect(() => {
     const fetchCurrentUserInfo = async () => {
@@ -58,35 +60,62 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
     }
   };
 
+  const handleDeleteMessage = async (messageId,messageTimestamp) => {
+    const currentTime = new Date().getTime();
+    const messageTime = new Date(messageTimestamp).getTime();
+    const timeDiff = currentTime - messageTime;
+
+    // 5분을 밀리초로 환산: 5분 * 60초 * 1000밀리초
+    if (timeDiff > 5 * 60 * 1000) {
+      alert("메시지는 생성 후 5분 이내에만 삭제할 수 있습니다.");
+      return; // 삭제 처리 중단
+    }
+
+
+    try {
+      await axios.delete(`/api/chatmessages/${messageId}`);
+      setMessages(currentMessages => currentMessages.filter(msg => msg.id !== messageId));
+      fetchMessages()
+    } catch (error) {
+      console.error('Failed to delete message:', error);
+    }
+  };
+
+  console.log(messages);
+
   return (
       <>
-        <style>{`
-        .message-container {
-          display: flex;
-          flex-direction: column;
-        }
-        .message-bubble {
-          display: flex;
-          flex-direction: column;
-          max-width: 80%;
-          padding: 8px 12px;
-          border-radius: 20px;
-          margin: 5px 0;
-          background-color: #f0f0f0;
-        }
-        .my-message {
-          margin-left: auto;
-          background-color: #dcf8c6;
-        }
-        .other-message {
-          margin-right: auto;
-        }
-        .message-metadata {
-          font-size: 12px;
-          color: #666;
-          text-align: right;
-        }
-      `}</style>
+          <style>{`
+          .message-container {
+            display: flex;
+            flex-direction: column;
+            max-height: 400px; 
+            overflow-y: auto; 
+            margin-bottom: 15px;
+          }
+          .message-bubble {
+            display: flex;
+            flex-direction: column;
+            max-width: 80%;
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin: 5px 0;
+            background-color: #f0f0f0;
+          }
+          .my-message {
+            margin-left: auto;
+            background-color: #dcf8c6;
+          }
+          .other-message {
+            margin-right: auto;
+          }
+          .message-metadata {
+            font-size: 12px;
+            color: #666;
+            text-align: right;
+          }
+        `}</style>
+
         <Modal show={show} onHide={onHide}>
           <Modal.Header closeButton>
             <Modal.Title>채팅</Modal.Title>
@@ -94,15 +123,19 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
           <Modal.Body>
             <div className="message-container">
               {messages.map((msg, index) => (
-                  <div
+                  <MessageUpdateMenu
                       key={index}
-                      className={`message-bubble ${currentUserId === msg.userId ? 'my-message' : 'other-message'}`}
+                      message={msg}
+                      messageId={msg.id}
+                      onDelete={() => handleDeleteMessage(msg.id,msg.sentAt)}
+                      activeMessage={activeMessage}
+                      setActiveMessage={setActiveMessage}
                   >
-                    <div>{msg.content}</div>
-                    <div className="message-metadata">
-                      , {new Date(msg.sentAt).toLocaleTimeString()}
+                    <div className={`message-bubble ${currentUserId === msg.userId ? 'my-message' : 'other-message'}`}>
+                      <div>{msg.content}</div>
+                      <div className="message-metadata">{new Date(msg.sentAt).toLocaleTimeString()}</div>
                     </div>
-                  </div>
+                  </MessageUpdateMenu>
               ))}
             </div>
             <Form>
