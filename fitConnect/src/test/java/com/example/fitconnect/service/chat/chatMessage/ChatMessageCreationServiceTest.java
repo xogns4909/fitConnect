@@ -7,6 +7,7 @@ import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.chat.dto.ChatMessageRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.chatMessage.response.ChatMessageResponseDto;
 import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
 import com.example.fitconnect.service.user.UserFindService;
@@ -38,9 +39,8 @@ public class ChatMessageCreationServiceTest {
 
     @Test
     public void testCreateChatMessageSuccess() {
-        // 준비
         Long userId = 1L;
-        ChatMessageRegistrationDto dto = new ChatMessageRegistrationDto( "테스트 메시지");
+        ChatMessageRegistrationDto dto = new ChatMessageRegistrationDto("테스트 메시지");
         User mockUser = new User();
         ChatRoom mockChatRoom = new ChatRoom();
         ChatMessage mockChatMessage = new ChatMessage("테스트 메시지", mockChatRoom, mockUser);
@@ -50,32 +50,37 @@ public class ChatMessageCreationServiceTest {
                 Optional.of(mockChatRoom));
         when(chatMessageRepository.save(any(ChatMessage.class))).thenReturn(mockChatMessage);
 
-        ChatMessage createdChatMessage = chatMessageCreationService.createChatMessage("message",1L, userId);
+        ChatMessageResponseDto createdChatMessage = chatMessageCreationService.createChatMessage(
+                "message", 1L, userId);
 
         assertThat(createdChatMessage).isNotNull()
                 .extracting("content", "chatRoom", "sender")
                 .containsExactly(dto.getContent(), mockChatRoom, mockUser);
     }
+
     @Test
     public void testCreateChatMessageFail_UserNotFound() {
         Long userId = 1L;
-        ChatMessageRegistrationDto dto = new ChatMessageRegistrationDto( "테스트 메시지");
+        ChatMessageRegistrationDto dto = new ChatMessageRegistrationDto("테스트 메시지");
 
         when(userFindService.findUserByUserId(userId)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> chatMessageCreationService.createChatMessage("message",1L, userId))
+        assertThatThrownBy(
+                () -> chatMessageCreationService.createChatMessage("message", 1L, userId))
                 .isInstanceOf(EntityNotFoundException.class);
     }
+
     @Test
     public void testCreateChatMessageFail_ChatRoomNotFound() {
         Long userId = 1L;
-        ChatMessageRegistrationDto dto = new ChatMessageRegistrationDto( "테스트 메시지");
+        ChatMessageRegistrationDto dto = new ChatMessageRegistrationDto("테스트 메시지");
         User mockUser = new User();
 
         when(userFindService.findUserByUserId(userId)).thenReturn(Optional.of(mockUser));
         when(chatRoomFindService.findChatRoomByChatRoomId(1L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> chatMessageCreationService.createChatMessage("message",1L, userId))
+        assertThatThrownBy(
+                () -> chatMessageCreationService.createChatMessage("message", 1L, userId))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
