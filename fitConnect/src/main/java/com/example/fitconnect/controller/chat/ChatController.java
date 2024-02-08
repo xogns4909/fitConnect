@@ -4,6 +4,7 @@ package com.example.fitconnect.controller.chat;
 import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.dto.ChatMessageRegistrationDto;
+import com.example.fitconnect.dto.chatMessage.response.ChatMessageResponseDto;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageCreationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,11 +26,15 @@ public class ChatController {
 
     @MessageMapping("/chat/{chatRoomId}/sendMessage")
     @SendTo("/topic/{chatRoomId}")
-    public ResponseEntity<ChatMessage> sendMessage(SimpMessageHeaderAccessor headerAccessor,String message,@DestinationVariable Long chatRoomId) {
+    public ResponseEntity<ChatMessageResponseDto> sendMessage(
+            SimpMessageHeaderAccessor headerAccessor,
+            ChatMessageRegistrationDto dto, @DestinationVariable Long chatRoomId) {
+
         Long userId = (Long) headerAccessor.getSessionAttributes().get("userId");
-        ChatMessage chatMessage = chatMessageCreationService.createChatMessage(
-                message,chatRoomId ,userId);
-        return ResponseEntity.ok().body(chatMessage);
+        ChatMessageResponseDto chatMessageResponseDto = chatMessageCreationService.createChatMessage(
+                dto.getContent(), chatRoomId, userId);
+
+        return ResponseEntity.ok().body(chatMessageResponseDto);
     }
 }
 
