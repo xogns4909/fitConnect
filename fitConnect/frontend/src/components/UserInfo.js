@@ -16,7 +16,6 @@ const UserInfo = () => {
     try {
       const response = await axios.get('/user');
       console.log(response.data);
-      // userBaseInfo 객체에서 nickname과 email을 가져와 상태에 저장합니다.
       setUser({
         nickname: response.data.userBaseInfo.nickname,
         email: response.data.userBaseInfo.email

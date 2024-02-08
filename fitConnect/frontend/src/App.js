@@ -8,6 +8,8 @@ import EventCreatePage from "./page/EventCreatePage";
 import EventDetailPage from "./page/EventDetailPage";
 import CreateChatRoom from "./components/CreateChatRoom";
 import ChatRoomListPage from "./page/ChatRoomListPage";
+import MyPage from "./page/MyPage";
+import EventEditForm from "./components/EventEdit";
 function App() {
   return (
       <AuthProvider>
@@ -20,6 +22,8 @@ function App() {
             <Route path="/event" element={<PostListPage />} />
             <Route path="/events/:eventId" element={<EventDetailPage />} />
             <Route path="/chatRooms" element={<ChatRoomListPage/>} />
+            <Route path="/myPage" element={<MyPage/>} />
+            <Route path="/events/edit/:eventId" element={<EventEditForm />} />
           </Routes>
         </Router>
       </GoogleOAuthProvider>
