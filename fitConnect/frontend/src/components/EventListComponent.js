@@ -17,7 +17,7 @@ const EventListComponent = ({ events }) => {
   return (
       <>
         {events.map(event => (
-            <Card key={event.id} className="mb-3" onClick={() => handleClick(event.id)}> {/* 각 카드에 onClick 이벤트 핸들러 추가 */}
+            <Card key={event.id} className="mb-3" onClick={() => handleClick(event.id)}> {}
               <Card.Body>
                 <Row>
                   <Col md={3}>
