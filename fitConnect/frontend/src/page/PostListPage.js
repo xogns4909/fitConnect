@@ -8,6 +8,7 @@ const PostListPage = () => {
   const [events, setEvents] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
   const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
   const [category, setCategory] = useState('');
   const [city, setCity] = useState('');
   const [description, setDescription] = useState('');
@@ -19,7 +20,7 @@ const PostListPage = () => {
 
   const fetchEvents = async () => {
     try {
-      const url = `/api/events?page=${page}&category=${category}&city=${city}&description=${description}`;
+      const url = `/api/events?page=${page}&size=${size}&category=${category}&city=${city}&description=${description}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

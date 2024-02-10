@@ -17,6 +17,7 @@ const NavbarComponent = () => {
                 <NavDropdown title="메뉴" id="basic-nav-dropdown">
                   <NavDropdown.Item as={Link} to="/mypage">마이페이지</NavDropdown.Item>
                   <NavDropdown.Item as={Link} to="/chatRooms">채팅</NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/event">게시글</NavDropdown.Item>
                   <NavDropdown.Item onClick={logout}>로그아웃</NavDropdown.Item>
                 </NavDropdown>
               </>
