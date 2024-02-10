@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.registration.Registration;
+import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.service.registration.RegistrationCancellationService;
 import com.example.fitconnect.service.registration.RegistrationCreationService;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,7 +47,7 @@ class RegistrationControllerTest {
     void createRegistration_Success() throws Exception {
         Long userId = 1L;
         Long eventId = 1L;
-        Registration registration = new Registration();
+        RegistrationResponseDto registration = new RegistrationResponseDto();
         given(registrationService.createRegistration(userId, eventId)).willReturn(registration);
 
         mockMvc.perform(post("/api/registrations")

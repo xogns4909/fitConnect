@@ -2,6 +2,7 @@ package com.example.fitconnect.controller.registration;
 
 import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.registration.Registration;
+import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.service.registration.RegistrationCancellationService;
 import com.example.fitconnect.service.registration.RegistrationCreationService;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,11 @@ public class RegistrationController {
     private final RegistrationCancellationService cancellationService;
 
     @PostMapping
-    public ResponseEntity<Registration> createRegistration(@RequestParam Long eventId,
+    public ResponseEntity<RegistrationResponseDto> createRegistration(@RequestParam Long eventId,
             @CurrentUserId Long userId) {
-        Registration registration = registrationService.createRegistration(userId, eventId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registration);
+        RegistrationResponseDto registrationResponseDto = registrationService.createRegistration(
+                userId, eventId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registrationResponseDto);
     }
 
     @DeleteMapping("/{registrationId}")
