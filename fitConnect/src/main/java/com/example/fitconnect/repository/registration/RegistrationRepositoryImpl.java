@@ -23,6 +23,8 @@ public class RegistrationRepositoryImpl implements CustomRegistrationRepository 
         QRegistration registration = QRegistration.registration;
         List<Registration> registrations = queryFactory
                 .selectFrom(registration)
+                .leftJoin(registration.user).fetchJoin()
+                .leftJoin(registration.exerciseEvent).fetchJoin()
                 .where(registration.user.id.eq(userId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
