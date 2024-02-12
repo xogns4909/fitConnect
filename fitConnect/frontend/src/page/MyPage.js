@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Tab, Nav, Row, Col } from 'react-bootstrap';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReviewsList from '../components/ReviewList';
 import RegisteredEventsList from '../components/RegisteredEventsList';
 import MyEventsList from '../components/MyEventsList';
@@ -8,12 +9,21 @@ import UserInfo from "../components/UserInfo";
 import '../style/Mypage.css';
 
 const MyPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const query = new URLSearchParams(location.search);
+  const activeTab = query.get('tab') || 'userInfo';
+
+  const handleSelect = (key) => {
+    navigate(`?tab=${key}`);
+  };
+
   return (
       <>
         <NavbarComponent />
         <Container className="my-page mt-3">
           <h2>마이페이지</h2>
-          <Tab.Container defaultActiveKey="userInfo">
+          <Tab.Container activeKey={activeTab} onSelect={handleSelect} defaultActiveKey="userInfo">
             <Row>
               <Col sm={3}>
                 <Nav variant="pills" className="flex-column mt-3">
