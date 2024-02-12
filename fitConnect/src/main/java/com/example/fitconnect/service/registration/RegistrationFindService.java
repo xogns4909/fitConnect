@@ -1,6 +1,5 @@
 package com.example.fitconnect.service.registration;
 
-import com.example.fitconnect.config.convertor.RegistrationConvertor;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
@@ -19,4 +18,9 @@ public class RegistrationFindService {
         Page<Registration> registrations = registrationRepository.findRegistrationsByUserId(userId, pageable);
         return registrations.map(new RegistrationResponseDto()::toDto);
     }
+    public Page<RegistrationResponseDto> findByEventId(Long eventId, Pageable pageable){
+        Page<Registration> registrations = registrationRepository.findByExerciseEventId(eventId, pageable);
+        return registrations.map(new RegistrationResponseDto()::toDto);
+    }
+
 }
