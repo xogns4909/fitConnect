@@ -5,6 +5,7 @@ import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
+import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.registration.RegistrationFindService;
 import com.example.fitconnect.service.review.ReviewFindService;
@@ -24,9 +25,9 @@ public class MyPageController {
     private final ExerciseEventFindService exerciseEventFindService;
 
     @GetMapping("/reviews")
-    public ResponseEntity<Page<Review>> getUserReviews(Pageable pageable,
+    public ResponseEntity<Page<ReviewResponseDto>> getUserReviews(Pageable pageable,
             @CurrentUserId Long userId) {
-        Page<Review> reviews = reviewFindService.findReviewsByUserId(userId, pageable);
+        Page<ReviewResponseDto> reviews = reviewFindService.findReviewsByUserId(userId, pageable);
         return ResponseEntity.ok(reviews);
     }
 

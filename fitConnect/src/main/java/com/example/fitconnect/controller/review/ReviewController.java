@@ -23,13 +23,17 @@ public class ReviewController {
     private final ReviewUpdateService reviewUpdateService;
     private final ReviewDeletionService reviewDeletionService;
     private final ReviewFindService reviewFindService;
+
     @PostMapping
-    public ResponseEntity<ReviewResponseDto> createReview(@RequestBody ReviewRegistrationDto reviewRegistrationDto,
-           @CurrentUserId Long userId) {
-        ReviewResponseDto review = reviewCreationService.createReview(reviewRegistrationDto, userId);
+    public ResponseEntity<ReviewResponseDto> createReview(
+            @RequestBody ReviewRegistrationDto reviewRegistrationDto,
+            @CurrentUserId Long userId) {
+        ReviewResponseDto review = reviewCreationService.createReview(reviewRegistrationDto,
+                userId);
         return ResponseEntity.ok(review);
 
     }
+
     @PutMapping("/{reviewId}")
     public ResponseEntity<Void> updateReview(@PathVariable Long reviewId,
             @RequestBody ReviewUpdateDto reviewUpdateDto,
@@ -39,17 +43,19 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId, @CurrentUserId Long userId) {
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId,
+            @CurrentUserId Long userId) {
         reviewDeletionService.deleteReview(reviewId, userId);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/events/{eventId}")
-    public ResponseEntity<Page<Review>> getReviewsByEvent(@PathVariable Long eventId,
+    public ResponseEntity<Page<ReviewResponseDto>> getReviewsByEvent(@PathVariable Long eventId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "default") String sortBy) {
-        Page<Review> reviews = reviewFindService.findReviewsByExerciseEvent(eventId, page, size, sortBy);
+        Page<ReviewResponseDto> reviews = reviewFindService.findReviewsByExerciseEvent(eventId,
+                page, size, sortBy);
         return ResponseEntity.ok(reviews);
     }
 }

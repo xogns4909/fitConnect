@@ -104,7 +104,8 @@ class ReviewControllerTest {
         Long userId = 2L;
         ReviewUpdateDto reviewUpdateDto = new ReviewUpdateDto("Updated Content", 4.0);
         Review updatedReview = createUpdatedTestReview(reviewUpdateDto);
-        doNothing().when(reviewUpdateService).updateReview(anyLong(), any(ReviewUpdateDto.class), anyLong());
+        doNothing().when(reviewUpdateService)
+                .updateReview(anyLong(), any(ReviewUpdateDto.class), anyLong());
 
         mockMvc.perform(put("/api/reviews/" + reviewId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -136,9 +137,12 @@ class ReviewControllerTest {
         int page = 1;
         int size = 10;
         String sortBy = "rating";
-        Page<Review> expectedPage = new PageImpl<>(Collections.singletonList(new Review()), PageRequest.of(page - 1, size), 1);
+        Page<ReviewResponseDto> expectedPage = new PageImpl<>(
+                Collections.singletonList(new ReviewResponseDto()), PageRequest.of(page - 1, size),
+                1);
 
-        given(reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page, size, sortBy)).willReturn(expectedPage);
+        given(reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page, size,
+                sortBy)).willReturn(expectedPage);
 
         mockMvc.perform(get("/api/reviews/events/" + exerciseEventId)
                         .param("page", String.valueOf(page))
@@ -146,7 +150,8 @@ class ReviewControllerTest {
                         .param("sortBy", sortBy))
                 .andExpect(status().isOk());
 
-        verify(reviewFindService, times(1)).findReviewsByExerciseEvent(exerciseEventId, page, size, sortBy);
+        verify(reviewFindService, times(1)).findReviewsByExerciseEvent(exerciseEventId, page, size,
+                sortBy);
     }
 
 
