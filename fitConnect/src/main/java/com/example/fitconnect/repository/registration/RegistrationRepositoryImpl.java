@@ -37,4 +37,25 @@ public class RegistrationRepositoryImpl implements CustomRegistrationRepository 
 
         return new PageImpl<>(registrations, pageable, total);
     }
+
+
+
+    @Override
+    public Page<Registration> findByExerciseEventId(Long eventId, Pageable pageable) {
+        QRegistration registration = QRegistration.registration;
+        List<Registration> registrations = queryFactory
+                .selectFrom(registration)
+                .join(registration.exerciseEvent).fetchJoin()
+                .where(registration.exerciseEvent.id.eq(eventId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        long total = queryFactory
+                .selectFrom(registration)
+                .where(registration.exerciseEvent.id.eq(eventId))
+                .fetchCount();
+
+        return new PageImpl<>(registrations, pageable, total);
+    }
 }
