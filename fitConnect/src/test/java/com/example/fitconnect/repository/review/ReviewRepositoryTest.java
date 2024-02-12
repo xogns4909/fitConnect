@@ -48,7 +48,7 @@ public class ReviewRepositoryTest {
 
     @Test
     public void testFindReviewsByRating() {
-        Page<Review> reviews = reviewRepository.findReviews(1, 10, 2L, "rating");
+        Page<Review> reviews = reviewRepository.findReviews(1, 10, 1L, "rating");
 
         assertThat(reviews).isNotNull();
         assertThat(reviews.getContent()).hasSize(3);

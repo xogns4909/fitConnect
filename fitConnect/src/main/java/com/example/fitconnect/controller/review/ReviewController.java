@@ -30,17 +30,17 @@ public class ReviewController {
 
     }
     @PutMapping("/{reviewId}")
-    public ResponseEntity<Review> updateReview(@PathVariable Long reviewId,
+    public ResponseEntity<Void> updateReview(@PathVariable Long reviewId,
             @RequestBody ReviewUpdateDto reviewUpdateDto,
             @CurrentUserId Long userId) {
-        Review updatedReview = reviewUpdateService.updateReview(reviewId, reviewUpdateDto, userId);
-        return ResponseEntity.ok(updatedReview);
+        reviewUpdateService.updateReview(reviewId, reviewUpdateDto, userId);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Review> deleteReview(@PathVariable Long reviewId, @CurrentUserId Long userId) {
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId, @CurrentUserId Long userId) {
         reviewDeletionService.deleteReview(reviewId, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/events/{eventId}")

@@ -102,9 +102,7 @@ class ReviewControllerTest {
         Long userId = 2L;
         ReviewUpdateDto reviewUpdateDto = new ReviewUpdateDto("Updated Content", 4.0);
         Review updatedReview = createUpdatedTestReview(reviewUpdateDto);
-
-        given(reviewUpdateService.updateReview(anyLong(), any(ReviewUpdateDto.class), anyLong()))
-                .willReturn(updatedReview);
+        doNothing().when(reviewUpdateService).updateReview(anyLong(), any(ReviewUpdateDto.class), anyLong());
 
         mockMvc.perform(put("/api/reviews/" + reviewId)
                         .contentType(MediaType.APPLICATION_JSON)

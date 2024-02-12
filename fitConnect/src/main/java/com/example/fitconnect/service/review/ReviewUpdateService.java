@@ -23,14 +23,13 @@ public class ReviewUpdateService {
     private UserRepository userRepository;
 
     @Transactional
-    public Review updateReview(Long reviewId, ReviewUpdateDto reviewUpdateDto, Long userId) {
+    public void updateReview(Long reviewId, ReviewUpdateDto reviewUpdateDto, Long userId) {
         Review review = findReview(reviewId);
 
         User currentUser = findUser(userId);
 
         review.updateReview(reviewUpdateDto, currentUser);
 
-        return reviewRepository.save(review);
     }
 
     private User findUser(Long currentUserId) {
