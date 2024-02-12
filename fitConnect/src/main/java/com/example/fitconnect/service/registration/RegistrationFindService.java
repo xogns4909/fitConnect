@@ -1,6 +1,8 @@
 package com.example.fitconnect.service.registration;
 
+import com.example.fitconnect.config.convertor.RegistrationConvertor;
 import com.example.fitconnect.domain.registration.Registration;
+import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,7 +15,8 @@ public class RegistrationFindService {
 
     private final RegistrationRepository registrationRepository;
 
-    public Page<Registration> findRegistrationByUserId(Long userId, Pageable pageable){
-        return registrationRepository.findRegistrationsByUserId(userId,pageable);
+    public Page<RegistrationResponseDto> findRegistrationByUserId(Long userId, Pageable pageable){
+        Page<Registration> registrations = registrationRepository.findRegistrationsByUserId(userId, pageable);
+        return registrations.map(new RegistrationResponseDto()::toDto);
     }
 }

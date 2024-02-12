@@ -4,6 +4,7 @@ import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.registration.RegistrationFindService;
 import com.example.fitconnect.service.review.ReviewFindService;
@@ -21,17 +22,19 @@ public class MyPageController {
     private final ReviewFindService reviewFindService;
     private final RegistrationFindService registrationFindService;
     private final ExerciseEventFindService exerciseEventFindService;
+
     @GetMapping("/reviews")
-    public ResponseEntity<Page<Review>> getUserReviews(Pageable pageable,@CurrentUserId Long userId) {
+    public ResponseEntity<Page<Review>> getUserReviews(Pageable pageable,
+            @CurrentUserId Long userId) {
         Page<Review> reviews = reviewFindService.findReviewsByUserId(userId, pageable);
         return ResponseEntity.ok(reviews);
     }
 
     @GetMapping("/registrations")
-    public ResponseEntity<Page<Registration>> getUserRegistrations(Pageable pageable,
+    public ResponseEntity<Page<RegistrationResponseDto>> getUserRegistrations(Pageable pageable,
             @CurrentUserId Long userId) {
-        Page<Registration> registrations = registrationFindService.findRegistrationByUserId(userId,
-                pageable);
+        Page<RegistrationResponseDto> registrations = registrationFindService.findRegistrationByUserId(
+                userId, pageable);
         return ResponseEntity.ok(registrations);
     }
 

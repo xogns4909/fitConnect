@@ -3,6 +3,7 @@ package com.example.fitconnect.controller.mypage;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.review.Review;
+import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.service.review.ReviewFindService;
 import com.example.fitconnect.service.registration.RegistrationFindService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
@@ -68,13 +69,14 @@ public class MyPageControllerTest {
         mockMvc.perform(get("/mypage/reviews")
                         .param("page", "0")
                         .param("size", "20")
-                        .param("userId","1"))
+                        .param("userId", "1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void getUserRegistrationsTest() throws Exception {
-        Page<Registration> mockPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
+        Page<RegistrationResponseDto> mockPage = new PageImpl<>(Collections.emptyList(), pageable,
+                0);
         when(registrationFindService.findRegistrationByUserId(userId, pageable)).thenReturn(
                 mockPage);
 
@@ -82,7 +84,7 @@ public class MyPageControllerTest {
                         .sessionAttr("session", new MockHttpSession())
                         .param("page", "0")
                         .param("size", "20")
-                        .param("userId","1"))
+                        .param("userId", "1"))
 
                 .andExpect(status().isOk());
     }
@@ -96,7 +98,7 @@ public class MyPageControllerTest {
                         .sessionAttr("session", new MockHttpSession())
                         .param("page", "0")
                         .param("size", "20")
-                        .param("userId","1"))
+                        .param("userId", "1"))
                 .andExpect(status().isOk());
     }
 }

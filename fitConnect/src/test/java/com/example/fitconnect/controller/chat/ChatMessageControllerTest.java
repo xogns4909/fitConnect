@@ -6,6 +6,7 @@ import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.chat.dto.ChatMessageUpdateDto;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageDeleteService;
+import com.example.fitconnect.service.chat.chatMessage.ChatMessageFindService;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageUpdateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ public class ChatMessageControllerTest {
     @MockBean
     private ChatMessageDeleteService chatMessageDeleteService;
     @MockBean
-    private CommonService commonService;
+    private ChatMessageFindService chatMessageFindService;
 
     @MockBean
     private JwtService jwtService;
@@ -52,14 +53,14 @@ public class ChatMessageControllerTest {
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
-                new ChatMessageController(chatMessageUpdateService,chatMessageDeleteService)).build();
+                new ChatMessageController(chatMessageUpdateService, chatMessageDeleteService,
+                        chatMessageFindService)).build();
     }
 
     @Test
     void updateChatMessage_Success() throws Exception {
         Long userId = 1L;
         ChatMessageUpdateDto updateDto = new ChatMessageUpdateDto("content", 1L);
-
 
         mockMvc.perform(put("/api/chatmessages/1")
                         .contentType(MediaType.APPLICATION_JSON)

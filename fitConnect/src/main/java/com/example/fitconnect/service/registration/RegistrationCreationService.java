@@ -5,6 +5,7 @@ import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
 import com.example.fitconnect.repository.user.UserRepository;
@@ -21,13 +22,13 @@ public class RegistrationCreationService {
     private final ExerciseEventRepository exerciseEventRepository;
 
     @Transactional
-    public Registration createRegistration(Long userId, Long eventId) {
+    public RegistrationResponseDto createRegistration(Long userId, Long eventId) {
         User user = findUser(userId);
         ExerciseEvent event = findEvent(eventId);
 
         Registration registration = new Registration(user,event);
-
-        return registrationRepository.save(registration);
+        Registration savedRegistration = registrationRepository.save(registration);
+        return new RegistrationResponseDto().toDto(savedRegistration);
     }
 
     private ExerciseEvent findEvent(Long eventId) {
