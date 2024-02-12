@@ -1,15 +1,23 @@
 package com.example.fitconnect.service.review;
 
 import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.domain.event.domain.Category;
+import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.domain.event.dto.EventDetailDto;
+import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
+import com.example.fitconnect.domain.event.dto.LocationDto;
+import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.repository.user.UserRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.user.UserFindService;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,14 +60,14 @@ public class ReviewCreationServiceTest {
         ReviewRegistrationDto registrationDto = new ReviewRegistrationDto(content, rating,
                 exerciseEventId);
         User user = new User();
-        ExerciseEvent exerciseEvent = new ExerciseEvent();
+        ExerciseEvent exerciseEvent = createEvent(user);
 
         when(userFindService.findUserByUserId(userId)).thenReturn(Optional.of(user));
         when(exerciseEventFindService.findEventByEventId(exerciseEventId)).thenReturn(
                 Optional.of(exerciseEvent));
-        when(reviewRepository.save(any(Review.class))).thenReturn(new Review());
+        when(reviewRepository.save(any(Review.class))).thenReturn(new Review(content,rating,user,exerciseEvent));
 
-        Review createdReview = reviewCreationService.createReview(registrationDto, userId);
+        ReviewResponseDto createdReview = reviewCreationService.createReview(registrationDto, userId);
 
         assertThat(createdReview).isNotNull();
     }
@@ -88,6 +96,15 @@ public class ReviewCreationServiceTest {
 
         assertThatThrownBy(() -> reviewCreationService.createReview(registrationDto, userId))
                 .isInstanceOf(EntityNotFoundException.class);
+    }
+
+    private ExerciseEvent createEvent(User user) {
+        return new ExerciseEventRegistrationDto(
+                new EventDetailDto("title","Description", LocalDateTime.now(), LocalDateTime.now().plusHours(2)),
+                new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
+                new LocationDto(City.SEOUL, "서울시 강남구"),
+                Category.SOCCER
+        ).toEntity(user);
     }
 
 }

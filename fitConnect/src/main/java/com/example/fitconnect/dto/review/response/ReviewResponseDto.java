@@ -36,7 +36,7 @@ public class ReviewResponseDto {
         ReviewResponseDto dto = new ReviewResponseDto();
         if (review.getExerciseEvent() != null) {
             dto.eventId = review.getExerciseEvent().getId();
-            dto.eventTitle = review.getExerciseEvent().getEventDetail().getTitle(); // 이벤트 제목 추가 예시
+            dto.eventTitle = review.getExerciseEvent().getEventDetail().getTitle();
             dto.eventStartTime = review.getExerciseEvent().getEventDetail().getStartDate();
             dto.eventEndTime = review.getExerciseEvent().getEventDetail().getEndDate();
         }

@@ -22,6 +22,7 @@ import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
 import com.example.fitconnect.domain.review.dto.ReviewUpdateDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.service.review.ReviewCreationService;
 import com.example.fitconnect.service.review.ReviewDeletionService;
@@ -82,9 +83,10 @@ class ReviewControllerTest {
         ReviewRegistrationDto dto = createTestReviewRegistrationDto();
         Long userId = 1L;
         Review expectedReview = createTestReview(dto);
+        ReviewResponseDto reviewResponseDto = new ReviewResponseDto();
 
         given(reviewCreationService.createReview(any(ReviewRegistrationDto.class), anyLong()))
-                .willReturn(expectedReview);
+                .willReturn(reviewResponseDto);
 
         mockMvc.perform(post("/api/reviews")
                         .contentType(MediaType.APPLICATION_JSON)

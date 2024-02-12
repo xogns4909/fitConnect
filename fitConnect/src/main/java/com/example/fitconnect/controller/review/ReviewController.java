@@ -4,6 +4,7 @@ import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
 import com.example.fitconnect.domain.review.dto.ReviewUpdateDto;
+import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.service.review.ReviewCreationService;
 import com.example.fitconnect.service.review.ReviewDeletionService;
 import com.example.fitconnect.service.review.ReviewFindService;
@@ -23,9 +24,9 @@ public class ReviewController {
     private final ReviewDeletionService reviewDeletionService;
     private final ReviewFindService reviewFindService;
     @PostMapping
-    public ResponseEntity<Review> createReview(@RequestBody ReviewRegistrationDto reviewRegistrationDto,
+    public ResponseEntity<ReviewResponseDto> createReview(@RequestBody ReviewRegistrationDto reviewRegistrationDto,
            @CurrentUserId Long userId) {
-        Review review = reviewCreationService.createReview(reviewRegistrationDto, userId);
+        ReviewResponseDto review = reviewCreationService.createReview(reviewRegistrationDto, userId);
         return ResponseEntity.ok(review);
 
     }
