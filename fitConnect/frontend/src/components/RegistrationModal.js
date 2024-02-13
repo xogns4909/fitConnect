@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button, ListGroup } from 'react-bootstrap';
+import { Modal, Button, ListGroup, Pagination } from 'react-bootstrap';
 import axios from 'axios';
 
 const RegistrationModal = ({ eventId, show, onHide }) => {
     const [registrations, setRegistrations] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageSize, setPageSize] = useState(10);
+    const [totalPages, setTotalPages] = useState(0);
 
     useEffect(() => {
         if (show) {
             fetchRegistrations();
         }
-    }, [show, eventId]);
+    }, [show, eventId, currentPage]);
 
     const fetchRegistrations = async () => {
         try {
-            const params = {
-                page: 0,
-                size: 10
-            };
+            const params = { page: currentPage, size: pageSize };
             const response = await axios.get(`/api/registrations/${eventId}`, { params });
-            console.log(response.data.content)
             setRegistrations(response.data.content || []);
+            setTotalPages(response.data.totalPages || 0);
         } catch (error) {
             console.error('Error fetching registrations:', error);
         }
@@ -34,6 +34,19 @@ const RegistrationModal = ({ eventId, show, onHide }) => {
             console.error('Error updating registration:', error);
         }
     };
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const paginationItems = [];
+    for (let number = 1; number <= totalPages; number++) {
+        paginationItems.push(
+            <Pagination.Item key={number} active={number === currentPage + 1} onClick={() => handlePageChange(number - 1)}>
+                {number}
+            </Pagination.Item>,
+        );
+    }
 
     return (
         <Modal show={show} onHide={onHide}>
@@ -54,6 +67,7 @@ const RegistrationModal = ({ eventId, show, onHide }) => {
                         </ListGroup.Item>
                     ))}
                 </ListGroup>
+                <Pagination className="justify-content-center">{paginationItems}</Pagination>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onHide}>닫기</Button>
