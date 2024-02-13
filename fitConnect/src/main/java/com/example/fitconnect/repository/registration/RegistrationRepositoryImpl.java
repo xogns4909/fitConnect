@@ -47,6 +47,7 @@ public class RegistrationRepositoryImpl implements CustomRegistrationRepository 
                 .selectFrom(registration)
                 .join(registration.exerciseEvent).fetchJoin()
                 .where(registration.exerciseEvent.id.eq(eventId))
+                .orderBy(registration.status.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
