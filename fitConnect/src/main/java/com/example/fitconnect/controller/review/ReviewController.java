@@ -4,6 +4,7 @@ import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
 import com.example.fitconnect.domain.review.dto.ReviewUpdateDto;
+import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.service.review.ReviewCreationService;
 import com.example.fitconnect.service.review.ReviewDeletionService;
 import com.example.fitconnect.service.review.ReviewFindService;
@@ -22,33 +23,39 @@ public class ReviewController {
     private final ReviewUpdateService reviewUpdateService;
     private final ReviewDeletionService reviewDeletionService;
     private final ReviewFindService reviewFindService;
+
     @PostMapping
-    public ResponseEntity<Review> createReview(@RequestBody ReviewRegistrationDto reviewRegistrationDto,
-           @CurrentUserId Long userId) {
-        Review review = reviewCreationService.createReview(reviewRegistrationDto, userId);
+    public ResponseEntity<ReviewResponseDto> createReview(
+            @RequestBody ReviewRegistrationDto reviewRegistrationDto,
+            @CurrentUserId Long userId) {
+        ReviewResponseDto review = reviewCreationService.createReview(reviewRegistrationDto,
+                userId);
         return ResponseEntity.ok(review);
 
     }
+
     @PutMapping("/{reviewId}")
-    public ResponseEntity<Review> updateReview(@PathVariable Long reviewId,
+    public ResponseEntity<Void> updateReview(@PathVariable Long reviewId,
             @RequestBody ReviewUpdateDto reviewUpdateDto,
             @CurrentUserId Long userId) {
-        Review updatedReview = reviewUpdateService.updateReview(reviewId, reviewUpdateDto, userId);
-        return ResponseEntity.ok(updatedReview);
-    }
-
-    @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Review> deleteReview(@PathVariable Long reviewId, @CurrentUserId Long userId) {
-        reviewDeletionService.deleteReview(reviewId, userId);
+        reviewUpdateService.updateReview(reviewId, reviewUpdateDto, userId);
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{reviewId}")
+    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId,
+            @CurrentUserId Long userId) {
+        reviewDeletionService.deleteReview(reviewId, userId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/events/{eventId}")
-    public ResponseEntity<Page<Review>> getReviewsByEvent(@PathVariable Long eventId,
+    public ResponseEntity<Page<ReviewResponseDto>> getReviewsByEvent(@PathVariable Long eventId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "default") String sortBy) {
-        Page<Review> reviews = reviewFindService.findReviewsByExerciseEvent(eventId, page, size, sortBy);
+        Page<ReviewResponseDto> reviews = reviewFindService.findReviewsByExerciseEvent(eventId,
+                page, size, sortBy);
         return ResponseEntity.ok(reviews);
     }
 }

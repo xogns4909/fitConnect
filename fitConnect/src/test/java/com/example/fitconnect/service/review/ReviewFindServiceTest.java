@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
+import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import java.util.List;
@@ -54,7 +55,7 @@ public class ReviewFindServiceTest {
         when(reviewRepository.findReviews(page, size, exerciseEventId, sortBy)).thenReturn(
                 expectedPage);
 
-        Page<Review> result = reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page,
+        Page<ReviewResponseDto> result = reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page,
                 size, sortBy);
 
         assertThat(result).isNotNull();
@@ -74,11 +75,10 @@ public class ReviewFindServiceTest {
 
         when(reviewRepository.findReviewsByUserId(userId, pageable)).thenReturn(expectedPage);
 
-        Page<Review> result = reviewFindService.findReviewsByUserId(userId, pageable);
+        Page<ReviewResponseDto> result = reviewFindService.findReviewsByUserId(userId, pageable);
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent()).containsExactly(mockReview);
     }
 
 

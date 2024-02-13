@@ -22,6 +22,7 @@ import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
 import com.example.fitconnect.domain.review.dto.ReviewUpdateDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.service.review.ReviewCreationService;
 import com.example.fitconnect.service.review.ReviewDeletionService;
@@ -82,9 +83,10 @@ class ReviewControllerTest {
         ReviewRegistrationDto dto = createTestReviewRegistrationDto();
         Long userId = 1L;
         Review expectedReview = createTestReview(dto);
+        ReviewResponseDto reviewResponseDto = new ReviewResponseDto();
 
         given(reviewCreationService.createReview(any(ReviewRegistrationDto.class), anyLong()))
-                .willReturn(expectedReview);
+                .willReturn(reviewResponseDto);
 
         mockMvc.perform(post("/api/reviews")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -102,9 +104,8 @@ class ReviewControllerTest {
         Long userId = 2L;
         ReviewUpdateDto reviewUpdateDto = new ReviewUpdateDto("Updated Content", 4.0);
         Review updatedReview = createUpdatedTestReview(reviewUpdateDto);
-
-        given(reviewUpdateService.updateReview(anyLong(), any(ReviewUpdateDto.class), anyLong()))
-                .willReturn(updatedReview);
+        doNothing().when(reviewUpdateService)
+                .updateReview(anyLong(), any(ReviewUpdateDto.class), anyLong());
 
         mockMvc.perform(put("/api/reviews/" + reviewId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -136,9 +137,12 @@ class ReviewControllerTest {
         int page = 1;
         int size = 10;
         String sortBy = "rating";
-        Page<Review> expectedPage = new PageImpl<>(Collections.singletonList(new Review()), PageRequest.of(page - 1, size), 1);
+        Page<ReviewResponseDto> expectedPage = new PageImpl<>(
+                Collections.singletonList(new ReviewResponseDto()), PageRequest.of(page - 1, size),
+                1);
 
-        given(reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page, size, sortBy)).willReturn(expectedPage);
+        given(reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page, size,
+                sortBy)).willReturn(expectedPage);
 
         mockMvc.perform(get("/api/reviews/events/" + exerciseEventId)
                         .param("page", String.valueOf(page))
@@ -146,7 +150,8 @@ class ReviewControllerTest {
                         .param("sortBy", sortBy))
                 .andExpect(status().isOk());
 
-        verify(reviewFindService, times(1)).findReviewsByExerciseEvent(exerciseEventId, page, size, sortBy);
+        verify(reviewFindService, times(1)).findReviewsByExerciseEvent(exerciseEventId, page, size,
+                sortBy);
     }
 
 

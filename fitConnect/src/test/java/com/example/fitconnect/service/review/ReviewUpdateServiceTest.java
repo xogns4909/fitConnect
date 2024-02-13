@@ -49,12 +49,14 @@ class ReviewUpdateServiceTest {
 
         when(reviewRepository.findById(reviewId)).thenReturn(Optional.of(review));
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
-        when(reviewRepository.save(any(Review.class))).thenReturn(review);
 
-        Review updatedReview = reviewUpdateService.updateReview(reviewId, reviewUpdateDto, userId);
 
-        assertThat(updatedReview.getContent()).isEqualTo("Updated Content");
-        assertThat(updatedReview.getRating()).isEqualTo(5);
+        reviewUpdateService.updateReview(reviewId, reviewUpdateDto, userId);
+
+
+        assertThat(review.getContent()).isEqualTo("Updated Content");
+        assertThat(review.getRating()).isEqualTo(5);
+
     }
 
 

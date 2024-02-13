@@ -6,6 +6,7 @@ import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.repository.user.UserRepository;
@@ -24,13 +25,14 @@ public class ReviewCreationService {
     private final ExerciseEventFindService exerciseEventFindService;
 
     @Transactional
-    public Review createReview(ReviewRegistrationDto reviewRegistrationDto, Long userId) {
+    public ReviewResponseDto createReview(ReviewRegistrationDto reviewRegistrationDto, Long userId) {
         User user = findUser(userId);
         ExerciseEvent exerciseEvent = findExercise(reviewRegistrationDto);
 
         Review review = new Review(reviewRegistrationDto.getContent(),
                 reviewRegistrationDto.getRating(), user, exerciseEvent);
-        return reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
+        return ReviewResponseDto.toDto(review);
     }
 
     private User findUser(Long userId) {
