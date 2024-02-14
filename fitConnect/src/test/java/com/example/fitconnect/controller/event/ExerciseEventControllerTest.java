@@ -128,7 +128,7 @@ public class ExerciseEventControllerTest {
         ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
         Page<ExerciseEvent> expectedPage = new PageImpl<>(Collections.singletonList(event),
                 PageRequest.of(0, 10), 1);
-        given(exerciseEventFindService.findEvents(any(), any(), anyInt()))
+        given(exerciseEventFindService.findEvents(any(),any(),any(), any(), anyInt()))
                 .willReturn(expectedPage);
     }
 
