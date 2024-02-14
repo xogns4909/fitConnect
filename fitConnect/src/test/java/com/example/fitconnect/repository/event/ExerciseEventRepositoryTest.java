@@ -37,12 +37,12 @@ public class ExerciseEventRepositoryTest {
 
     @ParameterizedTest
     @CsvSource({
-            "SOCCER, Soccer match in Seoul",
-            "BASKETBALL, Basketball game tonight",
-            "FITNESS, Fitness event this weekend"
+            "SOCCER, Soccer match in Seoul, SEOUL, content",
+            "BASKETBALL, Basketball game tonight, SEOUL, content",
+            "FITNESS, Fitness event this weekend, SEOUL, content"
     })
-    public void FindByCategory_Success(Category category,
-            String description) {
+    public void FindByCategory_Success(Category category, String description, City city, String searchBy
+           ) {
         User user = new User(new UserBaseInfo("xogns4909@naver.com", "그zi운아이", "abc.com"),
                 Role.MEMBER);
         entityManager.persist(user);
@@ -52,14 +52,15 @@ public class ExerciseEventRepositoryTest {
         entityManager.flush();
 
         Page<ExerciseEvent> foundEvents = exerciseEventRepository.findEventsWithConditions(category,
-                description, 0);
+                city, searchBy, description, 0);
 
         assertThat(foundEvents.getContent()).containsExactly(newEvent);
     }
 
     private static ExerciseEventRegistrationDto createEventRegistrationDto(Category category,
             String description) {
-        EventDetailDto eventDetailDto = new EventDetailDto("title",description, LocalDateTime.now(),
+        EventDetailDto eventDetailDto = new EventDetailDto("title", description,
+                LocalDateTime.now(),
                 LocalDateTime.now().plusHours(2));
         RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
                 LocalDateTime.now(), LocalDateTime.now().plusDays(1));
