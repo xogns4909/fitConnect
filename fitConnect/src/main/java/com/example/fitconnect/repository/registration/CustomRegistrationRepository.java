@@ -8,4 +8,6 @@ public interface CustomRegistrationRepository {
 
     Page<Registration> findRegistrationsByUserId(Long userId, Pageable pageable);
 
+    Page<Registration> findByExerciseEventId(Long eventId, Pageable pageable);
+
 }

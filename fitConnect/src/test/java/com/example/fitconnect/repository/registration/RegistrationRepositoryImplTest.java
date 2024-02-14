@@ -34,6 +34,9 @@ public class RegistrationRepositoryImplTest {
 
     @Autowired
     private RegistrationRepositoryImpl registrationRepositoryImpl;
+    @Autowired
+    private RegistrationRepository registrationRepository;
+
 
     @Test
     public void testFindRegistrationsByUserId() {
@@ -61,6 +64,31 @@ public class RegistrationRepositoryImplTest {
         assertThat(result.getContent()).hasSize(2);
         assertThat(result.getContent()).containsExactlyInAnyOrder(registration1, registration2);
     }
+
+    @Test
+    public void findByExerciseEventIdTest() {
+        User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"), Role.MEMBER);
+        entityManager.persist(user);
+
+        ExerciseEvent event = createExerciseEvent(user);
+        entityManager.persist(event);
+
+        Registration registration1 = new Registration(user, event);
+        entityManager.persist(registration1);
+
+        Registration registration2 = new Registration(user, event);
+        entityManager.persist(registration2);
+
+        entityManager.flush();
+
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<Registration> result = registrationRepository.findByExerciseEventId(event.getId(), pageable);
+
+        assertThat(result.getContent()).hasSize(2);
+        assertThat(result.getContent()).containsExactlyInAnyOrder(registration1, registration2);
+    }
+
 
     private static ExerciseEvent createExerciseEvent(User user) {
         EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),

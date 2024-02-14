@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import RegistrationModal from './RegistrationModal';
 import { Card, ListGroup, Button, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +9,8 @@ const MyEventsList = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const navigate = useNavigate();
+  const [showModal, setShowModal] = useState(false);
+  const [currentEventId, setCurrentEventId] = useState(null);
 
   useEffect(() => {
     fetchMyEvents(currentPage);
@@ -38,6 +41,13 @@ const MyEventsList = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleShowRegistrations = (eventId) => {
+    setCurrentEventId(eventId);
+    setShowModal(true);
+  };
+
+
+
   return (
       <>
         <ListGroup>
@@ -62,11 +72,18 @@ const MyEventsList = () => {
                     <Button variant="primary" onClick={() => navigate(`/events/${event.id}`)}>상세 보기</Button>
                     <Button variant="secondary" className="mx-2" onClick={() => navigate(`/events/edit/${event.id}`)}>수정</Button>
                     <Button variant="danger" onClick={() => handleDelete(event.id)}>삭제</Button>
+                    <Button variant="secondary" onClick={() => handleShowRegistrations(event.id)}>신청 내역 보기</Button>
                   </Card.Body>
                 </Card>
               </ListGroup.Item>
+
           ))}
         </ListGroup>
+        <RegistrationModal
+            show={showModal}
+            onHide={() => setShowModal(false)}
+            eventId={currentEventId}
+        />
         <Pagination className="justify-content-center mt-4">
           {[...Array(totalPages).keys()].map((number) => (
               <Pagination.Item

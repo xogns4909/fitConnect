@@ -5,8 +5,7 @@ import { Button } from 'react-bootstrap';
 const RegistrationButton = ({ eventId }) => {
   const createRegistration = async () => {
     try {
-      const response = await axios.post('/api/registrations', null, {
-        params: { eventId },
+      const response = await axios.post('/api/registrations/'+eventId, null, {
       });
       alert('신청이 완료되었습니다.');
       console.log(response.data);
