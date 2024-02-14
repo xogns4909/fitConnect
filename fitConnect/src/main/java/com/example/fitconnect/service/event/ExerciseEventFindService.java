@@ -3,7 +3,9 @@ package com.example.fitconnect.service.event;
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.Category;
+import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.domain.event.domain.Location;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +22,10 @@ public class ExerciseEventFindService {
     private final ExerciseEventRepository exerciseEventRepository;
 
 
-    public Page<ExerciseEvent> findEvents(Category category, String description, int page) {
-        return exerciseEventRepository.findEventsWithConditions(category, description, page);
+    public Page<ExerciseEvent> findEvents(Category category, City city, String searchBy,
+            String description, int page) {
+        return exerciseEventRepository.findEventsWithConditions(category, city, searchBy,
+                description, page);
     }
 
     public Optional<ExerciseEvent> findEventByEventId(Long eventId) {
@@ -33,8 +37,8 @@ public class ExerciseEventFindService {
                 () -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
     }
 
-    public Page<ExerciseEvent> findEventByUserId(Long userId, Pageable pageable){
-        return exerciseEventRepository.findEventsByOrganizerId(userId,pageable);
+    public Page<ExerciseEvent> findEventByUserId(Long userId, Pageable pageable) {
+        return exerciseEventRepository.findEventsByOrganizerId(userId, pageable);
     }
 }
 

@@ -40,6 +40,8 @@ public class ExerciseEventFindServiceTest {
     void FindEvents_thenReturnsPageOfEvents() {
         Category category = Category.SOCCER;
         String description = "Soccer match in Seoul";
+        City city = City.BUSAN;
+        String searchBy = "title";
         int page = 0;
         ExerciseEvent event1 = new ExerciseEvent();
         ExerciseEvent event2 = new ExerciseEvent();
@@ -48,10 +50,12 @@ public class ExerciseEventFindServiceTest {
         Page<ExerciseEvent> expectedPage = new PageImpl<>(events, PageRequest.of(page, 10),
                 events.size());
 
-        given(exerciseEventRepository.findEventsWithConditions(category, description, page))
+        given(exerciseEventRepository.findEventsWithConditions(category, city, searchBy,
+                description, page))
                 .willReturn(expectedPage);
 
-        Page<ExerciseEvent> result = exerciseEventFindService.findEvents(category, description,
+        Page<ExerciseEvent> result = exerciseEventFindService.findEvents(category, city, searchBy,
+                description,
                 page);
 
         assertThat(result).isEqualTo(expectedPage);
