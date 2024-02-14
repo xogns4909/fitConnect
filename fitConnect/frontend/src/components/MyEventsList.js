@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import RegistrationModal from './RegistrationModal';
-import { Card, ListGroup, Button, Pagination } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import {Card, ListGroup, Button, Pagination} from 'react-bootstrap';
+import {useNavigate} from 'react-router-dom';
 
 const MyEventsList = () => {
   const [myEvents, setMyEvents] = useState([]);
@@ -46,38 +46,49 @@ const MyEventsList = () => {
     setShowModal(true);
   };
 
-
-
   return (
       <>
         <ListGroup>
-          {myEvents.map(event => (
-              <ListGroup.Item key={event.id} className="mb-3">
-                <Card>
-                  <Card.Body>
-                    <Card.Title>{event.eventDetail.title}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">{event.category}</Card.Subtitle>
-                    <Card.Text>
-                      <strong>Description:</strong> {event.eventDetail.description}
-                    </Card.Text>
-                    <Card.Text>
-                      <strong>Start:</strong> {new Date(event.eventDetail.startDate).toLocaleString()}
-                    </Card.Text>
-                    <Card.Text>
-                      <strong>End:</strong> {new Date(event.eventDetail.endDate).toLocaleString()}
-                    </Card.Text>
-                    <Card.Text>
-                      <strong>Location:</strong> {event.location.city}, {event.location.address}
-                    </Card.Text>
-                    <Button variant="primary" onClick={() => navigate(`/events/${event.id}`)}>상세 보기</Button>
-                    <Button variant="secondary" className="mx-2" onClick={() => navigate(`/events/edit/${event.id}`)}>수정</Button>
-                    <Button variant="danger" onClick={() => handleDelete(event.id)}>삭제</Button>
-                    <Button variant="secondary" onClick={() => handleShowRegistrations(event.id)}>신청 내역 보기</Button>
-                  </Card.Body>
-                </Card>
-              </ListGroup.Item>
+          {myEvents.length > 0 ? (
+              myEvents.map(event => (
+                  <ListGroup.Item key={event.id} className="mb-3">
+                    <Card>
+                      <Card.Body>
+                        <Card.Title>{event.eventDetail.title}</Card.Title>
+                        <Card.Subtitle
+                            className="mb-2 text-muted">{event.category}</Card.Subtitle>
+                        <Card.Text>
+                          <strong>Description:</strong> {event.eventDetail.description}
+                        </Card.Text>
+                        <Card.Text>
+                          <strong>Start:</strong> {new Date(
+                            event.eventDetail.startDate).toLocaleString()}
+                        </Card.Text>
+                        <Card.Text>
+                          <strong>End:</strong> {new Date(
+                            event.eventDetail.endDate).toLocaleString()}
+                        </Card.Text>
+                        <Card.Text>
+                          <strong>Location:</strong> {event.location.city}, {event.location.address}
+                        </Card.Text>
+                        <Button variant="primary"
+                                onClick={() => navigate(`/events/${event.id}`)}>상세
+                          보기</Button>
+                        <Button variant="secondary" className="mx-2"
+                                onClick={() => navigate(
+                                    `/events/edit/${event.id}`)}>수정</Button>
+                        <Button variant="danger" onClick={() => handleDelete(
+                            event.id)}>삭제</Button>
+                        <Button variant="secondary"
+                                onClick={() => handleShowRegistrations(
+                                    event.id)}>신청 내역 보기</Button>
+                      </Card.Body>
+                    </Card>
+                  </ListGroup.Item>
 
-          ))}
+              ))) : (
+              <ListGroup.Item>생성된 이벤트가 없습니다.</ListGroup.Item>
+          )}
         </ListGroup>
         <RegistrationModal
             show={showModal}
