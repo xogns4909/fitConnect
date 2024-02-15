@@ -37,9 +37,13 @@ public enum ErrorMessages {
 
     INVALID_RATING ("레이팅은 1점이상 5점 이하여야 합니다"),
 
-    INVALID_MESSAGE_TIME("메세지 작성 5분이상 지났습니다");
+    INVALID_MESSAGE_TIME("메세지 작성 5분이상 지났습니다"),
 
+    ALREADY_REGISTERED("이미 이 이벤트에 신청하였습니다."),
+    ORGANIZER_CANNOT_REGISTER("주최자는 자신의 이벤트에 신청할 수 없습니다."),
 
+    CHATROOM_ALREADY_EXISTS("이미 해당 이벤트에 대한 채팅방이 존재합니다."),
+    UNAUTHORIZED_CREATE_CHATROOM("채팅방 생성 권한이 없습니다.");
 
 
     private final String message;
