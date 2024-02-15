@@ -122,6 +122,36 @@ public class RegistrationRepositoryImplTest {
         assertThat(result).isNotPresent();
     }
 
+    @Test
+    public void testCountByExerciseEventIdAndStatus() {
+        User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"),
+                Role.MEMBER);
+        entityManager.persist(user);
+
+        ExerciseEvent event = createExerciseEvent(user);
+        entityManager.persist(event);
+
+
+        Registration registrationApproved = new Registration(user, event);
+        registrationApproved.setStatus(RegistrationStatus.APPROVED);
+        entityManager.persist(registrationApproved);
+
+        Registration registrationPending = new Registration(user, event);
+        entityManager.persist(registrationPending);
+
+        entityManager.flush();
+
+
+        long countApproved = registrationRepositoryImpl.countByExerciseEventIdAndStatus(
+                event.getId(), RegistrationStatus.APPROVED);
+        assertThat(countApproved).isEqualTo(1);
+
+
+        long countPending = registrationRepositoryImpl.countByExerciseEventIdAndStatus(
+                event.getId(), RegistrationStatus.APPLIED);
+        assertThat(countPending).isEqualTo(1);
+    }
+
 
     private static ExerciseEvent createExerciseEvent(User user) {
         EventDetailDto eventDetailDto = new EventDetailDto("title", "Description",
