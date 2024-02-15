@@ -10,6 +10,7 @@ import CreateChatRoom from "./components/CreateChatRoom";
 import ChatRoomListPage from "./page/ChatRoomListPage";
 import MyPage from "./page/MyPage";
 import EventEditForm from "./components/EventEdit";
+import NotFoundPage from "./page/NotFoundPage";
 function App() {
   return (
       <AuthProvider>
@@ -24,6 +25,7 @@ function App() {
             <Route path="/chatRooms" element={<ChatRoomListPage/>} />
             <Route path="/myPage" element={<MyPage/>} />
             <Route path="/events/edit/:eventId" element={<EventEditForm />} />
+            <Route path="*" element={<NotFoundPage />} /> {}
           </Routes>
         </Router>
       </GoogleOAuthProvider>
