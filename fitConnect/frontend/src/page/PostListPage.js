@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import Navbar from '../components/Navbar';
 import SearchComponent from '../components/SearchComponents';
 import EventListComponent from '../components/EventListComponent';
-import { Pagination } from 'react-bootstrap';
+import {Pagination} from 'react-bootstrap';
 
 const PostListPage = () => {
   const [events, setEvents] = useState([]);
@@ -12,7 +12,7 @@ const PostListPage = () => {
   const [category, setCategory] = useState('');
   const [city, setCity] = useState('');
   const [description, setDescription] = useState('');
-
+  const [searchBy, setSearchBy] = useState('title');
 
   useEffect(() => {
     fetchEvents();
@@ -20,7 +20,7 @@ const PostListPage = () => {
 
   const fetchEvents = async () => {
     try {
-      const url = `/api/events?page=${page}&size=${size}&category=${category}&city=${city}&description=${description}`;
+      const url = `/api/events?page=${page}&size=${size}&category=${category}&city=${city}&description=${description}&searchBy=${searchBy}`;
       const response = await fetch(url);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -35,7 +35,7 @@ const PostListPage = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('/api/auth/logout', { method: 'POST' });
+      const response = await fetch('/api/auth/logout', {method: 'POST'});
       if (!response.ok) {
         throw new Error('Logout failed');
       }
@@ -55,7 +55,6 @@ const PostListPage = () => {
     setPage(newPage);
   };
 
-
   const paginationItems = [];
   for (let number = 1; number <= totalPages; number++) {
     paginationItems.push(
@@ -71,17 +70,19 @@ const PostListPage = () => {
 
   return (
       <div>
-        <Navbar onLogout={handleLogout} />
+        <Navbar onLogout={handleLogout}/>
         <div className="container mt-5">
           <h1>이벤트 목록</h1>
           <SearchComponent
               setCategory={setCategory}
               setCity={setCity}
               setDescription={setDescription}
+              setSearchBy={setSearchBy}
               onSearch={handleSearch}
           />
+
           <br/>
-          <EventListComponent events={events} />
+          <EventListComponent events={events}/>
 
           <div className="d-flex justify-content-center">
             <Pagination>{paginationItems}</Pagination>
@@ -90,6 +91,5 @@ const PostListPage = () => {
       </div>
   );
 };
-
 
 export default PostListPage;
