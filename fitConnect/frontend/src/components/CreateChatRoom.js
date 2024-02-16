@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import { Button, Modal, Form } from 'react-bootstrap';
+import {Button, Modal, Form} from 'react-bootstrap';
 
-const CreateChatRoom = ({ eventId }) => {
+const CreateChatRoom = ({eventId}) => {
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState('');
   const handleClose = () => setShow(false);
@@ -25,7 +25,10 @@ const CreateChatRoom = ({ eventId }) => {
       alert('채팅방이 성공적으로 생성되었습니다!');
       window.location.href = '/chatRooms'
     } catch (error) {
-      setError('채팅방 생성에 실패했습니다. 다시 시도해주세요.');
+      const errorMessage = error.response?.data
+          || '채팅방 생성에 실패했습니다. 다시 시도해주세요.';
+      console.log(errorMessage);
+      setError(errorMessage);
     }
   };
 
