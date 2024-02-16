@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
-
+import { translateCity, translateCategory } from './Translations';
 
 const EventListComponent = ({ events }) => {
 
@@ -24,7 +24,7 @@ const EventListComponent = ({ events }) => {
                     <strong>제목:</strong> {event.eventDetail.title}
                   </Col>
                   <Col md={3}>
-                    <strong>운동 종목:</strong> {event.category}
+                    <strong>운동 종목:</strong> {translateCategory(event.category)}
                   </Col>
                   <Col md={6}>
                     <strong>운동 시간:</strong> {formatDate(event.eventDetail.startDate)} ~ {formatDate(event.eventDetail.endDate)}
