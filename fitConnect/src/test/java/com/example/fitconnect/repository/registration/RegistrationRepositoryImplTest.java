@@ -13,6 +13,7 @@ import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -67,7 +68,8 @@ public class RegistrationRepositoryImplTest {
 
     @Test
     public void findByExerciseEventIdTest() {
-        User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"), Role.MEMBER);
+        User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"),
+                Role.MEMBER);
         entityManager.persist(user);
 
         ExerciseEvent event = createExerciseEvent(user);
@@ -83,15 +85,47 @@ public class RegistrationRepositoryImplTest {
 
         Pageable pageable = PageRequest.of(0, 10);
 
-        Page<Registration> result = registrationRepository.findByExerciseEventId(event.getId(), pageable);
+        Page<Registration> result = registrationRepository.findByExerciseEventId(event.getId(),
+                pageable);
 
         assertThat(result.getContent()).hasSize(2);
         assertThat(result.getContent()).containsExactlyInAnyOrder(registration1, registration2);
     }
 
+    @Test
+    public void testFindRegistrationByUserAndEvent() {
+
+        User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"),
+                Role.MEMBER);
+        entityManager.persist(user);
+
+        ExerciseEvent event = createExerciseEvent(user);
+        entityManager.persist(event);
+
+        Registration registration = new Registration(user, event);
+        entityManager.persist(registration);
+
+        entityManager.flush();
+
+        Optional<Registration> result = registrationRepository.findRegistrationByUserAndEvent(
+                user.getId(), event.getId());
+
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(registration);
+    }
+
+    @Test
+    public void testFindRegistrationByUserAndEvent_NotFound() {
+        Optional<Registration> result = registrationRepository.findRegistrationByUserAndEvent(999L,
+                999L);
+
+        assertThat(result).isNotPresent();
+    }
+
 
     private static ExerciseEvent createExerciseEvent(User user) {
-        EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),
+        EventDetailDto eventDetailDto = new EventDetailDto("title", "Description",
+                LocalDateTime.now(),
                 LocalDateTime.now().plusHours(2));
         RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
                 LocalDateTime.now(), LocalDateTime.now().plusDays(1));

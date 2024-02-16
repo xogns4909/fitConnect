@@ -7,6 +7,7 @@ import com.example.fitconnect.domain.chat.domain.QChatRoom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -39,5 +40,18 @@ public class ChatRoomRepositoryImpl implements CustomChatRoomRepository {
                 .fetchCount();
 
         return new PageImpl<>(chatMessages, pageable, total);
+    }
+
+    @Override
+    public Optional<ChatRoom> findByUserIdAndExerciseEventId(Long userId, Long exerciseEventId) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QChatRoom qChatRoom = QChatRoom.chatRoom;
+
+        ChatRoom chatRoom = queryFactory
+                .selectFrom(qChatRoom)
+                .where(qChatRoom.creator.id.eq(userId)
+                        .and(qChatRoom.exerciseEvent.id.eq(exerciseEventId)))
+                .fetchOne();
+        return Optional.ofNullable(chatRoom);
     }
 }

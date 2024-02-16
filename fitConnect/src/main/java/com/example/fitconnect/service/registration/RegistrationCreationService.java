@@ -1,6 +1,7 @@
 package com.example.fitconnect.service.registration;
 
 import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
@@ -25,11 +26,25 @@ public class RegistrationCreationService {
     public RegistrationResponseDto createRegistration(Long userId, Long eventId) {
         User user = findUser(userId);
         ExerciseEvent event = findEvent(eventId);
-
+        checkUser(user.getId(), event.getOrganizer().getId());
+        checkAlreadyRegistered(userId, eventId);
         Registration registration = new Registration(user,event);
         Registration savedRegistration = registrationRepository.save(registration);
         return new RegistrationResponseDto().toDto(savedRegistration);
     }
+    private void checkAlreadyRegistered(Long userId, Long eventId) {
+        registrationRepository.findRegistrationByUserAndEvent(userId, eventId)
+                .ifPresent(r -> {
+                    throw new BusinessException(ErrorMessages.ALREADY_REGISTERED);
+                });
+    }
+    private void checkUser(Long createUserId, Long organizerId) {
+        if(createUserId.equals(organizerId)){
+            throw new BusinessException(ErrorMessages.ORGANIZER_CANNOT_REGISTER);
+        }
+    }
+
+
 
     private ExerciseEvent findEvent(Long eventId) {
         ExerciseEvent event = exerciseEventRepository.findById(eventId)

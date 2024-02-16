@@ -5,6 +5,7 @@ import com.example.fitconnect.domain.registration.Registration;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ public class RegistrationRepositoryImpl implements CustomRegistrationRepository 
                 .leftJoin(registration.user).fetchJoin()
                 .leftJoin(registration.exerciseEvent).fetchJoin()
                 .where(registration.user.id.eq(userId))
+                .orderBy(registration.status.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -58,5 +60,16 @@ public class RegistrationRepositoryImpl implements CustomRegistrationRepository 
                 .fetchCount();
 
         return new PageImpl<>(registrations, pageable, total);
+    }
+
+    @Override
+    public Optional<Registration> findRegistrationByUserAndEvent(Long userId, Long eventId) {
+        QRegistration registration = QRegistration.registration;
+        Registration foundRegistration = queryFactory
+                .selectFrom(registration)
+                .where(registration.user.id.eq(userId)
+                        .and(registration.exerciseEvent.id.eq(eventId)))
+                .fetchOne();
+        return Optional.ofNullable(foundRegistration);
     }
 }
