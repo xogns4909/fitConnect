@@ -15,9 +15,12 @@ const ReviewForm = ({ show, handleClose, eventId, onReviewSubmitted }) => {
       };
       await axios.post(`/api/reviews`, reviewRegistrationDto);
       onReviewSubmitted();
+      alert("요청이 성공적으로 처리되었습니다.");
       handleClose();
     } catch (error) {
       console.error('Error submitting review:', error);
+      const errorMessage = error.response?.data || "승인/거부 처리 중 오류가 발생했습니다.";
+      alert(errorMessage);
     }
   };
 
