@@ -62,7 +62,7 @@ public class Registration extends BaseEntity {
     }
     private void setExerciseEvent(ExerciseEvent exerciseEvent) {
         this.exerciseEvent = exerciseEvent;
-        if(!exerciseEvent.getRegistrations().contains(exerciseEvent)){
+        if(!exerciseEvent.getRegistrations().contains(this)){
             exerciseEvent.getRegistrations().add(this);
         }
     }
