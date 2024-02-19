@@ -11,6 +11,8 @@ public class ReviewResponseDto {
     private String reviewContent;
     private Long eventId;
     private String eventTitle;
+
+    private String nickName;
     private LocalDateTime eventStartTime;
     private LocalDateTime eventEndTime;
 
@@ -39,6 +41,9 @@ public class ReviewResponseDto {
             dto.eventTitle = review.getExerciseEvent().getEventDetail().getTitle();
             dto.eventStartTime = review.getExerciseEvent().getEventDetail().getStartDate();
             dto.eventEndTime = review.getExerciseEvent().getEventDetail().getEndDate();
+        }
+        if (review.getUser() != null) {
+            dto.nickName = review.getUser().getUserBaseInfo().getNickname();
         }
         dto.reviewId = review.getId();
         dto.reviewContent = review.getContent();
