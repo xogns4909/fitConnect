@@ -59,7 +59,7 @@ public class RegistrationApprovalServiceTest {
         when(exerciseEventFindService.findEventByEventId(eventId)).thenReturn(
                 Optional.of(event));
 
-        service.approveRegistration(registrationId, userId, eventId);
+        service.approveRegistration(registrationId, eventId);
 
         assertThat(registration.getStatus()).isEqualTo(RegistrationStatus.APPROVED);
     }
@@ -68,7 +68,7 @@ public class RegistrationApprovalServiceTest {
     public void approve_NotFound() {
         when(registrationRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.approveRegistration(registrationId, eventId, userId))
+        assertThatThrownBy(() -> service.approveRegistration(registrationId, eventId))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
@@ -77,7 +77,7 @@ public class RegistrationApprovalServiceTest {
         registration.setStatus(RegistrationStatus.REJECTED);
         when(registrationRepository.findById(registrationId)).thenReturn(Optional.of(registration));
 
-        service.denyRegistration(registrationId, userId);
+        service.denyRegistration(registrationId);
 
         assertThat(registration.getStatus()).isEqualTo(RegistrationStatus.REJECTED);
     }
@@ -86,7 +86,7 @@ public class RegistrationApprovalServiceTest {
     public void deny_NotFound() {
         when(registrationRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.denyRegistration(registrationId, userId))
+        assertThatThrownBy(() -> service.denyRegistration(registrationId))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
@@ -98,7 +98,7 @@ public class RegistrationApprovalServiceTest {
         when(registrationRepository.countByExerciseEventIdAndStatus(eventId,
                 RegistrationStatus.APPROVED)).thenReturn(31L);
 
-        assertThatThrownBy(() -> service.approveRegistration(registrationId, userId, eventId))
+        assertThatThrownBy(() -> service.approveRegistration(registrationId, eventId))
                 .isInstanceOf(BusinessException.class);
     }
 
