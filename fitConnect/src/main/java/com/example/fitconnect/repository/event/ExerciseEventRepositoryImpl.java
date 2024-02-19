@@ -36,6 +36,7 @@ public class ExerciseEventRepositoryImpl implements CustomExerciseEventRepositor
         List<ExerciseEvent> events = queryFactory
                 .selectFrom(exerciseEvent)
                 .where(exerciseEvent.organizer.id.eq(userId))
+                .orderBy(exerciseEvent.createdAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
