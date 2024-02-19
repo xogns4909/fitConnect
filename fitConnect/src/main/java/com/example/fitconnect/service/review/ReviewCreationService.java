@@ -32,7 +32,7 @@ public class ReviewCreationService {
         Review review = new Review(reviewRegistrationDto.getContent(),
                 reviewRegistrationDto.getRating(), user, exerciseEvent);
         Review savedReview = reviewRepository.save(review);
-        return ReviewResponseDto.toDto(review);
+        return ReviewResponseDto.toDto(savedReview);
     }
 
     private User findUser(Long userId) {
