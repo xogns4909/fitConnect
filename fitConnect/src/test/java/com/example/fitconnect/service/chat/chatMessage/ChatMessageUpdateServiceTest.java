@@ -1,11 +1,9 @@
 package com.example.fitconnect.service.chat.chatMessage;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
-import com.example.fitconnect.domain.chat.dto.ChatMessageUpdateDto;
+import com.example.fitconnect.dto.chat.request.ChatMessageUpdateDto;
 import com.example.fitconnect.domain.user.domain.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

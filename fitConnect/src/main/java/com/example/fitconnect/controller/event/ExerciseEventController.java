@@ -4,9 +4,10 @@ import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.domain.Location;
-import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
+import com.example.fitconnect.dto.event.response.EventDetailResponseDto;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.service.event.ExerciseEventDeleteService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.event.ExerciseEventRegistrationService;
@@ -37,46 +38,46 @@ public class ExerciseEventController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<ExerciseEvent> registerEvent(
+    public ResponseEntity<Void> registerEvent(
             @RequestBody ExerciseEventRegistrationDto registrationDto,
             @CurrentUserId Long userId) {
-        ExerciseEvent registeredEvent = registrationService.registerEvent(userId, registrationDto);
-        return ResponseEntity.ok(registeredEvent);
+        registrationService.registerEvent(userId, registrationDto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    ResponseEntity<Page<ExerciseEvent>> findEvent(
+    ResponseEntity<Page<EventResponseDto>> findEvent(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Category category,
             @RequestParam(required = false) City city,
             @RequestParam(required = false) String searchBy,
             @RequestParam(required = false) String description) {
-        Page<ExerciseEvent> events = exerciseEventFindService.findEvents(category, city,
+        Page<EventResponseDto> events = exerciseEventFindService.findEvents(category, city,
                 searchBy, description,
                 page);
         return ResponseEntity.ok(events);
     }
 
     @PutMapping("/{eventId}")
-    public ResponseEntity<ExerciseEvent> updateEvent(
+    public ResponseEntity<Void> updateEvent(
             @PathVariable Long eventId,
             @RequestBody ExerciseEventUpdateDto updateDto,
             @CurrentUserId Long userId) {
         ExerciseEvent updatedEvent = updateService.updateEvent(eventId, updateDto, userId);
-        return ResponseEntity.ok(updatedEvent);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<ExerciseEvent> deleteEvent(@PathVariable Long eventId,
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId,
             @CurrentUserId Long userId) {
         exerciseEventDeleteService.deleteEvent(eventId, userId);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{eventId}/detail")
-    public ResponseEntity<ExerciseEvent> getEventDetail(@PathVariable Long eventId) {
-        ExerciseEvent event = exerciseEventFindService.findEventDetail(eventId);
-        return ResponseEntity.ok(event);
+    public ResponseEntity<EventDetailResponseDto> getEventDetail(@PathVariable Long eventId) {
+        EventDetailResponseDto eventDetail = exerciseEventFindService.findEventDetail(eventId);
+        return ResponseEntity.ok(eventDetail);
     }
 
 }

@@ -1,10 +1,14 @@
 import {GoogleLogin} from "@react-oauth/google";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {useAuth} from "../global/AuthContext";
+import React, { useState, useEffect } from 'react';
 
 const GoogleLoginButton = ({ onLoginSuccess }) => {
   const { login } = useAuth();
   const clientId = '603277392904-gp1jv0er0ve4l2okpcmk7jvllmh72n5r.apps.googleusercontent.com'
+
+
+
 
   const handleLoginSuccess = async (response) => {
     console.log(response);

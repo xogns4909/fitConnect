@@ -43,6 +43,18 @@ const ChatRoomPage = () => {
     setCurrentPage(pageNumber);
   };
 
+
+  const handleDeleteChatRoom = async (chatRoomId) => {
+    try {
+      await axios.delete(`/api/chatrooms/${chatRoomId}`);
+      alert("채팅방이 성공적으로 삭제되었습니다.");
+      fetchChatRooms(currentPage); // 채팅방 목록 다시 불러오기
+    } catch (error) {
+      console.error('채팅방 삭제 중 오류가 발생했습니다:', error);
+      alert("채팅방 삭제에 실패했습니다.");
+    }
+  };
+
   return (
       <>
         <Navbar />
@@ -63,9 +75,15 @@ const ChatRoomPage = () => {
                             </small>
                             <p>{chatRoom.messages.length > 0 ? chatRoom.messages[chatRoom.messages.length - 1].content : "메시지 없음"}</p>
                           </div>
-                          <Button variant="primary" onClick={() => setModalShow(chatRoom.id)}>
-                            채팅하기
-                          </Button>
+                          <div className="d-flex justify-content-between align-items-center">
+                            {/* 기존 코드 */}
+                            <Button variant="primary" onClick={() => setModalShow(chatRoom.id)}>
+                              채팅하기
+                            </Button>
+                            <Button variant="danger" onClick={() => handleDeleteChatRoom(chatRoom.id)}>
+                              삭제하기
+                            </Button>
+                          </div>
                         </div>
                         {modalShow === chatRoom.id && (
                             <ChatModal

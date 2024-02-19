@@ -1,7 +1,6 @@
-package com.example.fitconnect.domain.event.dto;
+package com.example.fitconnect.dto.event.request;
 
 import com.example.fitconnect.domain.event.domain.Category;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -5,7 +5,8 @@ import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.domain.Location;
+import com.example.fitconnect.dto.event.response.EventDetailResponseDto;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -22,23 +23,31 @@ public class ExerciseEventFindService {
     private final ExerciseEventRepository exerciseEventRepository;
 
 
-    public Page<ExerciseEvent> findEvents(Category category, City city, String searchBy,
+    public Page<EventResponseDto> findEvents(Category category, City city, String searchBy,
             String description, int page) {
-        return exerciseEventRepository.findEventsWithConditions(category, city, searchBy,
+        Page<ExerciseEvent> eventsWithConditions = exerciseEventRepository.findEventsWithConditions(
+                category, city, searchBy,
                 description, page);
+        return eventsWithConditions.map(EventResponseDto::toDto);
+    }
+
+
+    public EventDetailResponseDto findEventDetail(Long eventId) {
+
+        ExerciseEvent exerciseEvent = findEventByEventId(eventId).orElseThrow(
+                () -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
+        return new EventDetailResponseDto().toDto(exerciseEvent);
     }
 
     public Optional<ExerciseEvent> findEventByEventId(Long eventId) {
         return exerciseEventRepository.findById(eventId);
     }
 
-    public ExerciseEvent findEventDetail(Long eventId) {
-        return findEventByEventId(eventId).orElseThrow(
-                () -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
-    }
 
-    public Page<ExerciseEvent> findEventByUserId(Long userId, Pageable pageable) {
-        return exerciseEventRepository.findEventsByOrganizerId(userId, pageable);
+    public Page<EventResponseDto> findEventByUserId(Long userId, Pageable pageable) {
+        Page<ExerciseEvent> eventsByOrganizerId = exerciseEventRepository.findEventsByOrganizerId(
+                userId, pageable);
+        return eventsByOrganizerId.map(EventResponseDto::toDto);
     }
 }
 

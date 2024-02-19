@@ -1,4 +1,4 @@
-package com.example.fitconnect.domain.event.dto;
+package com.example.fitconnect.dto.event.request;
 
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.Location;

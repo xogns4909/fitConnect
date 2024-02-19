@@ -24,8 +24,7 @@ public class ReviewFindService {
 
     public Page<ReviewResponseDto> findReviewsByExerciseEvent(Long exerciseEventId, int page, int size,
             String sortBy) {
-        exerciseEventFindService.findEventByEventId(exerciseEventId)
-                .orElseThrow(() -> new BusinessException(
+        exerciseEventFindService.findEventByEventId(exerciseEventId).orElseThrow(() -> new BusinessException(
                         ErrorMessages.EVENT_NOT_FOUND));
         Page<Review> reviews = reviewRepository.findReviews(page, size, exerciseEventId, sortBy);
         return reviews.map(ReviewResponseDto::toDto);

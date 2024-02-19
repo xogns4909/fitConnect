@@ -3,7 +3,7 @@ import axios from 'axios';
 import RegistrationModal from './RegistrationModal';
 import {Card, ListGroup, Button, Pagination} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
-
+import { translateCity, translateCategory } from './Translations';
 const MyEventsList = () => {
   const [myEvents, setMyEvents] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -54,22 +54,17 @@ const MyEventsList = () => {
                   <ListGroup.Item key={event.id} className="mb-3">
                     <Card>
                       <Card.Body>
-                        <Card.Title>{event.eventDetail.title}</Card.Title>
-                        <Card.Subtitle
-                            className="mb-2 text-muted">{event.category}</Card.Subtitle>
+                        <Card.Title>{event.title}</Card.Title>
                         <Card.Text>
-                          <strong>Description:</strong> {event.eventDetail.description}
+                        <strong>종목: </strong>{translateCategory(event.category)}
                         </Card.Text>
                         <Card.Text>
-                          <strong>Start:</strong> {new Date(
-                            event.eventDetail.startDate).toLocaleString()}
+                          <strong>운동 시작시간:</strong> {new Date(
+                            event.startTime).toLocaleString()}
                         </Card.Text>
                         <Card.Text>
-                          <strong>End:</strong> {new Date(
-                            event.eventDetail.endDate).toLocaleString()}
-                        </Card.Text>
-                        <Card.Text>
-                          <strong>Location:</strong> {event.location.city}, {event.location.address}
+                          <strong>운동 종료시간:</strong> {new Date(
+                            event.endTime).toLocaleString()}
                         </Card.Text>
                         <Button variant="primary"
                                 onClick={() => navigate(`/events/${event.id}`)}>상세

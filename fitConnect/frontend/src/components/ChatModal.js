@@ -65,10 +65,9 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
     const messageTime = new Date(messageTimestamp).getTime();
     const timeDiff = currentTime - messageTime;
 
-    // 5분을 밀리초로 환산: 5분 * 60초 * 1000밀리초
     if (timeDiff > 5 * 60 * 1000) {
       alert("메시지는 생성 후 5분 이내에만 삭제할 수 있습니다.");
-      return; // 삭제 처리 중단
+      return;
     }
 
 
@@ -86,6 +85,14 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
   return (
       <>
           <style>{`
+          .sender-name {
+          font-size: 14px;
+          font-weight: bold;
+          margin-bottom: 5px; 
+          color: #555; 
+          }
+
+          
           .message-container {
             display: flex;
             flex-direction: column;
@@ -132,6 +139,7 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
                       setActiveMessage={setActiveMessage}
                   >
                     <div className={`message-bubble ${currentUserId === msg.userId ? 'my-message' : 'other-message'}`}>
+                      <div className="sender-name">{msg.senderName}</div>
                       <div>{msg.content}</div>
                       <div className="message-metadata">{new Date(msg.sentAt).toLocaleTimeString()}</div>
                     </div>
