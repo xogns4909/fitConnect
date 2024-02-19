@@ -2,9 +2,7 @@ package com.example.fitconnect.service.event;
 
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
-import com.example.fitconnect.domain.event.dto.EventDetailDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
-import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;

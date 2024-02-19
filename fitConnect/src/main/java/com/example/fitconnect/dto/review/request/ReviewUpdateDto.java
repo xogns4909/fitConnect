@@ -1,4 +1,4 @@
-package com.example.fitconnect.domain.review.dto;
+package com.example.fitconnect.dto.review.request;
 
 import lombok.Getter;
 

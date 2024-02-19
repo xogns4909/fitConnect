@@ -3,7 +3,6 @@ package com.example.fitconnect.service.user;
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.user.domain.User;
-import com.example.fitconnect.domain.user.dto.UserUpdateDto;
 import com.example.fitconnect.repository.user.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

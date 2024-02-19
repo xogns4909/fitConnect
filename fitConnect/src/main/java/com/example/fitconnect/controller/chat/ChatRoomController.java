@@ -3,8 +3,8 @@ package com.example.fitconnect.controller.chat;
 
 import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
-import com.example.fitconnect.domain.chat.dto.ChatRoomRegistrationDto;
-import com.example.fitconnect.domain.chat.dto.ChatRoomUpdateDto;
+import com.example.fitconnect.dto.chat.request.ChatRoomRegistrationDto;
+import com.example.fitconnect.dto.chat.request.ChatRoomUpdateDto;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomCreationService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;

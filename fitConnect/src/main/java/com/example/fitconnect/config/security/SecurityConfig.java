@@ -1,6 +1,5 @@
-package com.example.fitconnect.auth;
+package com.example.fitconnect.config.security;
 
-import com.example.fitconnect.auth.filter.JwtFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

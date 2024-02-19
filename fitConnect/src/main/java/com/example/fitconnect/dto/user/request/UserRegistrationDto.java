@@ -1,9 +1,8 @@
-package com.example.fitconnect.domain.user.dto;
+package com.example.fitconnect.dto.user.request;
 
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
-import lombok.Builder;
 import lombok.Data;
 
 @Data

@@ -1,15 +1,14 @@
 package com.example.fitconnect.controller.event;
 
 import com.example.fitconnect.auth.service.JwtService;
-import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.dto.EventDetailDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
-import com.example.fitconnect.domain.event.dto.LocationDto;
-import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
+import com.example.fitconnect.dto.event.request.EventDetailDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
+import com.example.fitconnect.dto.event.request.LocationDto;
+import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.service.event.ExerciseEventDeleteService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;

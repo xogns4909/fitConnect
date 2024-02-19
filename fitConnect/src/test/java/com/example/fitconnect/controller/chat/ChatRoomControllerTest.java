@@ -1,10 +1,9 @@
 package com.example.fitconnect.controller.chat;
 
 import com.example.fitconnect.auth.service.JwtService;
-import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
-import com.example.fitconnect.domain.chat.dto.ChatRoomRegistrationDto;
-import com.example.fitconnect.domain.chat.dto.ChatRoomUpdateDto;
+import com.example.fitconnect.dto.chat.request.ChatRoomRegistrationDto;
+import com.example.fitconnect.dto.chat.request.ChatRoomUpdateDto;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
@@ -13,7 +12,6 @@ import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomUpdateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,10 +26,6 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
