@@ -6,6 +6,7 @@ import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.dto.event.response.EventDetailResponseDto;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -22,15 +23,14 @@ public class ExerciseEventFindService {
     private final ExerciseEventRepository exerciseEventRepository;
 
 
-    public Page<ExerciseEvent> findEvents(Category category, City city, String searchBy,
+    public Page<EventResponseDto> findEvents(Category category, City city, String searchBy,
             String description, int page) {
-        return exerciseEventRepository.findEventsWithConditions(category, city, searchBy,
+        Page<ExerciseEvent> eventsWithConditions = exerciseEventRepository.findEventsWithConditions(
+                category, city, searchBy,
                 description, page);
+        return eventsWithConditions.map(EventResponseDto::toDto);
     }
 
-    public Optional<ExerciseEvent> findEventByEventId(Long eventId) {
-        return exerciseEventRepository.findById(eventId);
-    }
 
     public EventDetailResponseDto findEventDetail(Long eventId) {
 
@@ -38,6 +38,11 @@ public class ExerciseEventFindService {
                 () -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
         return new EventDetailResponseDto().toDto(exerciseEvent);
     }
+
+    public Optional<ExerciseEvent> findEventByEventId(Long eventId) {
+        return exerciseEventRepository.findById(eventId);
+    }
+
 
     public Page<ExerciseEvent> findEventByUserId(Long userId, Pageable pageable) {
         return exerciseEventRepository.findEventsByOrganizerId(userId, pageable);

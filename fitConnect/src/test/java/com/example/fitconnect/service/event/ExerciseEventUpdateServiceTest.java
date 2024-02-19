@@ -6,7 +6,6 @@ import static org.mockito.BDDMockito.given;
 
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.*;
-import com.example.fitconnect.domain.event.request.*;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;

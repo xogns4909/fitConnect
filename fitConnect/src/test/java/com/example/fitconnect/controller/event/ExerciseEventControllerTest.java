@@ -11,6 +11,7 @@ import com.example.fitconnect.dto.event.request.LocationDto;
 import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.dto.event.response.EventDetailResponseDto;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.service.event.ExerciseEventDeleteService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.event.ExerciseEventRegistrationService;
@@ -127,8 +128,8 @@ public class ExerciseEventControllerTest {
 
     private void setupFindService() {
         ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
-        Page<ExerciseEvent> expectedPage = new PageImpl<>(Collections.singletonList(event),
-                PageRequest.of(0, 10), 1);
+        Page<EventResponseDto> expectedPage = new PageImpl<>(Collections.singletonList(event),
+                PageRequest.of(0, 10), 1).map(EventResponseDto::toDto);
         given(exerciseEventFindService.findEvents(any(),any(),any(), any(), anyInt()))
                 .willReturn(expectedPage);
     }

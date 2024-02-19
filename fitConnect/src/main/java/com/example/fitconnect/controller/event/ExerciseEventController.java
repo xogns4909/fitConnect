@@ -7,6 +7,7 @@ import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
 import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
 import com.example.fitconnect.dto.event.response.EventDetailResponseDto;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.service.event.ExerciseEventDeleteService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.event.ExerciseEventRegistrationService;
@@ -45,13 +46,13 @@ public class ExerciseEventController {
     }
 
     @GetMapping
-    ResponseEntity<Page<ExerciseEvent>> findEvent(
+    ResponseEntity<Page<EventResponseDto>> findEvent(
             @RequestParam(required = false) Integer page,
             @RequestParam(required = false) Category category,
             @RequestParam(required = false) City city,
             @RequestParam(required = false) String searchBy,
             @RequestParam(required = false) String description) {
-        Page<ExerciseEvent> events = exerciseEventFindService.findEvents(category, city,
+        Page<EventResponseDto> events = exerciseEventFindService.findEvents(category, city,
                 searchBy, description,
                 page);
         return ResponseEntity.ok(events);
