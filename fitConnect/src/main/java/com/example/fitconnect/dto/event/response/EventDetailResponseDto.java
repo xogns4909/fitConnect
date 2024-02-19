@@ -1,5 +1,6 @@
 package com.example.fitconnect.dto.event.response;
 
+import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.event.domain.Location;
@@ -26,6 +27,7 @@ public class EventDetailResponseDto {
 
     private City city;
 
+    private Category category;
     private String address;
 
     private int maxParticipants;
@@ -48,6 +50,7 @@ public class EventDetailResponseDto {
         this.endTime = exerciseEvent.getEventDetail().getEndDate();
         this.city = exerciseEvent.getLocation().getCity();
         this.address = exerciseEvent.getLocation().getAddress();
+        this.category = exerciseEvent.getCategory();
         this.maxParticipants = exerciseEvent.getRegistrationPolicy().getMaxParticipants();
         this.registrationStart = exerciseEvent.getRegistrationPolicy().getRegistrationStart();
         this.registrationEnd = exerciseEvent.getRegistrationPolicy().getRegistrationEnd();

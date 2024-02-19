@@ -12,9 +12,11 @@ const EventDetail = ({ eventId }) => {
     const fetchEventDetail = async () => {
       try {
         const response = await axios.get(`/api/events/${eventId}/detail`);
-        console.log(response.data);
+        console.log("response = ",response.data)
         setEvent(response.data);
+
       } catch (err) {
+        console.log(err.response);
         setError(err.response?.data?.message || '이벤트 상세 정보를 가져오는데 실패했습니다.');
       }
     };
@@ -30,15 +32,15 @@ const EventDetail = ({ eventId }) => {
       <>
       <Card className="my-4 shadow">
         <Card.Body>
-          <Card.Title className="display-4">{event.eventDetail.title}</Card.Title>
+          <Card.Title className="display-4">{event.title}</Card.Title>
           <ListGroup className="list-group-flush">
+            <ListGroup.Item>운동 시간: {new Date(event.startTime).toLocaleString()} ~ {new Date(event.endTime).toLocaleString()}</ListGroup.Item>
+            <ListGroup.Item>신청 기간: {new Date(event.registrationStart).toLocaleString()} ~ {new Date(event.registrationEnd).toLocaleString()}</ListGroup.Item>
+            <ListGroup.Item>최대 참가자: {event.maxParticipants}</ListGroup.Item>
             <ListGroup.Item>종목: {translateCategory(event.category)}</ListGroup.Item>
-            <ListGroup.Item>운동 시간: {new Date(event.eventDetail.startDate).toLocaleString()} ~ {new Date(event.eventDetail.endDate).toLocaleString()}</ListGroup.Item>
-            <ListGroup.Item>신청 기간: {new Date(event.registrationPolicy.registrationStart).toLocaleString()} ~ {new Date(event.registrationPolicy.registrationEnd).toLocaleString()}</ListGroup.Item>
-            <ListGroup.Item>최대 참가자: {event.registrationPolicy.maxParticipants}</ListGroup.Item>
-            <ListGroup.Item>위치: {translateCity(event.location.city)}, {event.location.address}</ListGroup.Item>
+            <ListGroup.Item>위치: {translateCity(event.city)}, {event.address}</ListGroup.Item>
           </ListGroup>
-          <Card.Text className="mt-4">{event.eventDetail.description}</Card.Text>
+          <Card.Text className="mt-4">{event.description}</Card.Text>
           <div className="mt-4">
             <RegistrationButton eventId={eventId} />
             <CreateChatRoom eventId={eventId} />
@@ -48,14 +50,14 @@ const EventDetail = ({ eventId }) => {
         <Card className="mb-4 shadow">
           <Card.Header>리뷰</Card.Header>
           <ListGroup variant="flush">
-            {event.reviews.length > 0 ? (
-                event.reviews.map((review) => (
+            {event.reviewResponseDtoList.length > 0 ? (
+                event.reviewResponseDtoList.map((review) => (
                     <ListGroupItem key={review.id}>
                       <strong>평점: {review.rating}</strong>
-                      <p>{review.content}</p>
+                      <p>{review.reviewContent}</p>
+
                       <div className="review-footer">
-                        <small>작성자: {review.nickname}</small>
-                        <small>작성일: {new Date(review.createdAt).toLocaleString()}</small>
+                        <small>작성자: {review.nickName}  </small>
                       </div>
                     </ListGroupItem>
                 ))

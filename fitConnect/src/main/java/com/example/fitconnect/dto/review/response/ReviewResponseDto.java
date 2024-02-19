@@ -16,6 +16,7 @@ public class ReviewResponseDto {
     private LocalDateTime eventStartTime;
     private LocalDateTime eventEndTime;
 
+    private String nickname;
     private double rating;
 
 
@@ -24,11 +25,12 @@ public class ReviewResponseDto {
 
 
     public ReviewResponseDto(Long eventId, String eventTitle, LocalDateTime eventStartTime,
-            LocalDateTime eventEndTime, Long reviewId, String reviewContent, double rating) {
+            LocalDateTime eventEndTime,String nickname, Long reviewId, String reviewContent, double rating) {
         this.eventId = eventId;
         this.eventTitle = eventTitle;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
+        this.nickname = nickname;
         this.reviewId = reviewId;
         this.reviewContent = reviewContent;
         this.rating = rating;
