@@ -14,6 +14,11 @@ const CreateChatRoom = ({eventId}) => {
   };
 
   const createChatRoom = async () => {
+
+    if (!title.trim()) {
+      setError('채팅방 제목을 입력해주세요.');
+      return;
+    }
     console.log(eventId);
     try {
       await axios.post('/api/chatrooms', {
