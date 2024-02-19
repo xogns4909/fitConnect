@@ -54,23 +54,17 @@ const MyEventsList = () => {
                   <ListGroup.Item key={event.id} className="mb-3">
                     <Card>
                       <Card.Body>
-                        <Card.Title>{event.eventDetail.title}</Card.Title>
+                        <Card.Title>{event.title}</Card.Title>
                         <Card.Text>
                         <strong>종목: </strong>{translateCategory(event.category)}
                         </Card.Text>
                         <Card.Text>
-                          <strong>설명:</strong> {event.eventDetail.description}
-                        </Card.Text>
-                        <Card.Text>
                           <strong>운동 시작시간:</strong> {new Date(
-                            event.eventDetail.startDate).toLocaleString()}
+                            event.startTime).toLocaleString()}
                         </Card.Text>
                         <Card.Text>
                           <strong>운동 종료시간:</strong> {new Date(
-                            event.eventDetail.endDate).toLocaleString()}
-                        </Card.Text>
-                        <Card.Text>
-                          <strong>위치 : </strong>{translateCity(event.location.city)}, {event.location.address}
+                            event.endTime).toLocaleString()}
                         </Card.Text>
                         <Button variant="primary"
                                 onClick={() => navigate(`/events/${event.id}`)}>상세

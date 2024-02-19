@@ -44,8 +44,10 @@ public class ExerciseEventFindService {
     }
 
 
-    public Page<ExerciseEvent> findEventByUserId(Long userId, Pageable pageable) {
-        return exerciseEventRepository.findEventsByOrganizerId(userId, pageable);
+    public Page<EventResponseDto> findEventByUserId(Long userId, Pageable pageable) {
+        Page<ExerciseEvent> eventsByOrganizerId = exerciseEventRepository.findEventsByOrganizerId(
+                userId, pageable);
+        return eventsByOrganizerId.map(EventResponseDto::toDto);
     }
 }
 

@@ -38,11 +38,11 @@ public class ExerciseEventController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<ExerciseEvent> registerEvent(
+    public ResponseEntity<Void> registerEvent(
             @RequestBody ExerciseEventRegistrationDto registrationDto,
             @CurrentUserId Long userId) {
-        ExerciseEvent registeredEvent = registrationService.registerEvent(userId, registrationDto);
-        return ResponseEntity.ok(registeredEvent);
+        registrationService.registerEvent(userId, registrationDto);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
@@ -59,16 +59,16 @@ public class ExerciseEventController {
     }
 
     @PutMapping("/{eventId}")
-    public ResponseEntity<ExerciseEvent> updateEvent(
+    public ResponseEntity<Void> updateEvent(
             @PathVariable Long eventId,
             @RequestBody ExerciseEventUpdateDto updateDto,
             @CurrentUserId Long userId) {
         ExerciseEvent updatedEvent = updateService.updateEvent(eventId, updateDto, userId);
-        return ResponseEntity.ok(updatedEvent);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<ExerciseEvent> deleteEvent(@PathVariable Long eventId,
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId,
             @CurrentUserId Long userId) {
         exerciseEventDeleteService.deleteEvent(eventId, userId);
         return ResponseEntity.ok().build();

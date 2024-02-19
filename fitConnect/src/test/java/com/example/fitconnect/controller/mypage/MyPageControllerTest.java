@@ -3,6 +3,7 @@ package com.example.fitconnect.controller.mypage;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.review.Review;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.service.review.ReviewFindService;
@@ -92,7 +93,7 @@ public class MyPageControllerTest {
 
     @Test
     public void getUserEventsTest() throws Exception {
-        Page<ExerciseEvent> mockPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
+        Page<EventResponseDto> mockPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
         when(exerciseEventFindService.findEventByUserId(userId, pageable)).thenReturn(mockPage);
 
         mockMvc.perform(get("/mypage/events")

@@ -4,6 +4,7 @@ import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
@@ -40,9 +41,9 @@ public class MyPageController {
     }
 
     @GetMapping("/events")
-    public ResponseEntity<Page<ExerciseEvent>> getUserEvents(Pageable pageable,
+    public ResponseEntity<Page<EventResponseDto>> getUserEvents(Pageable pageable,
             @CurrentUserId Long userId) {
-        Page<ExerciseEvent> events = exerciseEventFindService.findEventByUserId(userId, pageable);
+        Page<EventResponseDto> events = exerciseEventFindService.findEventByUserId(userId, pageable);
         return ResponseEntity.ok(events);
     }
 }
