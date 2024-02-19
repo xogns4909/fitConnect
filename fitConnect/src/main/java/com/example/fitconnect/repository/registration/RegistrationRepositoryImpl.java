@@ -2,6 +2,7 @@ package com.example.fitconnect.repository.registration;
 
 import com.example.fitconnect.domain.registration.QRegistration;
 import com.example.fitconnect.domain.registration.Registration;
+import com.example.fitconnect.domain.registration.RegistrationStatus;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import java.util.List;
@@ -72,4 +73,15 @@ public class RegistrationRepositoryImpl implements CustomRegistrationRepository 
                 .fetchOne();
         return Optional.ofNullable(foundRegistration);
     }
+
+    @Override
+    public long countByExerciseEventIdAndStatus(Long eventId, RegistrationStatus status) {
+        QRegistration registration = QRegistration.registration;
+        return queryFactory
+                .selectFrom(registration)
+                .where(registration.exerciseEvent.id.eq(eventId)
+                        .and(registration.status.eq(status)))
+                .fetchCount();
+    }
+
 }
