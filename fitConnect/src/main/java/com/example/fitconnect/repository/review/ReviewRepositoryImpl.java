@@ -6,6 +6,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -58,5 +59,13 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
                 .fetchCount();
 
         return new PageImpl<>(reviews, pageable, total);
+    }
+
+    @Override
+    public Optional<Review> findByUserIdAndExerciseEventId(Long userId, Long eventId) {
+        Review review = queryFactory.selectFrom(qReview)
+                .where(qReview.user.id.eq(userId).and(qReview.exerciseEvent.id.eq(eventId)))
+                .fetchOne();
+        return Optional.ofNullable(review);
     }
 }
