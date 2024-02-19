@@ -12,18 +12,19 @@ const EventDetail = ({ eventId }) => {
     const fetchEventDetail = async () => {
       try {
         const response = await axios.get(`/api/events/${eventId}/detail`);
+        console.log(response.data);
         setEvent(response.data);
-        console.log(response.data)
       } catch (err) {
         setError(err.response?.data?.message || '이벤트 상세 정보를 가져오는데 실패했습니다.');
       }
     };
-
     fetchEventDetail();
   }, [eventId]);
 
   if (error) return <div>오류: {error}</div>;
   if (!event) return <div>로딩 중...</div>;
+
+
 
   return (
       <>
@@ -52,7 +53,10 @@ const EventDetail = ({ eventId }) => {
                     <ListGroupItem key={review.id}>
                       <strong>평점: {review.rating}</strong>
                       <p>{review.content}</p>
-                      <small>작성일: {new Date(review.createdAt).toLocaleString()}</small>
+                      <div className="review-footer">
+                        <small>작성자: {review.nickname}</small>
+                        <small>작성일: {new Date(review.createdAt).toLocaleString()}</small>
+                      </div>
                     </ListGroupItem>
                 ))
             ) : (
