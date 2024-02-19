@@ -112,6 +112,7 @@ public class ExerciseEventRepositoryImpl implements CustomExerciseEventRepositor
             QExerciseEvent qExerciseEvent, Predicate predicate, int page) {
         List<ExerciseEvent> events = queryFactory.selectFrom(qExerciseEvent)
                 .where(predicate)
+                .orderBy(qExerciseEvent.createdAt.desc())
                 .offset((long) page * PAGE_SIZE)
                 .limit(PAGE_SIZE)
                 .fetch();
