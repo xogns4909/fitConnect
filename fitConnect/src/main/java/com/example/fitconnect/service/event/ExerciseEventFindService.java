@@ -5,7 +5,7 @@ import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.domain.Location;
+import com.example.fitconnect.dto.event.response.EventDetailResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +32,11 @@ public class ExerciseEventFindService {
         return exerciseEventRepository.findById(eventId);
     }
 
-    public ExerciseEvent findEventDetail(Long eventId) {
-        return findEventByEventId(eventId).orElseThrow(
+    public EventDetailResponseDto findEventDetail(Long eventId) {
+
+        ExerciseEvent exerciseEvent = findEventByEventId(eventId).orElseThrow(
                 () -> new EntityNotFoundException(ErrorMessages.EVENT_NOT_FOUND));
+        return new EventDetailResponseDto().toDto(exerciseEvent);
     }
 
     public Page<ExerciseEvent> findEventByUserId(Long userId, Pageable pageable) {

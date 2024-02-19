@@ -6,6 +6,7 @@ import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
 import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
+import com.example.fitconnect.dto.event.response.EventDetailResponseDto;
 import com.example.fitconnect.service.event.ExerciseEventDeleteService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.event.ExerciseEventRegistrationService;
@@ -73,9 +74,9 @@ public class ExerciseEventController {
     }
 
     @GetMapping("/{eventId}/detail")
-    public ResponseEntity<ExerciseEvent> getEventDetail(@PathVariable Long eventId) {
-        ExerciseEvent event = exerciseEventFindService.findEventDetail(eventId);
-        return ResponseEntity.ok(event);
+    public ResponseEntity<EventDetailResponseDto> getEventDetail(@PathVariable Long eventId) {
+        EventDetailResponseDto eventDetail = exerciseEventFindService.findEventDetail(eventId);
+        return ResponseEntity.ok(eventDetail);
     }
 
 }
