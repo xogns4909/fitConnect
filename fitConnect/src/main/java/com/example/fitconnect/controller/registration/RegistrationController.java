@@ -41,7 +41,7 @@ public class RegistrationController {
 
 
     @DeleteMapping("/{registrationId}")
-    public ResponseEntity<Registration> cancelRegistration(@PathVariable Long registrationId,
+    public ResponseEntity<Void> cancelRegistration(@PathVariable Long registrationId,
             @CurrentUserId Long userId) {
         cancellationService.cancelRegistration(registrationId, userId);
         return ResponseEntity.ok().build();
