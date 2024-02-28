@@ -9,7 +9,6 @@ import com.example.fitconnect.service.chat.chatRoom.ChatRoomCreationService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomUpdateService;
-import jdk.jshell.Snippet.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

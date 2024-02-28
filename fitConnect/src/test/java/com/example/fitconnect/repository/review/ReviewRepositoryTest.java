@@ -1,7 +1,5 @@
 package com.example.fitconnect.repository.review;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;

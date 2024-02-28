@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.dto.review.request.ReviewRegistrationDto;
@@ -61,9 +60,6 @@ class ReviewControllerTest {
 
     @Mock
     private ReviewFindService reviewFindService;
-
-    @Mock
-    private JwtService jwtService;
 
     @Mock
     private ReviewRepository reviewRepository;

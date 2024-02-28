@@ -1,6 +1,5 @@
 package com.example.fitconnect.controller.chat;
 
-import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.dto.chat.request.ChatRoomRegistrationDto;
 import com.example.fitconnect.dto.chat.request.ChatRoomUpdateDto;
@@ -38,8 +37,7 @@ public class ChatRoomControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    JwtService jwtService;
+
     @MockBean
     private ChatRoomCreationService chatRoomCreationService;
     @MockBean

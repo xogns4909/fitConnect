@@ -1,6 +1,5 @@
 package com.example.fitconnect.controller.event;
 
-import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
@@ -53,8 +52,6 @@ public class ExerciseEventControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private JwtService jwtService;
     @MockBean
     private ExerciseEventRegistrationService registrationService;
     @MockBean

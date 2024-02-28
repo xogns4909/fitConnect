@@ -1,8 +1,5 @@
 package com.example.fitconnect.service.registration;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;

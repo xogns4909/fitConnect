@@ -1,7 +1,6 @@
 package com.example.fitconnect.service.registration;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.lenient;
@@ -16,7 +15,6 @@ import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
 import com.example.fitconnect.repository.user.UserRepository;
 import java.util.Optional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

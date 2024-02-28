@@ -1,10 +1,8 @@
 package com.example.fitconnect.controller.chat;
 
-import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
-import com.example.fitconnect.dto.chat.request.ChatMessageUpdateDto;
 import com.example.fitconnect.dto.chat.request.ChatRoomUpdateDto;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageDeleteService;
@@ -54,8 +52,6 @@ public class ChatMessageControllerTest {
     @MockBean
     private ChatRoomRepository chatRoomRepository;
 
-    @MockBean
-    private JwtService jwtService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -77,7 +73,7 @@ public class ChatMessageControllerTest {
         when(chatRoomRepository.findById(anyLong())).thenReturn(
                 Optional.of(new ChatRoom("title", new ExerciseEvent(), new User(), new User())));
 
-        mockMvc.perform(patch("/api/chatrooms/")
+        mockMvc.perform(patch("/api/chatrooms/" + chatRoomId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(updateDto)))
                 .andExpect(status().isNoContent());

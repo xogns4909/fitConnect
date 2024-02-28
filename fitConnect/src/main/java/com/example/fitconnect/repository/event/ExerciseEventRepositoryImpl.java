@@ -3,7 +3,6 @@ package com.example.fitconnect.repository.event;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.domain.Location;
 import com.example.fitconnect.domain.event.domain.QExerciseEvent;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;

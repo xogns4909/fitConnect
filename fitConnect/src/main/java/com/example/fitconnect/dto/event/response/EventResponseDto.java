@@ -3,10 +3,6 @@ package com.example.fitconnect.dto.event.response;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.cglib.core.Local;
-
 @Getter
 public class EventResponseDto {
 

@@ -2,13 +2,8 @@ package com.example.fitconnect.domain.event.domain;
 
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;
-import com.example.fitconnect.domain.registration.Registration;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 
 @Embeddable

@@ -9,7 +9,6 @@ import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.service.review.ReviewFindService;
 import com.example.fitconnect.service.registration.RegistrationFindService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
-import com.example.fitconnect.config.service.CommonService;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.fitconnect.auth.service.JwtService;
-import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.service.registration.RegistrationApprovalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,9 +24,6 @@ class RegistrationApprovalControllerTest {
     @MockBean
     private RegistrationApprovalService approvalService;
 
-
-    @MockBean
-    private JwtService jwtService;
 
     @BeforeEach
     void setUp() {
