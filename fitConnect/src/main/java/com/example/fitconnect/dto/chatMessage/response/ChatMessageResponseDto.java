@@ -1,5 +1,6 @@
 package com.example.fitconnect.dto.chatMessage.response;
 
+import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import java.time.LocalDateTime;
 import lombok.Getter;
 
@@ -23,6 +24,16 @@ public class ChatMessageResponseDto {
         this.userId = userId;
         this.senderName = senderName;
         this.sentAt = sentAt;
+    }
+
+    public static ChatMessageResponseDto toDto(ChatMessage chatMessage){
+        ChatMessageResponseDto chatMessageResponseDto = new ChatMessageResponseDto();
+        chatMessageResponseDto.id = chatMessage.getId();
+        chatMessageResponseDto.content = chatMessage.getContent();
+        chatMessageResponseDto.userId = chatMessage.getSender().getId();
+        chatMessageResponseDto.senderName = chatMessage.getSender().getUserBaseInfo().getNickname();
+        chatMessageResponseDto.sentAt = chatMessage.getCreatedAt();
+        return  chatMessageResponseDto;
     }
 
 }
