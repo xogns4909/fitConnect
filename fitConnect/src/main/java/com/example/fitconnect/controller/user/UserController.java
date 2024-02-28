@@ -37,20 +37,19 @@ public class UserController {
 
 
     @PostMapping("/api/auth/google")
-    public ResponseEntity<Map<String, String>> login(@RequestBody String token,
+    public ResponseEntity<Void> login(@RequestBody String token,
             HttpSession session) {
         GoogleInfoDto authenticate = authService.authenticate(token);
-        Map<String, String> tokens = loginService.processUserLogin(authenticate);
-        session.setAttribute("accessToken", tokens.get("accessToken"));
-        session.setAttribute("refreshToken", tokens.get("refreshToken"));
-        return ResponseEntity.ok(tokens);
+        Long userId = loginService.processUserLogin(authenticate);
+        session.setAttribute("userId",userId);
+        return ResponseEntity.ok().build();
 
     }
 
     @PostMapping("/api/auth/logout")
     public ResponseEntity<Status> logout(HttpSession session) {
-        session.removeAttribute("accessToken");
-        session.removeAttribute("refreshToken");
+        session.removeAttribute("userId");
+        session.invalidate();
         return ResponseEntity.ok().build();
     }
 
