@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form, ListGroup } from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Modal, Button, Form } from 'react-bootstrap';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import axios from 'axios';
@@ -13,6 +13,7 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
   const [activeMessage, setActiveMessage] = useState(null);
 
   useEffect(() => {
+
     const fetchCurrentUserInfo = async () => {
       try {
         const { data } = await axios.get('/user');
@@ -44,6 +45,7 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
     }
   }, [show, chatRoomId]);
 
+
   const fetchMessages = async () => {
     try {
       const response = await axios.get(`/api/chatmessages?chatRoomId=${chatRoomId}`);
@@ -53,12 +55,18 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
     }
   };
 
-  const handleSendMessage = () => {
-    if (message && client) {
-      client.send(`/app/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify({ content: message }));
-      setMessage('');
+
+  const handleSendMessage = async (e) => {
+    if (e.key === 'Enter' || e.type === 'click') {
+      e.preventDefault();
+      if (message.trim() && client) {
+        await client.send(`/app/chat/${chatRoomId}/sendMessage`, {}, JSON.stringify({ content: message.trim() }));
+        setMessage('');
+
+      }
     }
   };
+
 
   const handleDeleteMessage = async (messageId,messageTimestamp) => {
     const currentTime = new Date().getTime();
@@ -123,12 +131,12 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
           }
         `}</style>
 
-        <Modal show={show} onHide={onHide}>
+        <Modal size="lg" show={show} onHide={onHide}>
           <Modal.Header closeButton>
             <Modal.Title>채팅</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div className="message-container">
+            <div className="message-container" style={{ maxHeight: '400px', overflowY: 'auto' }}>
               {messages.map((msg, index) => (
                   <MessageUpdateMenu
                       key={index}
@@ -153,12 +161,14 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
                     placeholder="메시지를 입력하세요..."
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage(e)}
                 />
               </Form.Group>
               <Button variant="primary" onClick={handleSendMessage}>
                 전송
               </Button>
             </Form>
+            <div />
           </Modal.Body>
         </Modal>
       </>

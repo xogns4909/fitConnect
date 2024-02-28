@@ -1,9 +1,8 @@
 import React from 'react';
-import {Card, Row, Col} from 'react-bootstrap';
-import {translateCity, translateCategory} from './Translations';
+import { Card, Row, Col, Button } from 'react-bootstrap';
+import { translateCity, translateCategory } from './Translations';
 
-const EventListComponent = ({events}) => {
-
+const EventListComponent = ({ events }) => {
   const handleClick = (eventId) => {
     window.location.href = `/events/${eventId}`;
   };
@@ -21,14 +20,27 @@ const EventListComponent = ({events}) => {
   return (
       <>
         {events.map(event => (
-            <Card key={event.id} className="mb-3"
-                  onClick={() => handleClick(event.id)}>
+            <Card key={event.id} className="mb-4 shadow" style={{ cursor: 'pointer' }}>
               <Card.Body>
-                <div><
-                  strong>제목:</strong> {event.title} |
-                  <strong>운동 종목:</strong> {translateCategory(event.category)} |
-                  <strong>운동 시간:</strong> {formatDate(event.startTime)} ~ {formatDate(event.endTime)} |
-                  <small>   작성자: {event.organizerNickname}</small></div>
+                <Row>
+                  <Col md={8}>
+                    <Card.Title className="mb-2">{event.title}</Card.Title>
+                    <Card.Text>
+                      <strong>종목:</strong> {translateCategory(event.category)}
+                    </Card.Text>
+                    <Card.Text>
+                      <strong>시간:</strong> {formatDate(event.startTime)} ~ {formatDate(event.endTime)}
+                    </Card.Text>
+                    <Card.Text>
+                      <div><small>작성자: {event.organizerNickname}</small></div>
+                      <div><small>작성 시간: {formatDate(event.writeTime)}</small></div>
+                    </Card.Text>
+
+                  </Col>
+                  <Col md={4} className="d-flex align-items-center justify-content-end">
+                    <Button variant="primary" onClick={() => handleClick(event.id)}>상세 보기</Button>
+                  </Col>
+                </Row>
               </Card.Body>
             </Card>
         ))}

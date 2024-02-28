@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import RegistrationModal from './RegistrationModal';
-import {Card, ListGroup, Button, Pagination} from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
+import { Card, ListGroup, Button, Pagination } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { translateCity, translateCategory } from './Translations';
+
 const MyEventsList = () => {
   const [myEvents, setMyEvents] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -29,9 +30,8 @@ const MyEventsList = () => {
   const handleDelete = async (eventId) => {
     try {
       await axios.delete(`/api/events/${eventId}`);
-      alert("삭제 성공")
-      fetchMyEvents();
-
+      alert("삭제 성공");
+      fetchMyEvents(currentPage);
     } catch (error) {
       console.error('Error deleting event:', error);
     }
@@ -49,54 +49,30 @@ const MyEventsList = () => {
   return (
       <>
         <ListGroup>
-          {myEvents.length > 0 ? (
-              myEvents.map(event => (
-                  <ListGroup.Item key={event.id} className="mb-3">
-                    <Card>
-                      <Card.Body>
-                        <Card.Title>{event.title}</Card.Title>
-                        <Card.Text>
-                        <strong>종목: </strong>{translateCategory(event.category)}
-                        </Card.Text>
-                        <Card.Text>
-                          <strong>운동 시작시간:</strong> {new Date(
-                            event.startTime).toLocaleString()}
-                        </Card.Text>
-                        <Card.Text>
-                          <strong>운동 종료시간:</strong> {new Date(
-                            event.endTime).toLocaleString()}
-                        </Card.Text>
-                        <Button variant="primary"
-                                onClick={() => navigate(`/events/${event.id}`)}>상세
-                          보기</Button>
-                        <Button variant="secondary" className="mx-2"
-                                onClick={() => navigate(
-                                    `/events/edit/${event.id}`)}>수정</Button>
-                        <Button variant="danger" onClick={() => handleDelete(
-                            event.id)}>삭제</Button>
-                        <Button variant="secondary"
-                                onClick={() => handleShowRegistrations(
-                                    event.id)}>신청 내역 보기</Button>
-                      </Card.Body>
-                    </Card>
-                  </ListGroup.Item>
-
-              ))) : (
-              <ListGroup.Item>생성된 이벤트가 없습니다.</ListGroup.Item>
-          )}
+          {myEvents.length > 0 ? myEvents.map(event => (
+              <ListGroup.Item key={event.id} className="mb-3">
+                <Card>
+                  <Card.Header as="h5">{event.title}</Card.Header>
+                  <Card.Body>
+                    <Card.Text><strong>종목: </strong>{translateCategory(event.category)}</Card.Text>
+                    <Card.Text><strong>운동 시작시간: </strong>{new Date(event.startTime).toLocaleString()}</Card.Text>
+                    <Card.Text><strong>운동 종료시간: </strong>{new Date(event.endTime).toLocaleString()}</Card.Text>
+                    <Card.Text><strong>작성 시간: </strong>{new Date(event.writeTime).toLocaleString()}</Card.Text>
+                    <div className="d-flex justify-content-between">
+                      <Button variant="primary" onClick={() => navigate(`/events/${event.id}`)}>상세 보기</Button>
+                      <Button variant="outline-secondary" onClick={() => navigate(`/events/edit/${event.id}`)}>수정</Button>
+                      <Button variant="outline-danger" onClick={() => handleDelete(event.id)}>삭제</Button>
+                      <Button variant="info" onClick={() => handleShowRegistrations(event.id)}>신청 내역 보기</Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </ListGroup.Item>
+          )) : <ListGroup.Item>생성된 이벤트가 없습니다.</ListGroup.Item>}
         </ListGroup>
-        <RegistrationModal
-            show={showModal}
-            onHide={() => setShowModal(false)}
-            eventId={currentEventId}
-        />
+        <RegistrationModal show={showModal} onHide={() => setShowModal(false)} eventId={currentEventId} />
         <Pagination className="justify-content-center mt-4">
-          {[...Array(totalPages).keys()].map((number) => (
-              <Pagination.Item
-                  key={number}
-                  active={number === currentPage}
-                  onClick={() => handlePageChange(number)}
-              >
+          {[...Array(totalPages).keys()].map(number => (
+              <Pagination.Item key={number} active={number === currentPage} onClick={() => handlePageChange(number)}>
                 {number + 1}
               </Pagination.Item>
           ))}
