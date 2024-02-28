@@ -81,7 +81,7 @@ class RegistrationControllerTest {
 
         mockMvc.perform(delete("/api/registrations/" + registrationId)
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test

@@ -2,19 +2,27 @@ package com.example.fitconnect.repository.review;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.fitconnect.domain.event.domain.Category;
+import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
+import com.example.fitconnect.dto.event.request.EventDetailDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
+import com.example.fitconnect.dto.event.request.LocationDto;
+import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.user.UserRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +45,7 @@ public class ReviewRepositoryTest {
 
         User user = new User(new UserBaseInfo("test@naver.com", "nickname",
                 "url"), Role.MEMBER);
-        ExerciseEvent exerciseEvent = new ExerciseEvent();
+        ExerciseEvent exerciseEvent = createEvent(user);
 
         userRepository.saveAndFlush(user);
         exerciseEventRepository.saveAndFlush(exerciseEvent);
@@ -49,6 +57,7 @@ public class ReviewRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void testFindReviewsByRating() {
         Page<Review> reviews = reviewRepository.findReviews(1, 10, 1L, "rating");
 
@@ -58,10 +67,21 @@ public class ReviewRepositoryTest {
     }
 
     @Test
+    @DirtiesContext
     public void testFindReviewsByDefault() {
         Page<Review> reviews = reviewRepository.findReviews(1, 10, 1L, "default");
 
         assertThat(reviews).isNotNull();
         assertThat(reviews.getContent().get(0).getId()).isEqualTo(1L);
+    }
+
+    private ExerciseEvent createEvent(User user) {
+        return new ExerciseEventRegistrationDto(
+                new EventDetailDto("title", "Description", LocalDateTime.now(),
+                        LocalDateTime.now().plusHours(2)),
+                new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
+                new LocationDto(City.SEOUL, "서울시 강남구"),
+                Category.SOCCER
+        ).toEntity(user);
     }
 }

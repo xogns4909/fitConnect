@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.*;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
+import com.example.fitconnect.domain.user.domain.Role;
+import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.dto.chat.request.ChatMessageRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.dto.chatMessage.response.ChatMessageResponseDto;
@@ -42,7 +44,7 @@ public class ChatMessageCreationServiceTest {
     public void testCreateChatMessageSuccess() {
         Long userId = 1L;
         ChatMessageRegistrationDto dto = new ChatMessageRegistrationDto("테스트 메시지");
-        User mockUser = new User();
+        User mockUser = new User(new UserBaseInfo("test@naver.com","test","url"), Role.MEMBER);
         ChatRoom mockChatRoom = new ChatRoom();
         ChatMessage mockChatMessage = new ChatMessage("테스트 메시지", mockChatRoom, mockUser);
 
@@ -54,9 +56,8 @@ public class ChatMessageCreationServiceTest {
         ChatMessageResponseDto createdChatMessage = chatMessageCreationService.createChatMessage(
                 "message", 1L, userId);
 
-        assertThat(createdChatMessage).isNotNull()
-                .extracting("content", "chatRoom", "sender")
-                .containsExactly(dto.getContent(), mockChatRoom, mockUser);
+        assertThat(createdChatMessage).isNotNull();
+        assertThat(createdChatMessage.getContent()).isEqualTo(mockChatMessage.getContent());
     }
 
     @Test

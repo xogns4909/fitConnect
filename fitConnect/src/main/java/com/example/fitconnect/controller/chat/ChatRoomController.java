@@ -35,18 +35,18 @@ public class ChatRoomController {
         return ResponseEntity.ok(chatRoom);
     }
 
-    @PutMapping
-    public ResponseEntity<Status> updateChatRoom(@RequestBody ChatRoomUpdateDto chatRoomUpdateDto,
+    @PatchMapping("/{chatRoomId}")
+    public ResponseEntity<Void> updateChatRoom(@PathVariable Long chatRoomId,@RequestBody ChatRoomUpdateDto chatRoomUpdateDto,
             @CurrentUserId Long userId) {
-        chatRoomUpdateService.updateTitle(chatRoomUpdateDto, userId);
-        return ResponseEntity.ok().build();
+        chatRoomUpdateService.updateTitle(chatRoomUpdateDto, userId,chatRoomId);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{chatRoomId}")
-    public ResponseEntity<Status> deleteChatRoom(@PathVariable Long chatRoomId,
+    public ResponseEntity<Void> deleteChatRoom(@PathVariable Long chatRoomId,
             @CurrentUserId Long userId) {
         chatRoomDeleteService.deleteChatRoom(userId, chatRoomId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/messages")

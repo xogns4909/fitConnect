@@ -44,7 +44,7 @@ public class RegistrationController {
     public ResponseEntity<Void> cancelRegistration(@PathVariable Long registrationId,
             @CurrentUserId Long userId) {
         cancellationService.cancelRegistration(registrationId, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{eventId}")

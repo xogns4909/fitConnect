@@ -39,13 +39,14 @@ class RegistrationApprovalControllerTest {
     @Test
     void approveRegistration_Success() throws Exception {
         Long registrationId = 1L;
-        Long adminId = 2L;
+        Long eventId = 2L;
 
         mockMvc.perform(post("/api/registrations/" + registrationId + "/approve")
-                        .param("adminId", adminId.toString())
+                        .param("eventId", eventId.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
 
     @Test
     void denyRegistration_Success() throws Exception {

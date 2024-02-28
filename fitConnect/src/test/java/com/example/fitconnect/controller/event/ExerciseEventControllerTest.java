@@ -4,6 +4,8 @@ import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.domain.user.domain.Role;
+import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.dto.event.request.EventDetailDto;
 import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
 import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
@@ -40,6 +42,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -89,16 +92,19 @@ public class ExerciseEventControllerTest {
         performGet("/api/events", "0", "SOCCER", "Soccer match")
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").exists())
-                .andExpect(jsonPath("$.content[0].category").value("SOCCER"));
+                .andExpect(jsonPath("$.content[0].category").value("축구"));
     }
 
     @Test
     public void updateEvent_Success() throws Exception {
         ExerciseEventUpdateDto updateDto = createUpdateDto();
+        Long eventId = 1L;
         setupUpdateService(updateDto);
 
-        performPut("/api/events/" + eventId, updateDto)
-                .andExpect(status().isOk());
+        mockMvc.perform(patch("/api/events/" + eventId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(asJsonString(updateDto)))
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -107,12 +113,12 @@ public class ExerciseEventControllerTest {
         setupDeleteService(eventId);
 
         performDelete("/api/events/" + eventId)
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
 
     @Test
     public void getEventDetail_Success() throws Exception {
-        ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
+        User user = new User(new UserBaseInfo("test@naver.com","test",  "url"), Role.MEMBER);        ExerciseEvent event = createEventRegistrationDto().toEntity(user);
         EventDetailResponseDto eventDetailResponseDto = new EventDetailResponseDto().toDto(event);
         given(exerciseEventFindService.findEventDetail(eventId)).willReturn(eventDetailResponseDto);
         mockMvc.perform(get("/api/events/" + eventId + "/detail"))
@@ -127,10 +133,11 @@ public class ExerciseEventControllerTest {
     }
 
     private void setupFindService() {
-        ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
+        User user = new User(new UserBaseInfo("test@naver.com","test",  "url"), Role.MEMBER);
+        ExerciseEvent event = createEventRegistrationDto().toEntity(user);
         Page<EventResponseDto> expectedPage = new PageImpl<>(Collections.singletonList(event),
                 PageRequest.of(0, 10), 1).map(EventResponseDto::toDto);
-        given(exerciseEventFindService.findEvents(any(),any(),any(), any(), anyInt()))
+        given(exerciseEventFindService.findEvents(any(), any(), any(), any(), anyInt()))
                 .willReturn(expectedPage);
     }
 

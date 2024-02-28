@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,17 +60,17 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("user")
+    @PatchMapping("user")
     public ResponseEntity<Void> updateUser(@RequestBody UserUpdateDto userUpdateDto,
             @CurrentUserId Long userId) {
         userUpdateService.updateUser(userUpdateDto, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("user")
     public ResponseEntity<Void> deleteUser(@CurrentUserId Long userId) {
         userDeleteService.deleteUser(userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 
