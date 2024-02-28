@@ -29,19 +29,19 @@ public class RegistrationApprovalService {
     }
 
     @Transactional
-    public void approveRegistration(Long registrationId, Long userId, Long eventId) {
+    public void approveRegistration(Long registrationId, Long eventId) {
         Registration registration = findRegistration(registrationId);
         ExerciseEvent event = findEvent(eventId);
         long approvedCount = countApprovedRegistrations(eventId);
 
         validationMaxParticipants(approvedCount, event);
-        registration.approve(userId);
+        registration.approve();
     }
 
     @Transactional
-    public void denyRegistration(Long registrationId, Long adminId) {
+    public void denyRegistration(Long registrationId) {
         Registration registration = findRegistration(registrationId);
-        registration.deny(adminId);
+        registration.deny();
     }
 
     private void validationMaxParticipants(long approvedCount, ExerciseEvent event) {

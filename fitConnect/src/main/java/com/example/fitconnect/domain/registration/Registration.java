@@ -62,7 +62,7 @@ public class Registration extends BaseEntity {
     }
     private void setExerciseEvent(ExerciseEvent exerciseEvent) {
         this.exerciseEvent = exerciseEvent;
-        if(!exerciseEvent.getRegistrations().contains(exerciseEvent)){
+        if(!exerciseEvent.getRegistrations().contains(this)){
             exerciseEvent.getRegistrations().add(this);
         }
     }
@@ -72,13 +72,11 @@ public class Registration extends BaseEntity {
         this.status = RegistrationStatus.CANCELED;
     }
 
-    public void approve(Long userId) {
-        checkAuthentication(userId);
+    public void approve() {
         this.status = RegistrationStatus.APPROVED;
     }
 
-    public void deny(Long userId){
-        checkAuthentication(userId);
+    public void deny(){
         this.status = RegistrationStatus.REJECTED;
     }
 

@@ -21,17 +21,26 @@ const RegistrationModal = ({ eventId, show, onHide }) => {
             setRegistrations(response.data.content || []);
             setTotalPages(response.data.totalPages || 0);
         } catch (error) {
-            console.error('Error fetching registrations:', error);
+            const errorCode = error.response?.data
+            let message = "승인에 실패하였습니다."
+            if(errorCode){
+                message = errorCode;
+            }
+            alert(message);
         }
     };
 
     const handleApproval = async (registrationId, approved) => {
         try {
-            const endpoint = `/api/registrations/${registrationId}/${approved ? 'approve' : 'deny'}`;
+            const endpoint = approved
+                ? `/api/registrations/${registrationId}/approve?eventId=${eventId}`
+                : `/api/registrations/${registrationId}/deny`;
             await axios.post(endpoint);
             fetchRegistrations();
         } catch (error) {
+            const errorMessage = error.response?.data || "승인/거부 처리 중 오류가 발생했습니다.";
             console.error('Error updating registration:', error);
+            alert(errorMessage);
         }
     };
 

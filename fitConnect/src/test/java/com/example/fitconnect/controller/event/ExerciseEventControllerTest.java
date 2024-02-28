@@ -1,16 +1,17 @@
 package com.example.fitconnect.controller.event;
 
 import com.example.fitconnect.auth.service.JwtService;
-import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.dto.EventDetailDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventUpdateDto;
-import com.example.fitconnect.domain.event.dto.LocationDto;
-import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
+import com.example.fitconnect.dto.event.request.EventDetailDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
+import com.example.fitconnect.dto.event.request.LocationDto;
+import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.event.response.EventDetailResponseDto;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.service.event.ExerciseEventDeleteService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.event.ExerciseEventRegistrationService;
@@ -112,7 +113,8 @@ public class ExerciseEventControllerTest {
     @Test
     public void getEventDetail_Success() throws Exception {
         ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
-        given(exerciseEventFindService.findEventDetail(eventId)).willReturn(event);
+        EventDetailResponseDto eventDetailResponseDto = new EventDetailResponseDto().toDto(event);
+        given(exerciseEventFindService.findEventDetail(eventId)).willReturn(eventDetailResponseDto);
         mockMvc.perform(get("/api/events/" + eventId + "/detail"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.category").value(event.getCategory().toString()));
@@ -126,8 +128,8 @@ public class ExerciseEventControllerTest {
 
     private void setupFindService() {
         ExerciseEvent event = createEventRegistrationDto().toEntity(new User());
-        Page<ExerciseEvent> expectedPage = new PageImpl<>(Collections.singletonList(event),
-                PageRequest.of(0, 10), 1);
+        Page<EventResponseDto> expectedPage = new PageImpl<>(Collections.singletonList(event),
+                PageRequest.of(0, 10), 1).map(EventResponseDto::toDto);
         given(exerciseEventFindService.findEvents(any(),any(),any(), any(), anyInt()))
                 .willReturn(expectedPage);
     }

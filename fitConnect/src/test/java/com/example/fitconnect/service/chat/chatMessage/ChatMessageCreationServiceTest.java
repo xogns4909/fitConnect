@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
-import com.example.fitconnect.domain.chat.dto.ChatMessageRegistrationDto;
+import com.example.fitconnect.dto.chat.request.ChatMessageRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.dto.chatMessage.response.ChatMessageResponseDto;
 import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
@@ -15,6 +15,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -83,5 +84,8 @@ public class ChatMessageCreationServiceTest {
                 () -> chatMessageCreationService.createChatMessage("message", 1L, userId))
                 .isInstanceOf(EntityNotFoundException.class);
     }
+
+
+
 
 }

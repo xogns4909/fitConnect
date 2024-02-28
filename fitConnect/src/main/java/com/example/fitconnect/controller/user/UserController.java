@@ -4,7 +4,7 @@ import com.example.fitconnect.auth.dto.GoogleInfoDto;
 import com.example.fitconnect.auth.service.AuthService;
 import com.example.fitconnect.config.annotation.CurrentUserId;
 import com.example.fitconnect.domain.user.domain.User;
-import com.example.fitconnect.domain.user.dto.UserUpdateDto;
+import com.example.fitconnect.dto.user.request.UserUpdateDto;
 import com.example.fitconnect.service.user.LoginService;
 import com.example.fitconnect.service.user.UserDeleteService;
 import com.example.fitconnect.service.user.UserFindService;

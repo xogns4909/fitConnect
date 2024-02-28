@@ -1,4 +1,4 @@
-package com.example.fitconnect.auth.filter;
+package com.example.fitconnect.config.security;
 
 
 import com.example.fitconnect.auth.service.JwtService;

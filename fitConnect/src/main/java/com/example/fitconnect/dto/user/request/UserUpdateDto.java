@@ -1,4 +1,4 @@
-package com.example.fitconnect.domain.user.dto;
+package com.example.fitconnect.dto.user.request;
 
 import lombok.Getter;
 

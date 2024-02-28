@@ -2,10 +2,8 @@ package com.example.fitconnect.auth.dto;
 
 
 import com.example.fitconnect.domain.user.domain.Role;
-import com.example.fitconnect.domain.user.domain.User;
-import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 
-import com.example.fitconnect.domain.user.dto.UserRegistrationDto;
+import com.example.fitconnect.dto.user.request.UserRegistrationDto;
 import lombok.Data;
 
 @Data

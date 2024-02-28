@@ -24,23 +24,22 @@ const EventEditForm = () => {
       try {
         const response = await axios.get(`/api/events/${eventId}/detail`);
         console.log(response.data)
-        const { eventDetail, registrationPolicy, location, category } = response.data;
 
         const formatDateTime = (dateTimeString) => {
           return dateTimeString ? dateTimeString.slice(0, 16) : '';
         };
 
         setEventData({
-          title: eventDetail.title,
-          description: eventDetail.description,
-          startDate: formatDateTime(eventDetail.startDate),
-          endDate: formatDateTime(eventDetail.endDate),
-          maxParticipants: registrationPolicy.maxParticipants, // 숫자를 문자열로 변환
-          registrationStart: formatDateTime(registrationPolicy.registrationStart),
-          registrationEnd: formatDateTime(registrationPolicy.registrationEnd),
-          city: location.city,
-          address: location.address,
-          category: category,
+          title: response.data.title,
+          description: response.data.description,
+          startDate: formatDateTime(response.data.startTime),
+          endDate: formatDateTime(response.data.endTime),
+          maxParticipants: response.data.maxParticipants,
+          registrationStart: formatDateTime(response.data.registrationStart),
+          registrationEnd: formatDateTime(response.data.registrationEnd),
+          city: response.data.city,
+          address: response.data.address,
+          category: response.data.category,
         });
       } catch (error) {
         console.error('Error fetching event details:', error);

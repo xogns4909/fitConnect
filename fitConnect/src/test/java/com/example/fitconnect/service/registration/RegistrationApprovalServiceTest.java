@@ -1,7 +1,5 @@
 package com.example.fitconnect.service.registration;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
@@ -10,10 +8,10 @@ import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.dto.EventDetailDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
-import com.example.fitconnect.domain.event.dto.LocationDto;
-import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
+import com.example.fitconnect.dto.event.request.EventDetailDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
+import com.example.fitconnect.dto.event.request.LocationDto;
+import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.registration.RegistrationStatus;
 import com.example.fitconnect.domain.user.domain.User;
@@ -21,7 +19,6 @@ import com.example.fitconnect.repository.registration.RegistrationRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import jdk.jfr.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -62,7 +59,7 @@ public class RegistrationApprovalServiceTest {
         when(exerciseEventFindService.findEventByEventId(eventId)).thenReturn(
                 Optional.of(event));
 
-        service.approveRegistration(registrationId, userId, eventId);
+        service.approveRegistration(registrationId, eventId);
 
         assertThat(registration.getStatus()).isEqualTo(RegistrationStatus.APPROVED);
     }
@@ -71,7 +68,7 @@ public class RegistrationApprovalServiceTest {
     public void approve_NotFound() {
         when(registrationRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.approveRegistration(registrationId, eventId, userId))
+        assertThatThrownBy(() -> service.approveRegistration(registrationId, eventId))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
@@ -80,7 +77,7 @@ public class RegistrationApprovalServiceTest {
         registration.setStatus(RegistrationStatus.REJECTED);
         when(registrationRepository.findById(registrationId)).thenReturn(Optional.of(registration));
 
-        service.denyRegistration(registrationId, userId);
+        service.denyRegistration(registrationId);
 
         assertThat(registration.getStatus()).isEqualTo(RegistrationStatus.REJECTED);
     }
@@ -89,7 +86,7 @@ public class RegistrationApprovalServiceTest {
     public void deny_NotFound() {
         when(registrationRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.denyRegistration(registrationId, userId))
+        assertThatThrownBy(() -> service.denyRegistration(registrationId))
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
@@ -101,7 +98,7 @@ public class RegistrationApprovalServiceTest {
         when(registrationRepository.countByExerciseEventIdAndStatus(eventId,
                 RegistrationStatus.APPROVED)).thenReturn(31L);
 
-        assertThatThrownBy(() -> service.approveRegistration(registrationId, userId, eventId))
+        assertThatThrownBy(() -> service.approveRegistration(registrationId, eventId))
                 .isInstanceOf(BusinessException.class);
     }
 

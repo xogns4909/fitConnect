@@ -3,7 +3,7 @@ package com.example.fitconnect.service.user;
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.domain.user.domain.User;
-import com.example.fitconnect.domain.user.dto.UserRegistrationDto;
+import com.example.fitconnect.dto.user.request.UserRegistrationDto;
 import com.example.fitconnect.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

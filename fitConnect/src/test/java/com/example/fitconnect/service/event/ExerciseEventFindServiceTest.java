@@ -3,14 +3,17 @@ package com.example.fitconnect.service.event;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.dto.EventDetailDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
-import com.example.fitconnect.domain.event.dto.LocationDto;
-import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
+import com.example.fitconnect.domain.user.domain.Role;
+import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.domain.user.domain.UserBaseInfo;
+import com.example.fitconnect.dto.event.request.EventDetailDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
+import com.example.fitconnect.dto.event.request.LocationDto;
+import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
+import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,8 +26,10 @@ import org.springframework.data.domain.PageRequest;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ExerciseEventFindServiceTest {
@@ -38,13 +43,15 @@ public class ExerciseEventFindServiceTest {
 
     @Test
     void FindEvents_thenReturnsPageOfEvents() {
+        User user = new User(new UserBaseInfo("test@Bave.com","김태훈","url"), Role.MEMBER);
+
         Category category = Category.SOCCER;
         String description = "Soccer match in Seoul";
         City city = City.BUSAN;
         String searchBy = "title";
         int page = 0;
-        ExerciseEvent event1 = new ExerciseEvent();
-        ExerciseEvent event2 = new ExerciseEvent();
+        ExerciseEvent event1 = createEvent(user);
+        ExerciseEvent event2 = createEvent(user);
 
         List<ExerciseEvent> events = Arrays.asList(event1, event2);
         Page<ExerciseEvent> expectedPage = new PageImpl<>(events, PageRequest.of(page, 10),
@@ -54,11 +61,11 @@ public class ExerciseEventFindServiceTest {
                 description, page))
                 .willReturn(expectedPage);
 
-        Page<ExerciseEvent> result = exerciseEventFindService.findEvents(category, city, searchBy,
+        Page<EventResponseDto> result = exerciseEventFindService.findEvents(category, city, searchBy,
                 description,
                 page);
 
-        assertThat(result).isEqualTo(expectedPage);
+        assertThat(result.getSize()).isEqualTo(expectedPage.getSize());
     }
 
     @Test
@@ -81,6 +88,16 @@ public class ExerciseEventFindServiceTest {
         Optional<ExerciseEvent> result = exerciseEventFindService.findEventByEventId(eventId);
 
         assertThat(result).isNotPresent();
+    }
+
+    private ExerciseEvent createEvent(User user) {
+        return new ExerciseEventRegistrationDto(
+                new EventDetailDto("title", "Description", LocalDateTime.now(),
+                        LocalDateTime.now().plusHours(2)),
+                new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
+                new LocationDto(City.SEOUL, "서울시 강남구"),
+                Category.SOCCER
+        ).toEntity(user);
     }
 
 

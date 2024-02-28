@@ -1,4 +1,4 @@
-package com.example.fitconnect.domain.chat.dto;
+package com.example.fitconnect.dto.chat.request;
 
 import lombok.Getter;
 

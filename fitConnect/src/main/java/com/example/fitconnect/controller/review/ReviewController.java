@@ -1,9 +1,8 @@
 package com.example.fitconnect.controller.review;
 
 import com.example.fitconnect.config.annotation.CurrentUserId;
-import com.example.fitconnect.domain.review.Review;
-import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
-import com.example.fitconnect.domain.review.dto.ReviewUpdateDto;
+import com.example.fitconnect.dto.review.request.ReviewRegistrationDto;
+import com.example.fitconnect.dto.review.request.ReviewUpdateDto;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.service.review.ReviewCreationService;
 import com.example.fitconnect.service.review.ReviewDeletionService;

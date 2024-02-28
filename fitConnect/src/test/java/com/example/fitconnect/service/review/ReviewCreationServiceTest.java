@@ -1,15 +1,18 @@
 package com.example.fitconnect.service.review;
 
+import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.dto.EventDetailDto;
-import com.example.fitconnect.domain.event.dto.ExerciseEventRegistrationDto;
-import com.example.fitconnect.domain.event.dto.LocationDto;
-import com.example.fitconnect.domain.event.dto.RecruitmentPolicyDto;
+import com.example.fitconnect.domain.user.domain.Role;
+import com.example.fitconnect.domain.user.domain.UserBaseInfo;
+import com.example.fitconnect.dto.event.request.EventDetailDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
+import com.example.fitconnect.dto.event.request.LocationDto;
+import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.domain.review.Review;
-import com.example.fitconnect.domain.review.dto.ReviewRegistrationDto;
+import com.example.fitconnect.dto.review.request.ReviewRegistrationDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
@@ -26,6 +29,9 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,7 +41,6 @@ public class ReviewCreationServiceTest {
 
     @InjectMocks
     private ReviewCreationService reviewCreationService;
-
     @Mock
     private UserFindService userFindService;
 
@@ -44,11 +49,9 @@ public class ReviewCreationServiceTest {
 
     @Mock
     private ReviewRepository reviewRepository;
-    @Mock
-    private UserRepository userRepository;
 
     @Mock
-    private ExerciseEventRepository exerciseEventRepository;
+    private ReviewFindService reviewFindService;
 
 
     @ParameterizedTest
@@ -59,14 +62,13 @@ public class ReviewCreationServiceTest {
         Long userId = 1L;
         ReviewRegistrationDto registrationDto = new ReviewRegistrationDto(content, rating,
                 exerciseEventId);
-        User user = new User();
+        User user = new User(new UserBaseInfo("test@naver.com","hoon","url"),Role.MEMBER);
         ExerciseEvent exerciseEvent = createEvent(user);
 
         when(userFindService.findUserByUserId(userId)).thenReturn(Optional.of(user));
         when(exerciseEventFindService.findEventByEventId(exerciseEventId)).thenReturn(
                 Optional.of(exerciseEvent));
         when(reviewRepository.save(any(Review.class))).thenReturn(new Review(content,rating,user,exerciseEvent));
-
         ReviewResponseDto createdReview = reviewCreationService.createReview(registrationDto, userId);
 
         assertThat(createdReview).isNotNull();
@@ -105,6 +107,25 @@ public class ReviewCreationServiceTest {
                 new LocationDto(City.SEOUL, "서울시 강남구"),
                 Category.SOCCER
         ).toEntity(user);
+    }
+    @Test
+    public void createReview_ReviewAlreadyExists() {
+        Long userId = 1L;
+        Long exerciseEventId = 1L;
+        ReviewRegistrationDto registrationDto = new ReviewRegistrationDto("Great review", 5.0, exerciseEventId);
+        User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"), Role.MEMBER);
+
+        ExerciseEvent exerciseEvent = createEvent(user);
+
+        Review existingReview = new Review("Existing review", 4.0, user, exerciseEvent);
+
+        when(userFindService.findUserByUserId(anyLong())).thenReturn(Optional.of(user));
+        when(exerciseEventFindService.findEventByEventId(anyLong())).thenReturn(Optional.of(exerciseEvent));
+        when(reviewFindService.findReviewByUserIdAndEventId(any(), any())).thenReturn(Optional.of(existingReview));
+
+
+        assertThatThrownBy(() -> reviewCreationService.createReview(registrationDto, userId))
+                .isInstanceOf(BusinessException.class);
     }
 
 }

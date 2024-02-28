@@ -45,7 +45,9 @@ public enum ErrorMessages {
     CHATROOM_ALREADY_EXISTS("이미 해당 이벤트에 대한 채팅방이 존재합니다."),
     UNAUTHORIZED_CREATE_CHATROOM("채팅방 생성 권한이 없습니다."),
 
-    EVENT_MAX_PARTICIPANTS_REACHED ("이벤트 참가자 수가 최대치에 도달했습니다.");
+    EVENT_MAX_PARTICIPANTS_REACHED ("이벤트 참가자 수가 최대치에 도달했습니다."),
+
+    Review_AlREADY_WRITTEN("전에 작성한 리뷰가 있습니다.");
 
 
     private final String message;

@@ -5,19 +5,23 @@ import { Button } from 'react-bootstrap';
 const RegistrationButton = ({ eventId }) => {
   const createRegistration = async () => {
     try {
-      const response = await axios.post('/api/registrations/'+eventId, null, {
-      });
+      const response = await axios.post('/api/registrations/' + eventId, null);
       alert('신청이 완료되었습니다.');
       console.log(response.data);
+      window.location.href = '/mypage?tab=registeredEvents'
     } catch (error) {
-      console.error('신청 중 오류가 발생했습니다:', error);
-      alert('신청 중 오류가 발생했습니다.');
+      const errorMessage = error.response?.data; // 서버로부터 오류 코드 받기
+      let message = '신청 중 오류가 발생했습니다.';
+      if(errorMessage){
+        message = errorMessage;
+      }
+      console.error(message, error);
+      alert(message);
     }
   };
 
-  return (
-      <Button variant="primary" onClick={createRegistration}>신청하기</Button>
-  );
+  return <Button variant="primary" onClick={createRegistration}>신청하기</Button>;
 };
+
 
 export default RegistrationButton;

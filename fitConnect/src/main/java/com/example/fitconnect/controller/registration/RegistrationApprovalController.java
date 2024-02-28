@@ -20,17 +20,16 @@ public class RegistrationApprovalController {
     private final RegistrationApprovalService approvalService;
 
     @PostMapping("/{registrationId}/approve")
-    public ResponseEntity<Registration> approveRegistration(@PathVariable Long registrationId,
-            @RequestParam Long eventId, @CurrentUserId Long userId) {
+    public ResponseEntity<Void> approveRegistration(@PathVariable Long registrationId,
+            @RequestParam Long eventId) {
 
-        approvalService.approveRegistration(registrationId, userId, eventId);
+        approvalService.approveRegistration(registrationId, eventId);
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{registrationId}/deny")
-    public ResponseEntity<Registration> denyRegistration(@PathVariable Long registrationId,
-            @CurrentUserId Long userId) {
-        approvalService.denyRegistration(registrationId, userId);
+    public ResponseEntity<Void> denyRegistration(@PathVariable Long registrationId) {
+        approvalService.denyRegistration(registrationId);
         return ResponseEntity.ok().build();
     }
 

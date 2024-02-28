@@ -1,20 +1,16 @@
 package com.example.fitconnect.service.review;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
-import com.example.fitconnect.config.exception.BusinessException;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
-import com.example.fitconnect.domain.review.dto.ReviewUpdateDto;
+import com.example.fitconnect.dto.review.request.ReviewUpdateDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.repository.user.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -11,9 +11,12 @@ public class ReviewResponseDto {
     private String reviewContent;
     private Long eventId;
     private String eventTitle;
+
+    private String nickName;
     private LocalDateTime eventStartTime;
     private LocalDateTime eventEndTime;
 
+    private String nickname;
     private double rating;
 
 
@@ -22,11 +25,12 @@ public class ReviewResponseDto {
 
 
     public ReviewResponseDto(Long eventId, String eventTitle, LocalDateTime eventStartTime,
-            LocalDateTime eventEndTime, Long reviewId, String reviewContent, double rating) {
+            LocalDateTime eventEndTime,String nickname, Long reviewId, String reviewContent, double rating) {
         this.eventId = eventId;
         this.eventTitle = eventTitle;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
+        this.nickname = nickname;
         this.reviewId = reviewId;
         this.reviewContent = reviewContent;
         this.rating = rating;
@@ -39,6 +43,9 @@ public class ReviewResponseDto {
             dto.eventTitle = review.getExerciseEvent().getEventDetail().getTitle();
             dto.eventStartTime = review.getExerciseEvent().getEventDetail().getStartDate();
             dto.eventEndTime = review.getExerciseEvent().getEventDetail().getEndDate();
+        }
+        if (review.getUser() != null) {
+            dto.nickName = review.getUser().getUserBaseInfo().getNickname();
         }
         dto.reviewId = review.getId();
         dto.reviewContent = review.getContent();
