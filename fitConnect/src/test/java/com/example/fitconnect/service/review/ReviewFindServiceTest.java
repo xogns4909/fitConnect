@@ -94,4 +94,31 @@ public class ReviewFindServiceTest {
                 () -> reviewFindService.findReviewsByExerciseEvent(exerciseEventId, 1, 10,
                         "rating"));
     }
+
+    @Test
+    public void findReviewByUserIdAndEventId_Exists() {
+        Long userId = 1L;
+        Long eventId = 1L;
+        Review mockReview = new Review();
+
+        when(reviewRepository.findByUserIdAndExerciseEventId(userId, eventId)).thenReturn(Optional.of(mockReview));
+
+        Optional<Review> result = reviewFindService.findReviewByUserIdAndEventId(userId, eventId);
+
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(mockReview);
+    }
+
+    @Test
+    public void findReviewByUserIdAndEventId_NotExist() {
+        Long userId = 1L;
+        Long eventId = 1L;
+
+        when(reviewRepository.findByUserIdAndExerciseEventId(userId, eventId)).thenReturn(Optional.empty());
+
+        Optional<Review> result = reviewFindService.findReviewByUserIdAndEventId(userId, eventId);
+
+        assertThat(result).isNotPresent();
+    }
+
 }

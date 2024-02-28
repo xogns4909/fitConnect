@@ -12,6 +12,7 @@ import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
@@ -67,5 +68,39 @@ public class ReviewRepositoryImplTest {
         ExerciseEvent exerciseEvent = new ExerciseEventRegistrationDto(eventDetailDto,
                 recruitmentPolicyDto, locationDto, category).toEntity(user);
         return exerciseEvent;
+    }
+
+    @Test
+    public void findByUserIdAndExerciseEventId_Exists() {
+        User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"), Role.MEMBER);
+        entityManager.persist(user);
+
+        ExerciseEvent event = createExerciseEvent(user);
+        entityManager.persist(event);
+
+        Review review = new Review("Excellent event!", 5.0, user, event);
+        entityManager.persist(review);
+
+        entityManager.flush();
+
+        Optional<Review> foundReview = reviewRepositoryImpl.findByUserIdAndExerciseEventId(user.getId(), event.getId());
+
+        assertThat(foundReview).isPresent();
+        assertThat(foundReview.get()).isEqualTo(review);
+    }
+
+    @Test
+    public void findByUserIdAndExerciseEventId_NotExist() {
+        User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"), Role.MEMBER);
+        entityManager.persist(user);
+
+        ExerciseEvent event = createExerciseEvent(user);
+        entityManager.persist(event);
+
+        entityManager.flush();
+
+        Optional<Review> foundReview = reviewRepositoryImpl.findByUserIdAndExerciseEventId(user.getId(), 999L);
+
+        assertThat(foundReview).isNotPresent();
     }
 }

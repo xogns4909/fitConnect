@@ -8,6 +8,7 @@ import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,5 +33,9 @@ public class ReviewFindService {
 
     public Page<ReviewResponseDto> findReviewsByUserId(Long userId, Pageable pageable){
         return  reviewRepository.findReviewsByUserId(userId,pageable).map(ReviewResponseDto::toDto);
+    }
+
+    public Optional<Review> findReviewByUserIdAndEventId(Long userId,Long eventId){
+        return reviewRepository.findByUserIdAndExerciseEventId(userId,eventId);
     }
 }

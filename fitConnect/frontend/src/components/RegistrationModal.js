@@ -38,7 +38,9 @@ const RegistrationModal = ({ eventId, show, onHide }) => {
             await axios.post(endpoint);
             fetchRegistrations();
         } catch (error) {
+            const errorMessage = error.response?.data || "승인/거부 처리 중 오류가 발생했습니다.";
             console.error('Error updating registration:', error);
+            alert(errorMessage);
         }
     };
 
