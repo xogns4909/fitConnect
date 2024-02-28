@@ -47,7 +47,8 @@ public enum ErrorMessages {
 
     EVENT_MAX_PARTICIPANTS_REACHED ("이벤트 참가자 수가 최대치에 도달했습니다."),
 
-    Review_AlREADY_WRITTEN("전에 작성한 리뷰가 있습니다.");
+    Review_AlREADY_WRITTEN("전에 작성한 리뷰가 있습니다."),
+    REGISTRATION_PERIOD_CLOSED ("신청 가능 시간이 아닙니다.");
 
 
     private final String message;

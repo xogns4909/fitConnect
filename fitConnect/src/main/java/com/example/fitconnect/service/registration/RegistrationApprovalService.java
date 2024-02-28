@@ -11,6 +11,7 @@ import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.registration.RegistrationStatus;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,13 +36,26 @@ public class RegistrationApprovalService {
         long approvedCount = countApprovedRegistrations(eventId);
 
         validationMaxParticipants(approvedCount, event);
+        validationRegistrationTime(event);
         registration.approve();
+
     }
+
+
 
     @Transactional
     public void denyRegistration(Long registrationId) {
         Registration registration = findRegistration(registrationId);
         registration.deny();
+    }
+
+
+    private void validationRegistrationTime(ExerciseEvent event) {
+        LocalDateTime now = LocalDateTime.now();
+        if(now.isBefore(event.getRegistrationPolicy().getRegistrationStart())
+                || now.isAfter(event.getRegistrationPolicy().getRegistrationEnd())) {
+            throw new BusinessException(ErrorMessages.REGISTRATION_PERIOD_CLOSED);
+        }
     }
 
     private void validationMaxParticipants(long approvedCount, ExerciseEvent event) {
