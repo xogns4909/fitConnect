@@ -1,10 +1,15 @@
 import React from 'react';
 import { Card, Row, Col, Button } from 'react-bootstrap';
 import { translateCity, translateCategory } from './Translations';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const EventListComponent = ({ events }) => {
+  const navigate = useNavigate();
+
   const handleClick = (eventId) => {
-    window.location.href = `/events/${eventId}`;
+    navigate(`/events/${eventId}`);
   };
 
   const formatDate = (dateString) => {
