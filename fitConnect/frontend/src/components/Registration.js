@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ const RegistrationButton = ({ eventId }) => {
 
   const createRegistration = async () => {
     try {
-      const response = await axios.post('/api/registrations/' + eventId, null);
+      const response = await axiosInstance.post('/api/registrations/' + eventId, null);
       alert('신청이 완료되었습니다.');
       console.log(response.data);
       navigate('/mypage?tab=registeredEvents');

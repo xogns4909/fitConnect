@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import {Button, Modal, Form} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -24,7 +24,7 @@ const CreateChatRoom = ({eventId}) => {
     }
     console.log(eventId);
     try {
-      await axios.post('/api/chatrooms', {
+      await axiosInstance.post('/api/chatrooms', {
         title,
         exerciseEventId: eventId,
       });

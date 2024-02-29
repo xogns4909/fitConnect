@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import MessageUpdateMenu from "./MessageUpdateMenu";
 
 const ChatModal = ({ show, onHide, chatRoomId }) => {
@@ -16,7 +16,7 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
 
     const fetchCurrentUserInfo = async () => {
       try {
-        const { data } = await axios.get('/user');
+        const { data } = await axiosInstance.get('/user');
         setCurrentUserId(data.id);
       } catch (error) {
         console.error('Failed to fetch current user info:', error);
@@ -48,7 +48,7 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
 
   const fetchMessages = async () => {
     try {
-      const response = await axios.get(`/api/chatmessages?chatRoomId=${chatRoomId}`);
+      const response = await axiosInstance.get(`/api/chatmessages?chatRoomId=${chatRoomId}`);
       setMessages(response.data.reverse());
     } catch (error) {
       console.error('Failed to fetch messages:', error);
@@ -80,7 +80,7 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
 
 
     try {
-      await axios.delete(`/api/chatmessages/${messageId}`);
+      await axiosInstance.delete(`/api/chatmessages/${messageId}`);
       setMessages(currentMessages => currentMessages.filter(msg => msg.id !== messageId));
       fetchMessages()
     } catch (error) {

@@ -1,6 +1,6 @@
 // UserInfo.js
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 
 const UserInfo = () => {
@@ -14,7 +14,7 @@ const UserInfo = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await axios.get('/user');
+      const response = await axiosInstance.get('/user');
       console.log(response.data);
       setUser({
         nickname: response.data.userBaseInfo.nickname,
@@ -34,7 +34,7 @@ const UserInfo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put('/user', {
+      await axiosInstance.put('/user', {
         nickname: user.nickname,
       });
       setEditMode(false);

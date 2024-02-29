@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import EventCreationForm from '../components/EventCreationForm';
 import NavbarComponent from '../components/Navbar';
 const EventCreatePage = () => {
@@ -7,7 +7,7 @@ const EventCreatePage = () => {
 
   const onCreate = async (eventData) => {
     try {
-      const response = await axios.post('/api/events/register', eventData, {
+      const response = await axiosInstance.post('/api/events/register', eventData, {
         headers: {
           'Content-Type': 'application/json'
         }

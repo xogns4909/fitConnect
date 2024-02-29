@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 
 const ReviewForm = ({ show, handleClose, eventId, onReviewSubmitted }) => {
   const [content, setContent] = useState('');
@@ -13,7 +13,7 @@ const ReviewForm = ({ show, handleClose, eventId, onReviewSubmitted }) => {
         rating,
         exerciseEventId: eventId,
       };
-      await axios.post(`/api/reviews`, reviewRegistrationDto);
+      await axiosInstance.post(`/api/reviews`, reviewRegistrationDto);
       onReviewSubmitted();
       alert("요청이 성공적으로 처리되었습니다.");
       handleClose();

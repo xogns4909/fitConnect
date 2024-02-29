@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import {ListGroup, Button, Pagination} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 import ReviewForm from './ReviewForm';
@@ -20,7 +20,7 @@ const RegisteredEventsList = () => {
   const fetchRegisteredEvents = async () => {
     try {
       const params = {page: currentPage, size: pageSize};
-      const response = await axios.get(`/mypage/registrations`, {params});
+      const response = await axiosInstance.get(`/mypage/registrations`, {params});
       setEvents(response.data.content || []);
       setTotalPages(response.data.totalPages || 0);
       console.log(events)
@@ -31,7 +31,7 @@ const RegisteredEventsList = () => {
 
   const handleCancelRegistration = async (registrationId) => {
     try {
-      await axios.delete(`/api/registrations/${registrationId}`);
+      await axiosInstance.delete(`/api/registrations/${registrationId}`);
       fetchRegisteredEvents();
     } catch (error) {
       console.error('Error cancelling registration:', error);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, ListGroup, Pagination } from 'react-bootstrap';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 
 const RegistrationModal = ({ eventId, show, onHide }) => {
     const [registrations, setRegistrations] = useState([]);
@@ -17,7 +17,7 @@ const RegistrationModal = ({ eventId, show, onHide }) => {
     const fetchRegistrations = async () => {
         try {
             const params = { page: currentPage, size: pageSize };
-            const response = await axios.get(`/api/registrations/${eventId}`, { params });
+            const response = await axiosInstance.get(`/api/registrations/${eventId}`, { params });
             setRegistrations(response.data.content || []);
             setTotalPages(response.data.totalPages || 0);
         } catch (error) {
@@ -35,7 +35,7 @@ const RegistrationModal = ({ eventId, show, onHide }) => {
             const endpoint = approved
                 ? `/api/registrations/${registrationId}/approve?eventId=${eventId}`
                 : `/api/registrations/${registrationId}/deny`;
-            await axios.post(endpoint);
+            await axiosInstance.post(endpoint);
             fetchRegistrations();
         } catch (error) {
             const errorMessage = error.response?.data || "승인/거부 처리 중 오류가 발생했습니다.";
