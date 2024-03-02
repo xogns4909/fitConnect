@@ -1,6 +1,6 @@
 package com.example.fitconnect.service.chat.chatMessage;
 
-import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.global.error.ErrorMessages;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
 import org.junit.jupiter.api.Test;
@@ -8,8 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import com.example.fitconnect.config.exception.EntityNotFoundException;
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
+import com.example.fitconnect.global.exception.BusinessException;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;

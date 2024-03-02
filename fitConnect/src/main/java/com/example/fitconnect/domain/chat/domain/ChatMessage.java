@@ -1,7 +1,7 @@
 package com.example.fitconnect.domain.chat.domain;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.error.ErrorMessages;
+import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.domain.global.BaseEntity;
 import com.example.fitconnect.domain.user.domain.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;

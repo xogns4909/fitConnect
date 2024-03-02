@@ -3,8 +3,8 @@ package com.example.fitconnect.service.event;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
-import com.example.fitconnect.config.exception.BusinessException;
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.exception.BusinessException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;

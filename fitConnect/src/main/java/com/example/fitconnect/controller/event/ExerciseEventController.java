@@ -1,6 +1,6 @@
 package com.example.fitconnect.controller.event;
 
-import com.example.fitconnect.config.annotation.CurrentUserId;
+import com.example.fitconnect.global.annotation.CurrentUserId;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;

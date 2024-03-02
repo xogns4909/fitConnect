@@ -1,6 +1,6 @@
 package com.example.fitconnect.config.web;
 
-import com.example.fitconnect.config.resolver.CurrentUserIdArgumentResolver;
+import com.example.fitconnect.global.resolver.CurrentUserIdArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

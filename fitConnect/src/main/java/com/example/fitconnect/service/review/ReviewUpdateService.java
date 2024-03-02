@@ -1,7 +1,7 @@
 package com.example.fitconnect.service.review;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.error.ErrorMessages;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.dto.review.request.ReviewUpdateDto;
 import com.example.fitconnect.domain.user.domain.User;

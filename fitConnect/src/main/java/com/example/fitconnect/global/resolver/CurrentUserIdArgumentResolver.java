@@ -1,6 +1,6 @@
-package com.example.fitconnect.config.resolver;
+package com.example.fitconnect.global.resolver;
 
-import com.example.fitconnect.config.annotation.CurrentUserId;
+import com.example.fitconnect.global.annotation.CurrentUserId;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

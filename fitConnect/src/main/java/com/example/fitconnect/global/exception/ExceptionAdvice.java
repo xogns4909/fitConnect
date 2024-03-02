@@ -1,6 +1,6 @@
-package com.example.fitconnect.config.exception;
+package com.example.fitconnect.global.exception;
 
-import com.example.fitconnect.config.error.ErrorMessages;
+import com.example.fitconnect.global.error.ErrorMessages;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;;
 import org.springframework.web.bind.annotation.ExceptionHandler;

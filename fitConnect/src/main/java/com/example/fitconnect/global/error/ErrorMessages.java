@@ -1,4 +1,4 @@
-package com.example.fitconnect.config.error;
+package com.example.fitconnect.global.error;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

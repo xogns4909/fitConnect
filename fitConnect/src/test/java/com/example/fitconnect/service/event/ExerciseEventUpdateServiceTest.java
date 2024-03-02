@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.*;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;

@@ -1,8 +1,8 @@
 package com.example.fitconnect.service.review;
 
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.error.ErrorMessages;
+import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.review.ReviewRepository;

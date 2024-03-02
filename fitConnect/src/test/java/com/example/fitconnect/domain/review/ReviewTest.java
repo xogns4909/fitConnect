@@ -1,8 +1,6 @@
 package com.example.fitconnect.domain.review;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
 import org.assertj.core.api.Assertions;

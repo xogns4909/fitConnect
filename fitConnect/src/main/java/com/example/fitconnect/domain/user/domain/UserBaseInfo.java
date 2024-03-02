@@ -1,7 +1,7 @@
 package com.example.fitconnect.domain.user.domain;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.error.ErrorMessages;
+import com.example.fitconnect.global.exception.BusinessException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import java.util.regex.Pattern;

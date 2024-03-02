@@ -1,8 +1,8 @@
 package com.example.fitconnect.service.event;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.error.ErrorMessages;
+import com.example.fitconnect.global.exception.BusinessException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import lombok.RequiredArgsConstructor;

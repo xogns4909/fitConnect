@@ -1,7 +1,7 @@
 package com.example.fitconnect.domain.event.domain;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.error.ErrorMessages;
+import com.example.fitconnect.global.exception.BusinessException;
 import jakarta.persistence.Embeddable;
 import java.time.LocalDateTime;
 import lombok.Getter;

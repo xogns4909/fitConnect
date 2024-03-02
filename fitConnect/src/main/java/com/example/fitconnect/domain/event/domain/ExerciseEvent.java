@@ -1,7 +1,7 @@
 package com.example.fitconnect.domain.event.domain;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.error.ErrorMessages;
+import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
 import com.example.fitconnect.domain.global.BaseEntity;

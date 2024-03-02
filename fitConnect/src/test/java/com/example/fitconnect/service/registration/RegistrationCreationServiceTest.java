@@ -5,8 +5,8 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.lenient;
 
-import com.example.fitconnect.config.exception.BusinessException;
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.exception.BusinessException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.user.domain.User;
