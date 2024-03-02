@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.fitconnect.auth.service.JwtService;
-import com.example.fitconnect.config.service.CommonService;
 import com.example.fitconnect.service.registration.RegistrationApprovalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +25,6 @@ class RegistrationApprovalControllerTest {
     private RegistrationApprovalService approvalService;
 
 
-    @MockBean
-    private JwtService jwtService;
-
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(
@@ -39,13 +34,14 @@ class RegistrationApprovalControllerTest {
     @Test
     void approveRegistration_Success() throws Exception {
         Long registrationId = 1L;
-        Long adminId = 2L;
+        Long eventId = 2L;
 
         mockMvc.perform(post("/api/registrations/" + registrationId + "/approve")
-                        .param("adminId", adminId.toString())
+                        .param("eventId", eventId.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
 
     @Test
     void denyRegistration_Success() throws Exception {

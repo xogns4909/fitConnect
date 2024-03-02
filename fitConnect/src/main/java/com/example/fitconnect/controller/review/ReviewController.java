@@ -33,12 +33,12 @@ public class ReviewController {
 
     }
 
-    @PutMapping("/{reviewId}")
+    @PatchMapping("/{reviewId}")
     public ResponseEntity<Void> updateReview(@PathVariable Long reviewId,
             @RequestBody ReviewUpdateDto reviewUpdateDto,
             @CurrentUserId Long userId) {
         reviewUpdateService.updateReview(reviewId, reviewUpdateDto, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{reviewId}")

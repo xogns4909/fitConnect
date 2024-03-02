@@ -1,6 +1,5 @@
 package com.example.fitconnect.service.chat.chatMessage;
 
-import com.example.fitconnect.config.Convertor.ChatMessageConvertor;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.dto.chatMessage.response.ChatMessageResponseDto;
 import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
@@ -24,7 +23,7 @@ public class ChatMessageFindService {
     public List<ChatMessageResponseDto> findChatMessagesByChatRoomId(Long chatRoomId) {
         List<ChatMessage> messages = chatMessageRepository.findMessagesByChatRoomId(
                 chatRoomId);
-        return messages.stream().map(ChatMessageConvertor::convertToResponseDto).collect(Collectors.toList());
+        return messages.stream().map(ChatMessageResponseDto::toDto).collect(Collectors.toList());
     }
 
     

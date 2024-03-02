@@ -2,7 +2,6 @@ package com.example.fitconnect.config.resolver;
 
 import com.example.fitconnect.config.annotation.CurrentUserId;
 import org.springframework.core.MethodParameter;
-import org.springframework.messaging.Message;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.support.WebDataBinderFactory;

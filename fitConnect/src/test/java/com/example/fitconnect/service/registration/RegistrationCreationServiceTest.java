@@ -1,7 +1,7 @@
 package com.example.fitconnect.service.registration;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.lenient;
 
@@ -10,11 +10,11 @@ import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
 import com.example.fitconnect.repository.user.UserRepository;
 import java.util.Optional;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,6 +53,8 @@ class RegistrationCreationServiceTest {
     void createRegistration_Success() {
         given(userRepository.findById(validUserId)).willReturn(Optional.of(testUser));
         given(exerciseEventRepository.findById(validEventId)).willReturn(Optional.of(testEvent));
+        given(registrationService.createRegistration(anyLong(), anyLong())).willReturn(
+                new RegistrationResponseDto());
 
         assertThatCode(() -> registrationService.createRegistration(validUserId, validEventId))
                 .doesNotThrowAnyException();

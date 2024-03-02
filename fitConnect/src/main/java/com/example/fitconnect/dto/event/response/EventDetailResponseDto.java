@@ -2,16 +2,11 @@ package com.example.fitconnect.dto.event.response;
 
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
-import com.example.fitconnect.domain.event.domain.ExerciseEvent;
-import com.example.fitconnect.domain.event.domain.Location;
-import com.example.fitconnect.dto.event.request.EventDetailDto;
-import com.example.fitconnect.dto.event.request.LocationDto;
-import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
+import com.example.fitconnect.domain.event.domain.ExerciseEvent;;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.dto.user.response.UserResponseDto;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Getter;
 
 @Getter

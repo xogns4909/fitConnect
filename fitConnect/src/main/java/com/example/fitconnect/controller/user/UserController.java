@@ -10,14 +10,13 @@ import com.example.fitconnect.service.user.UserDeleteService;
 import com.example.fitconnect.service.user.UserFindService;
 import com.example.fitconnect.service.user.UserUpdateService;
 import jakarta.servlet.http.HttpSession;
-import java.util.Map;
 import jdk.jshell.Snippet.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,20 +35,19 @@ public class UserController {
 
 
     @PostMapping("/api/auth/google")
-    public ResponseEntity<Map<String, String>> login(@RequestBody String token,
+    public ResponseEntity<Void> login(@RequestBody String token,
             HttpSession session) {
         GoogleInfoDto authenticate = authService.authenticate(token);
-        Map<String, String> tokens = loginService.processUserLogin(authenticate);
-        session.setAttribute("accessToken", tokens.get("accessToken"));
-        session.setAttribute("refreshToken", tokens.get("refreshToken"));
-        return ResponseEntity.ok(tokens);
+        Long userId = loginService.processUserLogin(authenticate);
+        session.setAttribute("userId",userId);
+        return ResponseEntity.ok().build();
 
     }
 
     @PostMapping("/api/auth/logout")
     public ResponseEntity<Status> logout(HttpSession session) {
-        session.removeAttribute("accessToken");
-        session.removeAttribute("refreshToken");
+        session.removeAttribute("userId");
+        session.invalidate();
         return ResponseEntity.ok().build();
     }
 
@@ -59,17 +57,17 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PutMapping("user")
+    @PatchMapping("user")
     public ResponseEntity<Void> updateUser(@RequestBody UserUpdateDto userUpdateDto,
             @CurrentUserId Long userId) {
         userUpdateService.updateUser(userUpdateDto, userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("user")
     public ResponseEntity<Void> deleteUser(@CurrentUserId Long userId) {
         userDeleteService.deleteUser(userId);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -1,10 +1,15 @@
 package com.example.fitconnect.controller.chat;
 
-import com.example.fitconnect.auth.service.JwtService;
-import com.example.fitconnect.dto.chat.request.ChatMessageUpdateDto;
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
+import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.chat.request.ChatRoomUpdateDto;
+import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageDeleteService;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageFindService;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageUpdateService;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomUpdateService;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,9 +23,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,7 +47,11 @@ public class ChatMessageControllerTest {
     private ChatMessageFindService chatMessageFindService;
 
     @MockBean
-    private JwtService jwtService;
+    private ChatRoomUpdateService chatRoomUpdateService;
+
+    @MockBean
+    private ChatRoomRepository chatRoomRepository;
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -52,14 +64,19 @@ public class ChatMessageControllerTest {
     }
 
     @Test
-    void updateChatMessage_Success() throws Exception {
-        Long userId = 1L;
-        ChatMessageUpdateDto updateDto = new ChatMessageUpdateDto("content", 1L);
+    public void updateChatRoom_Success() throws Exception {
+        ChatRoomUpdateDto updateDto = new ChatRoomUpdateDto("New Title", 1L);
+        Long chatRoomId = 1L;
+        doNothing().when(chatRoomUpdateService)
+                .updateTitle(any(ChatRoomUpdateDto.class), anyLong(), anyLong());
 
-        mockMvc.perform(put("/api/chatmessages/1")
+        when(chatRoomRepository.findById(anyLong())).thenReturn(
+                Optional.of(new ChatRoom("title", new ExerciseEvent(), new User(), new User())));
+
+        mockMvc.perform(patch("/api/chatrooms/" + chatRoomId)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(updateDto)))
-                .andExpect(status().isOk());
+                        .content(new ObjectMapper().writeValueAsString(updateDto)))
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -70,7 +87,7 @@ public class ChatMessageControllerTest {
         doNothing().when(chatMessageDeleteService).deleteMessage(messageId, userId);
 
         mockMvc.perform(delete("/api/chatmessages/" + messageId))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 

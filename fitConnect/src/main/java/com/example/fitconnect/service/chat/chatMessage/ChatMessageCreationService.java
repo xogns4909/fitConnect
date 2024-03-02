@@ -1,6 +1,6 @@
 package com.example.fitconnect.service.chat.chatMessage;
 
-import com.example.fitconnect.config.Convertor.ChatMessageConvertor;
+
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
@@ -32,7 +32,7 @@ public class ChatMessageCreationService {
 
         ChatMessage chatMessage = new ChatMessage(message, chatRoom, sender);
         ChatMessage saveChatMessage = chatMessageRepository.save(chatMessage);
-        return ChatMessageConvertor.convertToResponseDto(saveChatMessage);
+        return ChatMessageResponseDto.toDto(saveChatMessage);
 
     }
 

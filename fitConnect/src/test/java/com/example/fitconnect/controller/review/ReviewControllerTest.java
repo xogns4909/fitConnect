@@ -10,11 +10,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.dto.review.request.ReviewRegistrationDto;
@@ -62,9 +62,6 @@ class ReviewControllerTest {
     private ReviewFindService reviewFindService;
 
     @Mock
-    private JwtService jwtService;
-
-    @Mock
     private ReviewRepository reviewRepository;
     @InjectMocks
     private ReviewController reviewController;
@@ -104,11 +101,11 @@ class ReviewControllerTest {
         doNothing().when(reviewUpdateService)
                 .updateReview(anyLong(), any(ReviewUpdateDto.class), anyLong());
 
-        mockMvc.perform(put("/api/reviews/" + reviewId)
+        mockMvc.perform(patch("/api/reviews/" + reviewId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(convertToJson(reviewUpdateDto))
                         .sessionAttr("userId", userId))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 
@@ -124,7 +121,7 @@ class ReviewControllerTest {
         mockMvc.perform(delete("/api/reviews/" + reviewId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .sessionAttr("userId", userId))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 

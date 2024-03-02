@@ -2,7 +2,6 @@ package com.example.fitconnect.service.chat.chatRoom;
 
 import com.example.fitconnect.config.error.ErrorMessages;
 import com.example.fitconnect.config.exception.EntityNotFoundException;
-import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
 import java.util.Optional;

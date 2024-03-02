@@ -18,10 +18,9 @@ public class ChatRoomUpdateService {
     private final ChatRoomFindService chatRoomFindService;
 
     @Transactional
-    public void updateTitle(ChatRoomUpdateDto chatRoomUpdateDto,Long userId) {
+    public void updateTitle(ChatRoomUpdateDto chatRoomUpdateDto,Long userId,Long chatRoomId) {
 
-        ChatRoom chatRoom = chatRoomFindService.findChatRoomByChatRoomId(
-                        chatRoomUpdateDto.getChatRoomId())
+        ChatRoom chatRoom = chatRoomFindService.findChatRoomByChatRoomId(chatRoomId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.CHATROOM_NOT_FOUND));
 
         chatRoom.validateCreator(userId);

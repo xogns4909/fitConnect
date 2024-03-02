@@ -1,6 +1,5 @@
 package com.example.fitconnect.controller.chat;
 
-import com.example.fitconnect.auth.service.JwtService;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.dto.chat.request.ChatRoomRegistrationDto;
 import com.example.fitconnect.dto.chat.request.ChatRoomUpdateDto;
@@ -38,8 +37,7 @@ public class ChatRoomControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    JwtService jwtService;
+
     @MockBean
     private ChatRoomCreationService chatRoomCreationService;
     @MockBean
@@ -87,15 +85,15 @@ public class ChatRoomControllerTest {
         ChatRoomUpdateDto updateDto = new ChatRoomUpdateDto("New Title", 1L);
         Long chatRoomId = 1L;
         doNothing().when(chatRoomUpdateService)
-                .updateTitle(any(ChatRoomUpdateDto.class), anyLong());
+                .updateTitle(any(ChatRoomUpdateDto.class), anyLong(),anyLong());
 
         when(chatRoomRepository.findById(anyLong())).thenReturn(
                 Optional.of(new ChatRoom("title", new ExerciseEvent(), new User(), new User())));
 
-        mockMvc.perform(put("/api/chatrooms")
+        mockMvc.perform(patch("/api/chatrooms/" + chatRoomId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(updateDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 
@@ -109,7 +107,7 @@ public class ChatRoomControllerTest {
 
         mockMvc.perform(delete("/api/chatrooms/" + chatRoomId)
                         .session(session))
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
 
     }
 
