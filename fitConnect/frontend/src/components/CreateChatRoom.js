@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import {Button, Modal, Form} from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 const CreateChatRoom = ({eventId}) => {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [title, setTitle] = useState('');
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [error, setError] = useState('');
+
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -21,14 +24,14 @@ const CreateChatRoom = ({eventId}) => {
     }
     console.log(eventId);
     try {
-      await axios.post('/api/chatrooms', {
+      await axiosInstance.post('/api/chatrooms', {
         title,
         exerciseEventId: eventId,
       });
       setTitle('');
       handleClose();
       alert('채팅방이 성공적으로 생성되었습니다!');
-      window.location.href = '/chatRooms'
+      navigate('/chatRooms');
     } catch (error) {
       const errorMessage = error.response?.data
           || '채팅방 생성에 실패했습니다. 다시 시도해주세요.';

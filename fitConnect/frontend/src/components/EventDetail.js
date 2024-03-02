@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import { Button, Card, ListGroup,ListGroupItem } from 'react-bootstrap';
 import RegistrationButton from '../components/Registration';
 import CreateChatRoom from "../components/CreateChatRoom";
@@ -11,7 +11,7 @@ const EventDetail = ({ eventId }) => {
   useEffect(() => {
     const fetchEventDetail = async () => {
       try {
-        const response = await axios.get(`/api/events/${eventId}/detail`);
+        const response = await axiosInstance.get(`/api/events/${eventId}/detail`);
         console.log("response = ",response.data)
         setEvent(response.data);
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Row, Col } from 'react-bootstrap';
 
@@ -22,7 +22,7 @@ const EventEditForm = () => {
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        const response = await axios.get(`/api/events/${eventId}/detail`);
+        const response = await axiosInstance.get(`/api/events/${eventId}/detail`);
         console.log(response.data)
 
         const formatDateTime = (dateTimeString) => {
@@ -57,7 +57,7 @@ const EventEditForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/api/events/${eventId}`, {
+      await axiosInstance.put(`/api/events/${eventId}`, {
             eventDetail: {
               title: eventData.title,
               description: eventData.description,
@@ -85,7 +85,7 @@ const EventEditForm = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/api/events/${eventId}`);
+      await axiosInstance.delete(`/api/events/${eventId}`);
       alert('Event deleted successfully');
       navigate('/events');
     } catch (error) {

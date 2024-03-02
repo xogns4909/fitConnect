@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import RegistrationModal from './RegistrationModal';
 import { Card, ListGroup, Button, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ const MyEventsList = () => {
 
   const fetchMyEvents = async (page) => {
     try {
-      const response = await axios.get(`/mypage/events?page=${page}&size=5`);
+      const response = await axiosInstance.get(`/mypage/events?page=${page}&size=5`);
       setMyEvents(response.data.content || []);
       setTotalPages(response.data.totalPages);
     } catch (error) {
@@ -29,7 +29,7 @@ const MyEventsList = () => {
 
   const handleDelete = async (eventId) => {
     try {
-      await axios.delete(`/api/events/${eventId}`);
+      await axiosInstance.delete(`/api/events/${eventId}`);
       alert("삭제 성공");
       fetchMyEvents(currentPage);
     } catch (error) {

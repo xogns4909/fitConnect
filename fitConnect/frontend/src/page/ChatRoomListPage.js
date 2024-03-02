@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../global/axiosConfig';
 import {
   Card,
   ListGroup,
@@ -30,7 +30,7 @@ const ChatRoomPage = () => {
         page,
         size: 10,
       };
-      const response = await axios.get(`/api/chatrooms/messages`, { params }); // API 엔드포인트 확인 필요
+      const response = await axiosInstance.get(`/api/chatrooms/messages`, { params }); // API 엔드포인트 확인 필요
       setChatRooms(response.data.content);
       setTotalPages(response.data.totalPages);
     } catch (error) {
@@ -46,7 +46,7 @@ const ChatRoomPage = () => {
 
   const handleDeleteChatRoom = async (chatRoomId) => {
     try {
-      await axios.delete(`/api/chatrooms/${chatRoomId}`);
+      await axiosInstance.delete(`/api/chatrooms/${chatRoomId}`);
       alert("채팅방이 성공적으로 삭제되었습니다.");
       fetchChatRooms(currentPage); // 채팅방 목록 다시 불러오기
     } catch (error) {
