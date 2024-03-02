@@ -57,7 +57,7 @@ const EventEditForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosInstance.put(`/api/events/${eventId}`, {
+      await axiosInstance.patch(`/api/events/${eventId}`, {
             eventDetail: {
               title: eventData.title,
               description: eventData.description,
