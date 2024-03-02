@@ -1,6 +1,5 @@
 package com.example.fitconnect.config.webSocket;
 
-import com.example.fitconnect.config.interceptor.CustomHandshakeInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

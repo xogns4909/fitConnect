@@ -2,7 +2,7 @@ package com.example.fitconnect.service.review;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;

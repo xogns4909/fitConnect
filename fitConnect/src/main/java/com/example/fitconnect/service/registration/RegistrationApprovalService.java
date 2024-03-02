@@ -1,11 +1,11 @@
 package com.example.fitconnect.service.registration;
 
-import static com.example.fitconnect.config.error.ErrorMessages.EVENT_MAX_PARTICIPANTS_REACHED;
-import static com.example.fitconnect.config.error.ErrorMessages.EVENT_NOT_FOUND;
+import static com.example.fitconnect.global.error.ErrorMessages.EVENT_MAX_PARTICIPANTS_REACHED;
+import static com.example.fitconnect.global.error.ErrorMessages.EVENT_NOT_FOUND;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.error.ErrorMessages;
+import com.example.fitconnect.global.exception.BusinessException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.registration.RegistrationStatus;

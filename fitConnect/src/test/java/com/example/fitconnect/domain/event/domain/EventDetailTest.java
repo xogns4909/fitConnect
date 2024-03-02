@@ -2,11 +2,9 @@ package com.example.fitconnect.domain.event.domain;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.example.fitconnect.config.error.ErrorMessages;
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.exception.BusinessException;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

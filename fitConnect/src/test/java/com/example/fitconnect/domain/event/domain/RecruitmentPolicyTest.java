@@ -2,7 +2,7 @@ package com.example.fitconnect.domain.event.domain;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.exception.BusinessException;
 import java.time.LocalDateTime;
 
 import java.util.stream.Stream;

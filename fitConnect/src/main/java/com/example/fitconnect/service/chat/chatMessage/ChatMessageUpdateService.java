@@ -1,8 +1,8 @@
 package com.example.fitconnect.service.chat.chatMessage;
 
-import static com.example.fitconnect.config.error.ErrorMessages.*;
+import static com.example.fitconnect.global.error.ErrorMessages.*;
 
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.dto.chat.request.ChatMessageUpdateDto;
 import lombok.RequiredArgsConstructor;

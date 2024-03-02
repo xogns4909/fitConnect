@@ -2,7 +2,7 @@ package com.example.fitconnect.controller.user;
 
 import com.example.fitconnect.auth.dto.GoogleInfoDto;
 import com.example.fitconnect.auth.service.AuthService;
-import com.example.fitconnect.config.annotation.CurrentUserId;
+import com.example.fitconnect.global.annotation.CurrentUserId;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.dto.user.request.UserUpdateDto;
 import com.example.fitconnect.service.user.LoginService;

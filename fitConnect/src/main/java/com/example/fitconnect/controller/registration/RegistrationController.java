@@ -1,6 +1,6 @@
 package com.example.fitconnect.controller.registration;
 
-import com.example.fitconnect.config.annotation.CurrentUserId;
+import com.example.fitconnect.global.annotation.CurrentUserId;
 import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.service.registration.RegistrationCancellationService;
 import com.example.fitconnect.service.registration.RegistrationCreationService;

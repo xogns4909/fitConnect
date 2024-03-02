@@ -1,7 +1,7 @@
 package com.example.fitconnect.service.chat;
 
-import com.example.fitconnect.config.exception.BusinessException;
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.exception.BusinessException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.dto.chat.request.ChatRoomRegistrationDto;
 import com.example.fitconnect.domain.event.domain.Category;

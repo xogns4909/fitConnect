@@ -1,4 +1,4 @@
-package com.example.fitconnect.config.annotation;
+package com.example.fitconnect.global.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

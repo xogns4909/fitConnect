@@ -1,6 +1,6 @@
 package com.example.fitconnect.domain;
 
-import com.example.fitconnect.config.exception.BusinessException;
+import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

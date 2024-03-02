@@ -1,7 +1,7 @@
 package com.example.fitconnect.controller.chat;
 
 
-import com.example.fitconnect.config.annotation.CurrentUserId;
+import com.example.fitconnect.global.annotation.CurrentUserId;
 import com.example.fitconnect.dto.chat.request.ChatMessageUpdateDto;
 import com.example.fitconnect.dto.chatMessage.response.ChatMessageResponseDto;
 import com.example.fitconnect.service.chat.chatMessage.ChatMessageDeleteService;

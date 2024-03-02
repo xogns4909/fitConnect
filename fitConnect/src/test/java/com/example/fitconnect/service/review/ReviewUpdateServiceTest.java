@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import static org.mockito.Mockito.*;
 
-import com.example.fitconnect.config.exception.EntityNotFoundException;
+import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.dto.review.request.ReviewUpdateDto;
