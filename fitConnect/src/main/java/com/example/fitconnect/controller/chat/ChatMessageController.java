@@ -32,14 +32,14 @@ public class ChatMessageController {
     private final ChatMessageFindService chatMessageFindService;
 
     @PatchMapping
-    public ResponseEntity<Status> updateChatMessage(
+    public ResponseEntity<Void> updateChatMessage(
             @RequestBody ChatMessageUpdateDto updateDto, @CurrentUserId Long userId) {
         chatMessageUpdateService.updateMessage(updateDto, userId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{messageId}")
-    public ResponseEntity<Status> deleteChatMessage(@PathVariable Long messageId,
+    public ResponseEntity<Void> deleteChatMessage(@PathVariable Long messageId,
             @CurrentUserId Long userId) {
         chatMessageDeleteService.deleteMessage(messageId, userId);
         return ResponseEntity.noContent().build();
