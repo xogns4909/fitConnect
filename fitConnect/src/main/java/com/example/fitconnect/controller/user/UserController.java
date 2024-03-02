@@ -3,6 +3,7 @@ package com.example.fitconnect.controller.user;
 import com.example.fitconnect.auth.dto.GoogleInfoDto;
 import com.example.fitconnect.auth.service.AuthService;
 import com.example.fitconnect.global.annotation.CurrentUserId;
+import com.example.fitconnect.dto.user.response.UserResponseDto;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.dto.user.request.UserUpdateDto;
 import com.example.fitconnect.service.user.LoginService;
@@ -10,7 +11,6 @@ import com.example.fitconnect.service.user.UserDeleteService;
 import com.example.fitconnect.service.user.UserFindService;
 import com.example.fitconnect.service.user.UserUpdateService;
 import jakarta.servlet.http.HttpSession;
-import jdk.jshell.Snippet.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,16 +45,17 @@ public class UserController {
     }
 
     @PostMapping("/api/auth/logout")
-    public ResponseEntity<Status> logout(HttpSession session) {
+    public ResponseEntity<Void> logout(HttpSession session) {
         session.removeAttribute("userId");
         session.invalidate();
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("user")
-    public ResponseEntity<User> getUserInfo(@CurrentUserId Long userId) {
+    public ResponseEntity<UserResponseDto> getUserInfo(@CurrentUserId Long userId) {
         User user = userFindService.findUserInfo(userId);
-        return ResponseEntity.ok(user);
+        UserResponseDto userResponseDto = new UserResponseDto().toDto(user);
+        return ResponseEntity.ok(userResponseDto);
     }
 
     @PatchMapping("user")
