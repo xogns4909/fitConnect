@@ -28,14 +28,12 @@ public class Registration extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonBackReference("user-registration")
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
     private User user;
 
-    @JsonBackReference
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exercise_event_id")
     private ExerciseEvent exerciseEvent;
 
     @Enumerated(EnumType.STRING)
@@ -49,19 +47,6 @@ public class Registration extends BaseEntity {
 
     public Registration() {
 
-    }
-
-    private void setUser(User user) {
-        this.user = user;
-        if(!user.getRegistrations().contains(this)) {
-            user.getRegistrations().add(this);
-        }
-    }
-    private void setExerciseEvent(ExerciseEvent exerciseEvent) {
-        this.exerciseEvent = exerciseEvent;
-        if(!exerciseEvent.getRegistrations().contains(this)){
-            exerciseEvent.getRegistrations().add(this);
-        }
     }
 
     public void cancel(Long userId) {

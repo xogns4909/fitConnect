@@ -5,6 +5,12 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.lenient;
 
+import com.example.fitconnect.domain.event.domain.Category;
+import com.example.fitconnect.domain.event.domain.City;
+import com.example.fitconnect.dto.event.request.EventDetailDto;
+import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
+import com.example.fitconnect.dto.event.request.LocationDto;
+import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
@@ -14,6 +20,7 @@ import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
 import com.example.fitconnect.repository.user.UserRepository;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +53,7 @@ class RegistrationCreationServiceTest {
     void setUp() {
         testUser = new User();
         testUser.setId(1L);
-        testEvent = new ExerciseEvent();
+        testEvent = createEvent(testUser);
     }
 
     @Test
@@ -82,7 +89,6 @@ class RegistrationCreationServiceTest {
     @Test
     void createRegistration_OrganizerCannotRegister() {
 
-        testEvent.setOrganizer(testUser);
 
         given(userRepository.findById(validUserId)).willReturn(Optional.of(testUser));
         given(exerciseEventRepository.findById(validEventId)).willReturn(Optional.of(testEvent));
@@ -94,8 +100,6 @@ class RegistrationCreationServiceTest {
     @Test
     void createRegistration_AlreadyRegistered() {
 
-        testEvent.setOrganizer(testUser);
-
         lenient().when(userRepository.findById(validUserId)).thenReturn(Optional.of(testUser));
         lenient().when(exerciseEventRepository.findById(validEventId))
                 .thenReturn(Optional.of(testEvent));
@@ -106,5 +110,13 @@ class RegistrationCreationServiceTest {
         assertThatThrownBy(() -> registrationService.createRegistration(validUserId, validEventId))
                 .isInstanceOf(BusinessException.class);
     }
-
+    private ExerciseEvent createEvent(User user) {
+        return new ExerciseEventRegistrationDto(
+                new EventDetailDto("title", "Description", LocalDateTime.now(),
+                        LocalDateTime.now().plusHours(2)),
+                new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
+                new LocationDto(City.SEOUL, "서울시 강남구"),
+                Category.SOCCER
+        ).toEntity(user);
+    }
 }

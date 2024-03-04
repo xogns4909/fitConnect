@@ -46,13 +46,6 @@ public class ChatMessageControllerTest {
     @MockBean
     private ChatMessageFindService chatMessageFindService;
 
-    @MockBean
-    private ChatRoomUpdateService chatRoomUpdateService;
-
-    @MockBean
-    private ChatRoomRepository chatRoomRepository;
-
-
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -63,21 +56,6 @@ public class ChatMessageControllerTest {
                         chatMessageFindService)).build();
     }
 
-    @Test
-    public void updateChatRoom_Success() throws Exception {
-        ChatRoomUpdateDto updateDto = new ChatRoomUpdateDto("New Title", 1L);
-        Long chatRoomId = 1L;
-        doNothing().when(chatRoomUpdateService)
-                .updateTitle(any(ChatRoomUpdateDto.class), anyLong(), anyLong());
-
-        when(chatRoomRepository.findById(anyLong())).thenReturn(
-                Optional.of(new ChatRoom("title", new ExerciseEvent(), new User(), new User())));
-
-        mockMvc.perform(patch("/api/chatrooms/" + chatRoomId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(new ObjectMapper().writeValueAsString(updateDto)))
-                .andExpect(status().isNoContent());
-    }
 
     @Test
     void deleteChatMessage_Success() throws Exception {

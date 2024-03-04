@@ -1,5 +1,7 @@
 package com.example.fitconnect.service.chat;
 
+import com.example.fitconnect.domain.user.domain.Role;
+import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
@@ -43,7 +45,7 @@ public class ChatRoomCreationServiceTest {
 
     @Test
     public void createChatRoom_Success() {
-        User mockUser = mock(User.class);
+        User mockUser = new User(new UserBaseInfo("test@naver.com", "test", "url"), Role.MEMBER);
         mockUser.setId(1L);
         ExerciseEvent mockEvent = createExerciseEvent(mockUser);
         when(userFindService.findUserByUserId(anyLong())).thenReturn(Optional.of(mockUser));
@@ -53,7 +55,7 @@ public class ChatRoomCreationServiceTest {
                 invocation -> invocation.getArgument(0));
 
         ChatRoom result = chatRoomCreationService.createChatRoom(
-                new ChatRoomRegistrationDto("title", 1L), 1L);
+                new ChatRoomRegistrationDto("title", 1L), 2L);
 
         assertThat(result).isNotNull();
         assertThat(result.getCreator()).isEqualTo(mockUser);
@@ -83,10 +85,9 @@ public class ChatRoomCreationServiceTest {
 
     @Test
     public void createChatRoom_UnauthorizedCreator() {
-        User mockUser = new User();
+        User mockUser = new User(new UserBaseInfo("test@naver.com", "test", "url"), Role.MEMBER);
         mockUser.setId(1L);
         ExerciseEvent mockEvent = createExerciseEvent(mockUser);
-        mockEvent.setOrganizer(mockUser);
 
         when(userFindService.findUserByUserId(mockUser.getId())).thenReturn(Optional.of(mockUser));
         when(exerciseEventFindService.findEventByEventId(mockEvent.getId())).thenReturn(
@@ -99,11 +100,12 @@ public class ChatRoomCreationServiceTest {
 
     @Test
     public void createChatRoom_DuplicateChatRoom() {
-        User mockUser = new User();
+        User mockUser = new User(new UserBaseInfo("test@naver.com", "test", "url"), Role.MEMBER);
         mockUser.setId(1L);
         ExerciseEvent mockEvent = createExerciseEvent(mockUser);
 
         ChatRoom existingChatRoom = new ChatRoom();
+        when(userFindService.findUserByUserId(anyLong())).thenReturn(Optional.of(mockUser));
         when(userFindService.findUserByUserId(mockUser.getId())).thenReturn(Optional.of(mockUser));
         when(exerciseEventFindService.findEventByEventId(mockEvent.getId())).thenReturn(
                 Optional.of(mockEvent));

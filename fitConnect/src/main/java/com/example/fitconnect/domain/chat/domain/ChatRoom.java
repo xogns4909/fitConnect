@@ -26,54 +26,22 @@ public class ChatRoom extends BaseEntity {
     @Size(min = 1 ,max = 100)
     private String title;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name = "exercise_event_id")
     private ExerciseEvent exerciseEvent;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name = "creator_id")
     private User creator;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name = "participant_id")
     private User participant;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChatMessage> messages = new ArrayList<>();
-
-
-    public ChatRoom(String title,ExerciseEvent exerciseEvent, User creator, User participant) {
+    public ChatRoom(String title,ExerciseEvent exerciseEvent,User creator,User participant) {
         this.title = title;
-        setExerciseEvent(exerciseEvent);
-        setCreator(creator);
-        setParticipant(participant);
+        this.exerciseEvent = exerciseEvent;
+        this.creator = creator;
+        this.participant = participant;
     }
 
     public ChatRoom() {
-    }
-
-    private void setExerciseEvent(ExerciseEvent exerciseEvent) {
-        this.exerciseEvent = exerciseEvent;
-        if (!exerciseEvent.getChatRooms().contains(this)) {
-            exerciseEvent.getChatRooms().add(this);
-        }
-    }
-
-    private  void setCreator(User creator) {
-        this.creator = creator;
-        if (!creator.getCreatedChatRooms().contains(this)) {
-            creator.getCreatedChatRooms().add(this);
-        }
-    }
-
-    private void setParticipant(User participant) {
-        this.participant = participant;
-        if (participant != null && !participant.getParticipatingChatRooms().contains(this)) {
-            participant.getParticipatingChatRooms().add(this);
-        }
     }
 
 

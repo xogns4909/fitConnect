@@ -38,24 +38,9 @@ public class ExerciseEvent extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "exerciseEvent",cascade = CascadeType.REMOVE,orphanRemoval = true)
-    private List<Registration> registrations = new ArrayList<>();
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User organizer;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "exerciseEvent", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChatRoom> chatRooms = new ArrayList<>();
-
-    @Embedded
     private EventDetail eventDetail;
 
     @Embedded
@@ -71,7 +56,7 @@ public class ExerciseEvent extends BaseEntity {
     public ExerciseEvent(User organizer, EventDetail eventDetail,
             RecruitmentPolicy registrationPolicy, Location location,
             Category category) {
-        setOrganizer(organizer);
+        this.organizer = organizer;
         this.eventDetail = eventDetail;
         this.registrationPolicy = registrationPolicy;
         this.location = location;
@@ -92,12 +77,7 @@ public class ExerciseEvent extends BaseEntity {
 
     }
 
-    public void setOrganizer(User organizer) {
-        this.organizer = organizer;
-        if (!organizer.getOrganizedEvents().contains(this)) {
-            organizer.getOrganizedEvents().add(this);
-        }
-    }
+
 
 
 

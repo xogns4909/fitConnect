@@ -49,8 +49,6 @@ public class EventDetailResponseDto {
         this.maxParticipants = exerciseEvent.getRegistrationPolicy().getMaxParticipants();
         this.registrationStart = exerciseEvent.getRegistrationPolicy().getRegistrationStart();
         this.registrationEnd = exerciseEvent.getRegistrationPolicy().getRegistrationEnd();
-        this.reviewResponseDtoList= exerciseEvent.getReviews().stream()
-                .map(ReviewResponseDto::toDto).toList();
         this.userResponseDto = new UserResponseDto().toDto(exerciseEvent.getOrganizer());
         return this;
     }
