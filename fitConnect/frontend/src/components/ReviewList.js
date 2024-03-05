@@ -18,7 +18,7 @@ const ReviewsList = () => {
     try {
       const params = {page: currentPage, size: pageSize};
       const response = await axios.get(`/mypage/reviews`, {params});
-      console.log(response)
+      console.log("reuvew", response);
       setReviews(response.data.content);
       setTotalPages(response.data.totalPages || 0);
     } catch (error) {
@@ -59,7 +59,7 @@ const ReviewsList = () => {
                     <p>내용: {review.reviewContent}</p>
                     <p>평점: {review.rating}</p>
                     <div className="review-meta">
-                      <small>작성자: {review.nickname}</small> {}
+                      <small>작성자: {review.nickName}</small>
                       <Button variant="primary" onClick={() => navigate(`/events/${review.eventId}`)}>상세 보기</Button>{' '}
                       <Button variant="danger" onClick={() => deleteReview(review.reviewId)}>삭제</Button>
                     </div>

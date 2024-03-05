@@ -1,3 +1,5 @@
+// App.js
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -13,6 +15,11 @@ import ChatRoomListPage from './page/ChatRoomListPage';
 import MyPage from './page/MyPage';
 import EventEditForm from './components/EventCreationForm';
 import NotFoundPage from './page/NotFoundPage';
+// 추가된 import 문
+import UserInfo from './components/UserInfo';
+import ReviewsList from './components/ReviewList';
+import RegisteredEventsList from './components/RegisteredEventsList';
+import MyEventsList from './components/MyEventsList';
 
 function App() {
   return (
@@ -25,7 +32,7 @@ function App() {
               <Route path="/event" element={<PostListPage />} />
               <Route path="/new-post" element={
                 <RequireAuth>
-                  <EventCreatePage/>
+                  <EventCreatePage />
                 </RequireAuth>
               } />
               <Route path="/events/:eventId" element={
@@ -35,14 +42,19 @@ function App() {
               } />
               <Route path="/chatRooms" element={
                 <RequireAuth>
-                  <ChatRoomListPage/>
+                  <ChatRoomListPage />
                 </RequireAuth>
               } />
               <Route path="/myPage" element={
                 <RequireAuth>
-                  <MyPage/>
+                  <MyPage />
                 </RequireAuth>
-              } />
+              }>
+                <Route path="user-info" element={<UserInfo />} />
+                <Route path="reviews" element={<ReviewsList />} />
+                <Route path="registered-events" element={<RegisteredEventsList />} />
+                <Route path="my-events" element={<MyEventsList />} />
+              </Route>
               <Route path="/events/edit/:eventId" element={
                 <RequireAuth>
                   <EventEditForm />
