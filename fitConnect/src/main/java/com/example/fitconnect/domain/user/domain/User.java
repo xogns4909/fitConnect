@@ -42,30 +42,6 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ExerciseEvent> organizedEvents = new ArrayList<>();
-
-    @JsonManagedReference("user-registration")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Registration> registrations = new ArrayList<>();
-
-    @JsonManagedReference("user-review")
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
-    private List<ChatRoom> participatingChatRooms = new ArrayList<>();
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "creator", fetch = FetchType.LAZY)
-    private List<ChatRoom> createdChatRooms = new ArrayList<>();
-
-    @JsonManagedReference("user-message")
-    @OneToMany(mappedBy = "sender", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ChatMessage> messages = new ArrayList<>();
-
     public User(UserBaseInfo userBaseInfo, Role role) {
 
         validateUserBaseInfo(userBaseInfo);

@@ -15,11 +15,11 @@ const UserInfo = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await axiosInstance.get('/user');
-      console.log(response.data);
       setUser({
-        nickname: response.data.userBaseInfo.nickname,
-        email: response.data.userBaseInfo.email
+        nickname: response.data.nickname,
+        email: response.data.email
       });
+      console.log(user);
     } catch (error) {
       console.error('사용자 정보를 불러오는 데 실패했습니다.', error);
       setError('사용자 정보를 불러오는 데 실패했습니다.');
@@ -34,7 +34,7 @@ const UserInfo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axiosInstance.put('/user', {
+      await axiosInstance.patch('/user', {
         nickname: user.nickname,
       });
       setEditMode(false);

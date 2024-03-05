@@ -23,41 +23,20 @@ public class ChatMessage extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name = "chat_room_id")
     private ChatRoom chatRoom;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
-    @JoinColumn(name = "user_id")
     private User sender;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String content, ChatRoom chatRoom, User sender) {
+    public ChatMessage(String content,ChatRoom chatRoom,User user) {
         this.content = content;
-        setChatRoom(chatRoom);
-        setSender(sender);
-    }
-
-    public void setChatRoom(ChatRoom chatRoom) {
-        if (this.chatRoom != null) {
-            this.chatRoom.getMessages().remove(this);
-        }
-
         this.chatRoom = chatRoom;
-        chatRoom.getMessages().add(this);
+        this.sender = user;
     }
 
-    public void setSender(User sender) {
-        if (this.sender != null) {
-            this.sender.getMessages().remove(this);
-        }
-
-        this.sender = sender;
-        sender.getMessages().add(this);
-    }
 
     public void update(String content,Long userId) {
         validateUpdateOrDelete(userId);

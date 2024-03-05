@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -64,7 +65,8 @@ public class ChatMessageFindServiceTest {
         when(chatMessage.getContent()).thenReturn("Mocked Content");
         when(chatMessage.getSender()).thenReturn(user);
         when(chatMessage.getId()).thenReturn(1L);
-        when(chatMessage.getUpdatedAt()).thenReturn(LocalDateTime.now());
+        lenient().when(chatMessageRepository.findMessagesByChatRoomId(chatRoomId)).thenReturn(Arrays.asList(chatMessage));
+
 
         when(chatMessageRepository.findMessagesByChatRoomId(chatRoomId)).thenReturn(Arrays.asList(chatMessage));
 

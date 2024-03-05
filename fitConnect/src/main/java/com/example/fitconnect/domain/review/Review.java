@@ -36,13 +36,9 @@ public class Review extends BaseEntity {
     private double rating;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "exerciseEvent_id")
     private ExerciseEvent exerciseEvent;
 
     public void updateReview(ReviewUpdateDto reviewUpdateDto, User currentUser) {
@@ -77,20 +73,6 @@ public class Review extends BaseEntity {
     private void validationContent(String content) {
         if (content.trim().length() == 0 || content.length() >= 100) {
             throw new BusinessException(ErrorMessages.INVALID_CONTENT);
-        }
-    }
-
-    private void setUser(User user) {
-        this.user = user;
-        if (!user.getReviews().contains(this)) {
-            user.getReviews().add(this);
-        }
-    }
-
-    private void setExerciseEvent(ExerciseEvent exerciseEvent) {
-        this.exerciseEvent = exerciseEvent;
-        if (!exerciseEvent.getReviews().contains(this)) {
-            exerciseEvent.getReviews().add(this);
         }
     }
 

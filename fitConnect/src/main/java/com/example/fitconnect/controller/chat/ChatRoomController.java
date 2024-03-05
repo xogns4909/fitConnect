@@ -28,10 +28,10 @@ public class ChatRoomController {
     private final ChatRoomFindService chatRoomFindService;
 
     @PostMapping
-    public ResponseEntity<ChatRoom> createChatRoom(
+    public ResponseEntity<Void> createChatRoom(
             @RequestBody ChatRoomRegistrationDto registrationDto, @CurrentUserId Long userId) {
         ChatRoom chatRoom = chatRoomCreationService.createChatRoom(registrationDto, userId);
-        return ResponseEntity.ok(chatRoom);
+        return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/{chatRoomId}")

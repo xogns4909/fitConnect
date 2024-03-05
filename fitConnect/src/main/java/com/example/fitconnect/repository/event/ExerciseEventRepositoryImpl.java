@@ -110,6 +110,7 @@ public class ExerciseEventRepositoryImpl implements CustomExerciseEventRepositor
     private Page<ExerciseEvent> executeQuery(JPAQueryFactory queryFactory,
             QExerciseEvent qExerciseEvent, Predicate predicate, int page) {
         List<ExerciseEvent> events = queryFactory.selectFrom(qExerciseEvent)
+                .leftJoin(qExerciseEvent.organizer).fetchJoin()
                 .where(predicate)
                 .orderBy(qExerciseEvent.createdAt.desc())
                 .offset((long) page * PAGE_SIZE)
