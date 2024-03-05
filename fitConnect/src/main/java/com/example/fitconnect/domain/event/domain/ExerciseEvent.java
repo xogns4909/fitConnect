@@ -1,15 +1,11 @@
 package com.example.fitconnect.domain.event.domain;
 
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.global.error.ErrorMessages;
 import com.example.fitconnect.global.exception.BusinessException;
-import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
 import com.example.fitconnect.domain.global.BaseEntity;
-import com.example.fitconnect.domain.registration.Registration;
-import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.user.domain.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -19,7 +15,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -52,15 +47,19 @@ public class ExerciseEvent extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Category category;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
+    private List<Image> images = new ArrayList<>();
+
     @Builder
     public ExerciseEvent(User organizer, EventDetail eventDetail,
             RecruitmentPolicy registrationPolicy, Location location,
-            Category category) {
+            Category category,List<Image> images) {
         this.organizer = organizer;
         this.eventDetail = eventDetail;
         this.registrationPolicy = registrationPolicy;
         this.location = location;
         this.category = category;
+        this.images = images;
     }
 
     public void update(ExerciseEventUpdateDto updateDto, Long userId) {
@@ -72,6 +71,7 @@ public class ExerciseEvent extends BaseEntity {
         this.location = updateDto.getLocation().toEntity();
         this.category = updateDto.getCategory();
     }
+
 
     public ExerciseEvent() {
 
