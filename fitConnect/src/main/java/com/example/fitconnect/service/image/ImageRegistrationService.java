@@ -41,6 +41,23 @@ public class ImageRegistrationService {
         imageRepository.save(image);
     }
 
+    @Transactional
+    public List<Image> saveImages(List<MultipartFile> files) {
+        List<Image> savedImages = new ArrayList<>();
+        for (MultipartFile file : files) {
+            validateExtension(file.getOriginalFilename());
+            validateFileSize(file.getSize());
+
+            String storedFileName = generateStoredFileName(file.getOriginalFilename());
+            Path filePath = storeFile(file, storedFileName);
+
+            Image image = new Image(filePath.toString(), file.getOriginalFilename());
+            Image savedImage = imageRepository.save(image);
+            savedImages.add(savedImage);
+        }
+        return savedImages;
+    }
+
     private void validateExtension(String filename) {
         String fileExtension = filename.substring(filename.lastIndexOf(".")).toLowerCase();
         if (!allowedExtensions.contains(fileExtension)) {
