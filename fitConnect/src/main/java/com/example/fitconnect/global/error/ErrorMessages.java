@@ -48,7 +48,10 @@ public enum ErrorMessages {
     EVENT_MAX_PARTICIPANTS_REACHED ("이벤트 참가자 수가 최대치에 도달했습니다."),
 
     Review_AlREADY_WRITTEN("전에 작성한 리뷰가 있습니다."),
-    REGISTRATION_PERIOD_CLOSED ("신청 가능 시간이 아닙니다.");
+    REGISTRATION_PERIOD_CLOSED ("신청 가능 시간이 아닙니다."),
+    INVALID_FILE_EXTENSION("허용되지 않는 파일 확장자입니다."),
+    FILE_SIZE_EXCEEDED("파일 크기가 허용 범위를 초과하였습니다."),
+    FILE_UPLOAD_FAILED("파일 업로드에 실패하였습니다.");
 
 
     private final String message;
