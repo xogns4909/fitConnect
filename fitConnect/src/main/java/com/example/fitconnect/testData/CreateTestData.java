@@ -18,6 +18,7 @@ import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
 import com.example.fitconnect.repository.user.UserRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -96,6 +97,6 @@ public class CreateTestData implements CommandLineRunner {
                         LocalDateTime.now().plusDays(1)),
                 new LocationDto(city, "Address for event " + j),
                 category
-        ).toEntity(user);
+        ).toEntity(user,new ArrayList<>());
     }
 }

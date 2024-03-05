@@ -7,6 +7,7 @@ import static org.mockito.Mockito.lenient;
 
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.dto.event.request.EventDetailDto;
 import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
 import com.example.fitconnect.dto.event.request.LocationDto;
@@ -21,6 +22,8 @@ import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
 import com.example.fitconnect.repository.user.UserRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +56,7 @@ class RegistrationCreationServiceTest {
     void setUp() {
         testUser = new User();
         testUser.setId(1L);
-        testEvent = createEvent(testUser);
+        testEvent = createExerciseEvent(testUser);
     }
 
     @Test
@@ -110,13 +113,16 @@ class RegistrationCreationServiceTest {
         assertThatThrownBy(() -> registrationService.createRegistration(validUserId, validEventId))
                 .isInstanceOf(BusinessException.class);
     }
-    private ExerciseEvent createEvent(User user) {
-        return new ExerciseEventRegistrationDto(
-                new EventDetailDto("title", "Description", LocalDateTime.now(),
-                        LocalDateTime.now().plusHours(2)),
-                new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
-                new LocationDto(City.SEOUL, "서울시 강남구"),
-                Category.SOCCER
-        ).toEntity(user);
+    private static ExerciseEvent createExerciseEvent(User user) {
+        List<Image> images = new ArrayList<>();
+        EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),
+                LocalDateTime.now().plusHours(2));
+        RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
+                LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+        LocationDto locationDto = new LocationDto(City.SEOUL, "서울시 강남구");
+        Category category = Category.SOCCER;
+        ExerciseEvent exerciseEvent = new ExerciseEventRegistrationDto(eventDetailDto,
+                recruitmentPolicyDto, locationDto, category).toEntity(user,images);
+        return exerciseEvent;
     }
 }

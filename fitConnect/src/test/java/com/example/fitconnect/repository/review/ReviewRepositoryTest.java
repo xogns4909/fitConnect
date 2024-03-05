@@ -3,6 +3,7 @@ package com.example.fitconnect.repository.review;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
@@ -14,6 +15,7 @@ import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.repository.user.UserRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -74,12 +76,13 @@ public class ReviewRepositoryTest {
     }
 
     private ExerciseEvent createEvent(User user) {
+        List<Image> images = new ArrayList<>();
         return new ExerciseEventRegistrationDto(
                 new EventDetailDto("title", "Description", LocalDateTime.now(),
                         LocalDateTime.now().plusHours(2)),
                 new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
                 new LocationDto(City.SEOUL, "서울시 강남구"),
                 Category.SOCCER
-        ).toEntity(user);
+        ).toEntity(user,images);
     }
 }

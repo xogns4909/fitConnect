@@ -2,6 +2,7 @@ package com.example.fitconnect.repository.review;
 
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.dto.event.request.EventDetailDto;
 import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
 import com.example.fitconnect.dto.event.request.LocationDto;
@@ -12,6 +13,8 @@ import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -59,6 +62,7 @@ public class ReviewRepositoryImplTest {
     }
 
     private static ExerciseEvent createExerciseEvent(User user) {
+        List<Image> images = new ArrayList<>();
         EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),
                 LocalDateTime.now().plusHours(2));
         RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
@@ -66,7 +70,7 @@ public class ReviewRepositoryImplTest {
         LocationDto locationDto = new LocationDto(City.SEOUL, "서울시 강남구");
         Category category = Category.SOCCER;
         ExerciseEvent exerciseEvent = new ExerciseEventRegistrationDto(eventDetailDto,
-                recruitmentPolicyDto, locationDto, category).toEntity(user);
+                recruitmentPolicyDto, locationDto, category).toEntity(user,images);
         return exerciseEvent;
     }
 
