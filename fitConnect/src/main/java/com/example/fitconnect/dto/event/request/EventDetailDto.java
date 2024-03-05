@@ -4,9 +4,11 @@ import com.example.fitconnect.domain.event.domain.EventDetail;
 import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Data
 @Getter
+@NoArgsConstructor
 public class EventDetailDto {
     private String title;
     private String description;
