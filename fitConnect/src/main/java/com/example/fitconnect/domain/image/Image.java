@@ -14,7 +14,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "images")
 @Getter
-@Setter
 @NoArgsConstructor
 public class Image extends BaseEntity {
 
