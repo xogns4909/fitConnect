@@ -71,13 +71,13 @@ public class ExerciseEvent extends BaseEntity {
         this.location = updateDto.getLocation().toEntity();
         this.category = updateDto.getCategory();
     }
-
+    public void updateImages(List<Image> newImages) {
+        this.images = newImages;
+    }
 
     public ExerciseEvent() {
 
     }
-
-
 
 
 

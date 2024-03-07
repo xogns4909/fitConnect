@@ -5,6 +5,7 @@ import com.example.fitconnect.global.error.ErrorMessages;
 import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.repository.image.ImageRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,17 @@ public class ImageDeletionService {
     public void deleteImage(Long imageId) {
         Image image = imageRepository.findById(imageId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessages.IMAGE_NOT_FOUND));
+        deleteFileInDir(image);
+        imageRepository.deleteById(imageId);
+    }
+
+    @Transactional
+    public void deleteImageList(List<Image> images){
+        images.forEach(this::deleteFileInDir);
+        imageRepository.deleteAll(images);
+    }
+
+    private void deleteFileInDir(Image image) {
         try {
             Path filePath = Paths.get(uploadDir + image.getImageUrl());
             boolean deleted = Files.deleteIfExists(filePath);
@@ -37,7 +49,5 @@ public class ImageDeletionService {
         } catch (IOException e) {
             throw new BusinessException(ErrorMessages.FAILED_TO_DELETE_IMAGE);
         }
-
-        imageRepository.deleteById(imageId);
     }
 }

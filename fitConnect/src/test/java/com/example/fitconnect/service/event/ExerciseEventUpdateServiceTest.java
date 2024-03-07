@@ -2,7 +2,10 @@ package com.example.fitconnect.service.event;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 
 import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
@@ -17,6 +20,8 @@ import com.example.fitconnect.dto.event.request.LocationDto;
 import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 
+import com.example.fitconnect.service.image.ImageDeletionService;
+import com.example.fitconnect.service.image.ImageRegistrationService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,10 +29,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
 
 @ExtendWith(SpringExtension.class)
 class ExerciseEventUpdateServiceTest {
@@ -35,8 +42,18 @@ class ExerciseEventUpdateServiceTest {
     @Mock
     private ExerciseEventRepository repository;
 
+    @Mock
+    private ExerciseEventFindService exerciseEventFindService;
+
+    @Mock
+    private ImageDeletionService imageDeletionService;
+
+
+    @Mock
+    private ImageRegistrationService imageRegistrationService;
     @InjectMocks
     private ExerciseEventUpdateService service;
+
 
     private User user;
     private ExerciseEvent existingEvent;
@@ -68,6 +85,30 @@ class ExerciseEventUpdateServiceTest {
 
         assertThatThrownBy(() -> service.updateEvent(1L, updateDto, 1L))
                 .isInstanceOf(EntityNotFoundException.class);
+    }
+
+
+    @Test
+    void updateEventImage_Success() {
+        Long eventId = 1L;
+
+        List<MultipartFile> newImages = List.of(
+                new MockMultipartFile("image1", "image1.jpg", "image/jpeg", "image1".getBytes()),
+                new MockMultipartFile("image2", "image2.jpg", "image/jpeg", "image2".getBytes())
+        );
+
+        List<Image> savedImages = new ArrayList<>();
+
+        given(exerciseEventFindService.findEventByEventId(eventId)).willReturn(Optional.of(existingEvent));
+        doNothing().when(imageDeletionService).deleteImageList(anyList());
+        given(imageRegistrationService.saveImages(anyList())).willReturn(savedImages);
+
+        service.updateEventImage(eventId, newImages);
+
+        verify(imageDeletionService).deleteImageList(anyList());
+        verify(imageRegistrationService).saveImages(anyList());
+
+        assertThat(existingEvent.getImages()).isEqualTo(savedImages);
     }
 
     private static ExerciseEvent createExerciseEvent(User user) {
