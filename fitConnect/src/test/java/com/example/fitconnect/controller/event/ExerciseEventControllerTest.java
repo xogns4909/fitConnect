@@ -38,12 +38,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -80,11 +83,13 @@ public class ExerciseEventControllerTest {
     @Test
     public void registerEventShouldReturnStatusOk() throws Exception {
         ExerciseEventRegistrationDto registrationDto = createEventRegistrationDto();
-        MockMultipartFile file = new MockMultipartFile("multipartFileList", "filename.txt", "text/plain", "some xml".getBytes());
+        MockMultipartFile file = new MockMultipartFile("multipartFileList", "filename.txt",
+                "text/plain", "some xml".getBytes());
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         String eventDtoJson = objectMapper.writeValueAsString(registrationDto);
-        MockMultipartFile eventDto = new MockMultipartFile("registrationDto", "", "application/json", eventDtoJson.getBytes());
+        MockMultipartFile eventDto = new MockMultipartFile("registrationDto", "",
+                "application/json", eventDtoJson.getBytes());
 
         mockMvc.perform(MockMvcRequestBuilders.multipart("/api/events/register")
                         .file(file)
@@ -127,9 +132,9 @@ public class ExerciseEventControllerTest {
 
     @Test
     public void getEventDetail_Success() throws Exception {
-        User user = new User(new UserBaseInfo("test@naver.com","test",  "url"), Role.MEMBER);
+        User user = new User(new UserBaseInfo("test@naver.com", "test", "url"), Role.MEMBER);
         List<Image> images = new ArrayList<>();
-        ExerciseEvent event = createEventRegistrationDto().toEntity(user,images);
+        ExerciseEvent event = createEventRegistrationDto().toEntity(user, images);
         EventDetailResponseDto eventDetailResponseDto = new EventDetailResponseDto().toDto(event);
         given(exerciseEventFindService.findEventDetail(eventId)).willReturn(eventDetailResponseDto);
         mockMvc.perform(get("/api/events/" + eventId + "/detail"))
@@ -139,13 +144,13 @@ public class ExerciseEventControllerTest {
 
 
     private void setupRegistrationService(ExerciseEventRegistrationDto dto) {
-        given(registrationService.registerEvent(eq(userId), eq(dto),any()))
-                .willReturn(dto.toEntity(new User(),new ArrayList<>()));
+        given(registrationService.registerEvent(eq(userId), eq(dto), any()))
+                .willReturn(dto.toEntity(new User(), new ArrayList<>()));
     }
 
     private void setupFindService() {
-        User user = new User(new UserBaseInfo("test@naver.com","test",  "url"), Role.MEMBER);
-        ExerciseEvent event = createEventRegistrationDto().toEntity(user,new ArrayList<>());
+        User user = new User(new UserBaseInfo("test@naver.com", "test", "url"), Role.MEMBER);
+        ExerciseEvent event = createEventRegistrationDto().toEntity(user, new ArrayList<>());
         Page<EventResponseDto> expectedPage = new PageImpl<>(Collections.singletonList(event),
                 PageRequest.of(0, 10), 1).map(EventResponseDto::toDto);
         given(exerciseEventFindService.findEvents(any(), any(), any(), any(), anyInt()))

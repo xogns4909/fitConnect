@@ -41,12 +41,12 @@ public class ExerciseEventController {
     private final ExerciseEventDeleteService exerciseEventDeleteService;
 
 
-    @PostMapping(value = "/register",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> registerEvent(
             @RequestPart ExerciseEventRegistrationDto registrationDto,
-            @RequestPart("multipartFileList") List<MultipartFile> files,
+            @RequestPart(value = "multipartFileList", required = false) List<MultipartFile> files,
             @CurrentUserId Long userId) {
-        registrationService.registerEvent(userId, registrationDto,files);
+        registrationService.registerEvent(userId, registrationDto, files);
         return ResponseEntity.ok().build();
     }
 
@@ -69,6 +69,14 @@ public class ExerciseEventController {
             @RequestBody ExerciseEventUpdateDto updateDto,
             @CurrentUserId Long userId) {
         updateService.updateEvent(eventId, updateDto, userId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{eventId}/image")
+    public ResponseEntity<Void> updateEventImage(@PathVariable Long eventId,
+            @RequestPart(required = false) List<MultipartFile> images) {
+        updateService.updateEventImage(eventId,images);
+
         return ResponseEntity.noContent().build();
     }
 
