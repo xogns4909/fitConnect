@@ -52,10 +52,10 @@ public class ImageRegistrationService {
             Path filePath = storeFile(file, storedFileName);
 
             Image image = new Image(filePath.toString(), file.getOriginalFilename());
-            Image savedImage = imageRepository.save(image);
-            savedImages.add(savedImage);
+            savedImages.add(image);
         }
-        return savedImages;
+
+        return imageRepository.saveAll(savedImages);
     }
 
     private void validateExtension(String filename) {
