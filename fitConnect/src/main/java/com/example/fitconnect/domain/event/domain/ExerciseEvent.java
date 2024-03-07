@@ -72,7 +72,8 @@ public class ExerciseEvent extends BaseEntity {
         this.category = updateDto.getCategory();
     }
     public void updateImages(List<Image> newImages) {
-        this.images = newImages;
+        this.images.clear();
+        this.images.addAll(newImages);
     }
 
     public ExerciseEvent() {
