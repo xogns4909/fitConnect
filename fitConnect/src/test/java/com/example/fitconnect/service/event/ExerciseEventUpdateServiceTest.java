@@ -69,7 +69,8 @@ class ExerciseEventUpdateServiceTest {
 
     @Test
     void updateValidEvent() {
-        given(repository.findById(1L)).willReturn(Optional.of(existingEvent));
+        given(exerciseEventFindService.findEventByEventId(1L)).willReturn(
+                Optional.of(existingEvent));
 
         ExerciseEvent updatedEvent = service.updateEvent(1L, updateDto, 1L);
 
@@ -99,7 +100,8 @@ class ExerciseEventUpdateServiceTest {
 
         List<Image> savedImages = new ArrayList<>();
 
-        given(exerciseEventFindService.findEventByEventId(eventId)).willReturn(Optional.of(existingEvent));
+        given(exerciseEventFindService.findEventByEventId(eventId)).willReturn(
+                Optional.of(existingEvent));
         doNothing().when(imageDeletionService).deleteImageList(anyList());
         given(imageRegistrationService.saveImages(anyList())).willReturn(savedImages);
 
@@ -113,22 +115,25 @@ class ExerciseEventUpdateServiceTest {
 
     private static ExerciseEvent createExerciseEvent(User user) {
         List<Image> images = new ArrayList<>();
-        EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),
+        EventDetailDto eventDetailDto = new EventDetailDto("title", "Description",
+                LocalDateTime.now(),
                 LocalDateTime.now().plusHours(2));
         RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
                 LocalDateTime.now(), LocalDateTime.now().plusDays(1));
         LocationDto locationDto = new LocationDto(City.SEOUL, "서울시 강남구");
         Category category = Category.SOCCER;
         ExerciseEvent exerciseEvent = new ExerciseEventRegistrationDto(eventDetailDto,
-                recruitmentPolicyDto, locationDto, category).toEntity(user,images);
+                recruitmentPolicyDto, locationDto, category).toEntity(user, images);
         return exerciseEvent;
     }
 
 
     private ExerciseEventUpdateDto createUpdateDto() {
         return new ExerciseEventUpdateDto(
-                new EventDetailDto("title","Updated Description", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(1).plusHours(2)),
-                new RecruitmentPolicyDto(50, LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2)),
+                new EventDetailDto("title", "Updated Description", LocalDateTime.now().plusDays(1),
+                        LocalDateTime.now().plusDays(1).plusHours(2)),
+                new RecruitmentPolicyDto(50, LocalDateTime.now().plusDays(1),
+                        LocalDateTime.now().plusDays(2)),
                 new LocationDto(City.SEOUL, "서울시 송파구"),
                 Category.BASKETBALL
         );
