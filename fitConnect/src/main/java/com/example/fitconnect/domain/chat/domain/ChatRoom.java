@@ -54,4 +54,8 @@ public class ChatRoom extends BaseEntity {
             throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
         }
     }
+
+    public void deleteEvent(){
+        this.exerciseEvent = null;
+    }
 }

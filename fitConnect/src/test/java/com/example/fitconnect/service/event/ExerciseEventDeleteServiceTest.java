@@ -3,9 +3,11 @@ package com.example.fitconnect.service.event;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
+import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.image.Image;
+import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.dto.event.request.EventDetailDto;
 import com.example.fitconnect.dto.event.request.ExerciseEventRegistrationDto;
 import com.example.fitconnect.dto.event.request.LocationDto;
@@ -17,6 +19,10 @@ import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
+import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
+import com.example.fitconnect.service.registration.RegistrationFindService;
+import com.example.fitconnect.service.registration.RegistrationFindServiceTest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +39,12 @@ public class ExerciseEventDeleteServiceTest {
 
     @Mock
     private ExerciseEventRepository exerciseEventRepository;
+
+    @Mock
+    private ChatRoomFindService chatRoomFindService;
+
+    @Mock
+    private RegistrationFindService registrationFindService;
 
     @InjectMocks
     private ExerciseEventDeleteService exerciseEventDeleteService;
@@ -51,6 +63,11 @@ public class ExerciseEventDeleteServiceTest {
 
     @Test
     void deleteEvent_Success() {
+
+        List<ChatRoom> chatRooms = new ArrayList<>();
+        List<Registration> registrations = new ArrayList<>();
+        given(chatRoomFindService.findChatRoomsByEventId(eventId)).willReturn(chatRooms);
+        given(registrationFindService.findByEventId(eventId)).willReturn(registrations);
         given(exerciseEventRepository.findById(eventId)).willReturn(Optional.of(event));
 
         exerciseEventDeleteService.deleteEvent(eventId, userId);
