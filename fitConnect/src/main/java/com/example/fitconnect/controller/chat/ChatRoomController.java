@@ -1,6 +1,7 @@
 package com.example.fitconnect.controller.chat;
 
 
+import com.example.fitconnect.dto.chat.response.ChatRoomResponseDto;
 import com.example.fitconnect.global.annotation.CurrentUserId;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.dto.chat.request.ChatRoomRegistrationDto;
@@ -49,10 +50,10 @@ public class ChatRoomController {
     }
 
     @GetMapping("/messages")
-    public ResponseEntity<Page<ChatRoom>> getChatRoomMessages(
+    public ResponseEntity<Page<ChatRoomResponseDto>> getChatRoomMessages(
             @CurrentUserId Long userId,
             Pageable pageable) {
-        Page<ChatRoom> chatMessages = chatRoomFindService.getChatMessages(userId,
+        Page<ChatRoomResponseDto> chatMessages = chatRoomFindService.getChatRoomList(userId,
                 pageable);
         return ResponseEntity.ok(chatMessages);
     }
