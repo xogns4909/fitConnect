@@ -53,7 +53,7 @@ public class ReviewController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "default") String sortBy) {
-        Page<ReviewResponseDto> reviews = reviewFindService.findReviewsByExerciseEvent(eventId,
+        Page<ReviewResponseDto> reviews = reviewFindService.findReviewsByExerciseEventIdPageAble(eventId,
                 page, size, sortBy);
         return ResponseEntity.ok(reviews);
     }

@@ -55,7 +55,7 @@ public class ReviewFindServiceTest {
         when(reviewRepository.findReviews(page, size, exerciseEventId, sortBy)).thenReturn(
                 expectedPage);
 
-        Page<ReviewResponseDto> result = reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page,
+        Page<ReviewResponseDto> result = reviewFindService.findReviewsByExerciseEventIdPageAble(exerciseEventId, page,
                 size, sortBy);
 
         assertThat(result).isNotNull();
@@ -91,7 +91,7 @@ public class ReviewFindServiceTest {
                 Optional.empty());
 
         assertThrows(BusinessException.class,
-                () -> reviewFindService.findReviewsByExerciseEvent(exerciseEventId, 1, 10,
+                () -> reviewFindService.findReviewsByExerciseEventIdPageAble(exerciseEventId, 1, 10,
                         "rating"));
     }
 

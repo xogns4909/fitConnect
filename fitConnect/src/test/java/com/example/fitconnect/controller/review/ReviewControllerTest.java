@@ -135,7 +135,7 @@ class ReviewControllerTest {
                 Collections.singletonList(new ReviewResponseDto()), PageRequest.of(page - 1, size),
                 1);
 
-        given(reviewFindService.findReviewsByExerciseEvent(exerciseEventId, page, size,
+        given(reviewFindService.findReviewsByExerciseEventIdPageAble(exerciseEventId, page, size,
                 sortBy)).willReturn(expectedPage);
 
         mockMvc.perform(get("/api/reviews/events/" + exerciseEventId)
@@ -144,7 +144,7 @@ class ReviewControllerTest {
                         .param("sortBy", sortBy))
                 .andExpect(status().isOk());
 
-        verify(reviewFindService, times(1)).findReviewsByExerciseEvent(exerciseEventId, page, size,
+        verify(reviewFindService, times(1)).findReviewsByExerciseEventIdPageAble(exerciseEventId, page, size,
                 sortBy);
     }
 
