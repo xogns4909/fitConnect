@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserResponseDto {
 
-
+    private Long id;
     private String nickname;
 
     private String email;
@@ -16,7 +16,7 @@ public class UserResponseDto {
     public UserResponseDto(){};
 
     public UserResponseDto toDto(User user){
-
+        this.id = user.getId();
         this.nickname = user.getUserBaseInfo().getNickname();
         this.email = user.getUserBaseInfo().getEmail();
         return this;

@@ -5,6 +5,7 @@ import com.example.fitconnect.dto.chat.request.ChatRoomRegistrationDto;
 import com.example.fitconnect.dto.chat.request.ChatRoomUpdateDto;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.domain.user.domain.User;
+import com.example.fitconnect.dto.chat.response.ChatRoomResponseDto;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomCreationService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
@@ -113,15 +114,16 @@ public class ChatRoomControllerTest {
 
     @Test
     public void getChatRoomMessages_Success() throws Exception {
-        Long chatRoomId = 1L;
-        Long userId = 1L;
+        Long userId = 1L; 
         Pageable pageable = PageRequest.of(0, 10);
 
-        Page<ChatRoom> mockPage = new PageImpl<>(Arrays.asList(new ChatRoom(), new ChatRoom()),
+        ChatRoomResponseDto chatRoom1 = new ChatRoomResponseDto();
+        ChatRoomResponseDto chatRoom2 = new ChatRoomResponseDto();
+
+        Page<ChatRoomResponseDto> mockPage = new PageImpl<>(Arrays.asList(chatRoom1, chatRoom2),
                 pageable, 2);
 
-        given(chatRoomFindService.getChatMessages( userId, pageable)).willReturn(
-                mockPage);
+        given(chatRoomFindService.getChatRoomList(userId, pageable)).willReturn(mockPage);
 
         mockMvc.perform(get("/api/chatrooms/messages")
                         .param("page", "0")

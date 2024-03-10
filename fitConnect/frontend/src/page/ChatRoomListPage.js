@@ -33,6 +33,7 @@ const ChatRoomPage = () => {
       const response = await axiosInstance.get(`/api/chatrooms/messages`, { params }); // API 엔드포인트 확인 필요
       setChatRooms(response.data.content);
       setTotalPages(response.data.totalPages);
+      console.log(response);
     } catch (error) {
       setError('채팅방을 불러오는데 실패했습니다.');
       console.error(error);
@@ -73,10 +74,9 @@ const ChatRoomPage = () => {
                             <small>
                               마지막 업데이트: {new Date(chatRoom.updatedAt).toLocaleString()}
                             </small>
-                            <p>{chatRoom.messages.length > 0 ? chatRoom.messages[chatRoom.messages.length - 1].content : "메시지 없음"}</p>
+                            <p>{chatRoom.lastMessageContent}</p>
                           </div>
                           <div className="d-flex justify-content-between align-items-center">
-                            {/* 기존 코드 */}
                             <Button variant="primary" onClick={() => setModalShow(chatRoom.id)}>
                               채팅하기
                             </Button>
