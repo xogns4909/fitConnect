@@ -51,4 +51,8 @@ public class ChatMessage extends BaseEntity {
             throw new BusinessException(ErrorMessages.INVALID_MESSAGE_TIME);
         }
     }
+
+    public void detachSender(){
+        this.sender = null;
+    }
 }

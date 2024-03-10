@@ -4,6 +4,7 @@ import com.example.fitconnect.global.error.ErrorMessages;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -26,5 +27,9 @@ public class ChatRoomFindService {
     public ChatRoom findChatRoomDetail(Long chatRoomId){
         return findChatRoomByChatRoomId(chatRoomId).orElseThrow(()-> new EntityNotFoundException(
                 ErrorMessages.CHATROOM_NOT_FOUND));
+    }
+
+    public List<ChatRoom> findChatRoomsByEventId(Long eventId) {
+        return chatRoomRepository.findByEventId(eventId);
     }
 }

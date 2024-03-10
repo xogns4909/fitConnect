@@ -62,6 +62,11 @@ public class Registration extends BaseEntity {
         this.status = RegistrationStatus.REJECTED;
     }
 
+    public void detachEvent(){
+        this.exerciseEvent = null;
+        this.status = RegistrationStatus.EVENT_DELETED;
+    }
+
     private void checkAuthentication(Long userId) {
         if(user.getId() != userId){
             throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);

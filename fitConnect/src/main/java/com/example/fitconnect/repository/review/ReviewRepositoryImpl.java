@@ -22,7 +22,7 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
     }
 
     @Override
-    public Page<Review> findReviews(int page, int size,Long exerciseEventId, String sortBy) {
+    public Page<Review> findReviews(int page, int size, Long exerciseEventId, String sortBy) {
         JPAQuery<Review> query = queryFactory
                 .selectFrom(qReview)
                 .leftJoin(qReview.exerciseEvent).fetchJoin()
@@ -67,5 +67,12 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
                 .where(qReview.user.id.eq(userId).and(qReview.exerciseEvent.id.eq(eventId)))
                 .fetchOne();
         return Optional.ofNullable(review);
+    }
+
+    @Override
+    public List<Review> findByExerciseEventId(Long eventId) {
+        return queryFactory.selectFrom(qReview)
+                .where(qReview.exerciseEvent.id.eq(eventId))
+                .fetch();
     }
 }

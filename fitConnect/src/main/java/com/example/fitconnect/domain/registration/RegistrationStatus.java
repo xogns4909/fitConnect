@@ -4,7 +4,9 @@ public enum RegistrationStatus {
     APPLIED("신청됨"),
     APPROVED("승인됨"),
     REJECTED("거부됨"),
-    CANCELED("취소됨");
+    CANCELED("취소됨"),
+
+    EVENT_DELETED("이벤트 삭제됨");
 
     private final String description;
 

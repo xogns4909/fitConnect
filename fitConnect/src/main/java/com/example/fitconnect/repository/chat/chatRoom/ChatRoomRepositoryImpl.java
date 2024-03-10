@@ -1,5 +1,7 @@
 package com.example.fitconnect.repository.chat.chatRoom;
 
+import static com.example.fitconnect.domain.chat.domain.QChatRoom.chatRoom;
+
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.chat.domain.QChatMessage;
 import com.example.fitconnect.domain.chat.domain.QChatRoom;
@@ -21,7 +23,7 @@ public class ChatRoomRepositoryImpl implements CustomChatRoomRepository {
     public Page<ChatRoom> findByChatRoomId(Long userId, Pageable pageable) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QChatMessage qChatMessage = QChatMessage.chatMessage;
-        QChatRoom qChatRoom = QChatRoom.chatRoom;
+        QChatRoom qChatRoom = chatRoom;
 
         List<ChatRoom> chatMessages = queryFactory
                 .selectFrom(qChatRoom)
@@ -44,7 +46,7 @@ public class ChatRoomRepositoryImpl implements CustomChatRoomRepository {
     @Override
     public Optional<ChatRoom> findByUserIdAndExerciseEventId(Long userId, Long exerciseEventId) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
-        QChatRoom qChatRoom = QChatRoom.chatRoom;
+        QChatRoom qChatRoom = chatRoom;
 
         ChatRoom chatRoom = queryFactory
                 .selectFrom(qChatRoom)
@@ -52,5 +54,14 @@ public class ChatRoomRepositoryImpl implements CustomChatRoomRepository {
                         .and(qChatRoom.exerciseEvent.id.eq(exerciseEventId)))
                 .fetchOne();
         return Optional.ofNullable(chatRoom);
+    }
+
+    @Override
+    public List<ChatRoom> findByEventId(Long eventId) {
+
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        return queryFactory.selectFrom(chatRoom).
+                where(chatRoom.exerciseEvent.id.eq(eventId))
+                .fetch();
     }
 }

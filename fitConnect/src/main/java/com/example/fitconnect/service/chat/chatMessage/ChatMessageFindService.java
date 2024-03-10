@@ -20,10 +20,10 @@ public class ChatMessageFindService {
         return chatMessageRepository.findById(chatMessageId);
     }
 
-    public List<ChatMessageResponseDto> findChatMessagesByChatRoomId(Long chatRoomId) {
+    public List<ChatMessage> findChatMessagesByChatRoomId(Long chatRoomId) {
         List<ChatMessage> messages = chatMessageRepository.findMessagesByChatRoomId(
                 chatRoomId);
-        return messages.stream().map(ChatMessageResponseDto::toDto).collect(Collectors.toList());
+        return messages;
     }
 
     

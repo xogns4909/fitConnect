@@ -1,6 +1,7 @@
 package com.example.fitconnect.controller.chat;
 
 
+import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.global.annotation.CurrentUserId;
 import com.example.fitconnect.dto.chat.request.ChatMessageUpdateDto;
 import com.example.fitconnect.dto.chatMessage.response.ChatMessageResponseDto;
@@ -48,9 +49,11 @@ public class ChatMessageController {
     @GetMapping()
     public ResponseEntity<List<ChatMessageResponseDto>> getChatMessages(
             @RequestParam(required = false) Long chatRoomId) {
-        List<ChatMessageResponseDto> chatMessages = chatMessageFindService.findChatMessagesByChatRoomId(
+        List<ChatMessage> chatMessages = chatMessageFindService.findChatMessagesByChatRoomId(
                 chatRoomId);
-        return ResponseEntity.ok(chatMessages);
+        List<ChatMessageResponseDto> chatMessageResponseDtos = chatMessages.stream()
+                .map(ChatMessageResponseDto::toDto).toList();
+        return ResponseEntity.ok(chatMessageResponseDtos);
     }
 }
 

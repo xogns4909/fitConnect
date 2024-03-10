@@ -7,6 +7,7 @@ import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ public class ReviewFindService {
 
     private final ExerciseEventFindService exerciseEventFindService;
 
-    public Page<ReviewResponseDto> findReviewsByExerciseEvent(Long exerciseEventId, int page, int size,
+    public Page<ReviewResponseDto> findReviewsByExerciseEventIdPageAble(Long exerciseEventId, int page, int size,
             String sortBy) {
         exerciseEventFindService.findEventByEventId(exerciseEventId).orElseThrow(() -> new BusinessException(
                         ErrorMessages.EVENT_NOT_FOUND));
@@ -35,5 +36,9 @@ public class ReviewFindService {
 
     public Optional<Review> findReviewByUserIdAndEventId(Long userId,Long eventId){
         return reviewRepository.findByUserIdAndExerciseEventId(userId,eventId);
+    }
+
+    public List<Review> findReviewsByEventId(Long eventId) {
+        return reviewRepository.findByExerciseEventId(eventId);
     }
 }

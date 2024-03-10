@@ -3,6 +3,7 @@ package com.example.fitconnect.service.chat.chatMessage;
 import com.example.fitconnect.global.error.ErrorMessages;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -64,4 +65,19 @@ public class ChatMessageDeleteServiceTest {
 
         verify(chatMessageRepository, never()).delete(any(ChatMessage.class));
     }
+
+    @Test
+    void deleteMessages_Success() {
+        ChatMessage message1 = mock(ChatMessage.class);
+        ChatMessage message2 = mock(ChatMessage.class);
+        List<ChatMessage> messages = List.of(message1, message2);
+
+        chatMessageDeleteService.deleteMessages(messages);
+
+        verify(message1).detachSender();
+        verify(message2).detachSender();
+
+        verify(chatMessageRepository).deleteAll(messages);
+    }
+
 }

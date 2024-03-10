@@ -86,7 +86,7 @@ public class RegistrationRepositoryImplTest {
 
         Pageable pageable = PageRequest.of(0, 10);
 
-        Page<Registration> result = registrationRepository.findByExerciseEventId(event.getId(),
+        Page<Registration> result = registrationRepository.findByExerciseEventIdPageAble(event.getId(),
                 pageable);
 
         assertThat(result.getContent()).hasSize(2);
