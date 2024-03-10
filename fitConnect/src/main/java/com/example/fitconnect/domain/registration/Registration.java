@@ -62,7 +62,7 @@ public class Registration extends BaseEntity {
         this.status = RegistrationStatus.REJECTED;
     }
 
-    public void deleteEvent(){
+    public void detachEvent(){
         this.exerciseEvent = null;
         this.status = RegistrationStatus.EVENT_DELETED;
     }

@@ -55,7 +55,7 @@ public class ChatRoom extends BaseEntity {
         }
     }
 
-    public void deleteEvent(){
+    public void detachEvent(){
         this.exerciseEvent = null;
     }
 }

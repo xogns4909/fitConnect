@@ -6,6 +6,7 @@ import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.review.Review;
 import com.example.fitconnect.repository.review.ReviewRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +28,11 @@ public class ReviewDeletionService {
         }
 
         reviewRepository.deleteById(reviewId);
+    }
+
+    @Transactional
+    public void deleteReviews(List<Review> reviews) {
+        reviewRepository.deleteAll(reviews);
     }
 }
 
