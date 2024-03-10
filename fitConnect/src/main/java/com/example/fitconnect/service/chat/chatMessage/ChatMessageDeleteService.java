@@ -5,6 +5,7 @@ import com.example.fitconnect.global.error.ErrorMessages;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatMessage;
 import com.example.fitconnect.repository.chat.chatMessage.ChatMessageRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,15 @@ public class ChatMessageDeleteService {
                         () -> new EntityNotFoundException(ErrorMessages.CHAT_MESSAGE_NOT_FOUND));
 
         message.validateUpdateOrDelete(userId);
+        message.detachSender();
         chatMessageRepository.delete(message);
+    }
+
+    @Transactional
+    public void deleteMessages(List<ChatMessage> messages){
+
+        messages.forEach(ChatMessage::detachSender);
+
+        chatMessageRepository.deleteAll(messages);
     }
 }
