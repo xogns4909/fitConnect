@@ -3,8 +3,10 @@ package com.example.fitconnect.dto.event.request;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.Location;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class LocationDto {
     private City city;
     private String address;

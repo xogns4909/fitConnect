@@ -11,6 +11,7 @@ import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -44,7 +45,7 @@ public class ExerciseEventRepositoryTest {
                 Role.MEMBER);
         entityManager.persist(user);
 
-        ExerciseEvent newEvent = createEventRegistrationDto(category, description).toEntity(user);
+        ExerciseEvent newEvent = createEventRegistrationDto(category, description).toEntity(user,new ArrayList<>());
         entityManager.persist(newEvent);
         entityManager.flush();
 

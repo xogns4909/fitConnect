@@ -13,9 +13,8 @@ import EventCreatePage from './page/EventCreatePage';
 import EventDetailPage from './page/EventDetailPage';
 import ChatRoomListPage from './page/ChatRoomListPage';
 import MyPage from './page/MyPage';
-import EventEditForm from './components/EventCreationForm';
+import EventEditForm from './components/EventEdit';
 import NotFoundPage from './page/NotFoundPage';
-// 추가된 import 문
 import UserInfo from './components/UserInfo';
 import ReviewsList from './components/ReviewList';
 import RegisteredEventsList from './components/RegisteredEventsList';

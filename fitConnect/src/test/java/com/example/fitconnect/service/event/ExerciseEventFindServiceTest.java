@@ -3,6 +3,7 @@ package com.example.fitconnect.service.event;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
@@ -13,6 +14,7 @@ import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.dto.event.response.EventResponseDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,8 +51,8 @@ public class ExerciseEventFindServiceTest {
         City city = City.BUSAN;
         String searchBy = "title";
         int page = 0;
-        ExerciseEvent event1 = createEvent(user);
-        ExerciseEvent event2 = createEvent(user);
+        ExerciseEvent event1 = createExerciseEvent(user);
+        ExerciseEvent event2 = createExerciseEvent(user);
 
         List<ExerciseEvent> events = Arrays.asList(event1, event2);
         Page<ExerciseEvent> expectedPage = new PageImpl<>(events, PageRequest.of(page, 10),
@@ -89,15 +91,17 @@ public class ExerciseEventFindServiceTest {
         assertThat(result).isNotPresent();
     }
 
-    private ExerciseEvent createEvent(User user) {
-        return new ExerciseEventRegistrationDto(
-                new EventDetailDto("title", "Description", LocalDateTime.now(),
-                        LocalDateTime.now().plusHours(2)),
-                new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
-                new LocationDto(City.SEOUL, "서울시 강남구"),
-                Category.SOCCER
-        ).toEntity(user);
+    private static ExerciseEvent createExerciseEvent(User user) {
+        List<Image> images = new ArrayList<>();
+        EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),
+                LocalDateTime.now().plusHours(2));
+        RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
+                LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+        LocationDto locationDto = new LocationDto(City.SEOUL, "서울시 강남구");
+        Category category = Category.SOCCER;
+        ExerciseEvent exerciseEvent = new ExerciseEventRegistrationDto(eventDetailDto,
+                recruitmentPolicyDto, locationDto, category).toEntity(user,images);
+        return exerciseEvent;
     }
-
 
 }

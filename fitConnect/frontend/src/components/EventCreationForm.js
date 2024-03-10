@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Row, Col, Card } from 'react-bootstrap';
 
 const EventCreationForm = ({ onCreate }) => {
-  const [title, setEventTitle] = useState('');
+  const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -12,6 +12,7 @@ const EventCreationForm = ({ onCreate }) => {
   const [city, setCity] = useState('');
   const [address, setAddress] = useState('');
   const [category, setCategory] = useState('');
+  const [multipartFileList, setMultipartFileList] = useState([]);
 
   const validateForm = () => {
     if (!title.trim()) return "제목을 입력해주세요.";
@@ -32,24 +33,34 @@ const EventCreationForm = ({ onCreate }) => {
       alert(validationError);
       return;
     }
-    onCreate({
+
+    const registrationData = {
       eventDetail: {
-        title: title,
-        description: description,
-        startDate: startDate,
-        endDate: endDate,
+        title,
+        description,
+        startDate,
+        endDate
       },
       recruitmentPolicy: {
-        maxParticipants: maxParticipants,
-        registrationStart: registrationStart,
-        registrationEnd: registrationEnd,
+        maxParticipants,
+        registrationStart,
+        registrationEnd
       },
       location: {
-        city: city,
-        address: address,
+        city,
+        address
       },
-      category: category,
+      category
+    };
+
+    const formData = new FormData();
+    formData.append('registrationDto', new Blob([JSON.stringify(registrationData)], { type: 'application/json' }));
+
+    Array.from(multipartFileList).forEach(file => {
+      formData.append('multipartFileList', file);
     });
+
+    onCreate(formData);
   };
 
   return (
@@ -57,7 +68,6 @@ const EventCreationForm = ({ onCreate }) => {
         <Card.Body>
           <Form onSubmit={handleSubmit}>
             <h4 className="mb-3">이벤트 생성</h4>
-
             <Form.Group as={Row} className="mb-3" controlId="formEventTitle">
               <Form.Label column sm={3}>이벤트 제목</Form.Label>
               <Col sm={9}>
@@ -65,7 +75,7 @@ const EventCreationForm = ({ onCreate }) => {
                     type="text"
                     placeholder="이벤트 제목을 입력하세요"
                     value={title}
-                    onChange={(e) => setEventTitle(e.target.value)}
+                    onChange={(e) => setTitle(e.target.value)}
                     required
                 />
               </Col>
@@ -111,7 +121,7 @@ const EventCreationForm = ({ onCreate }) => {
             </Row>
 
             <Row className="mb-3">
-              <Col xs={4}>
+              <Col xs={6}>
                 <Form.Group controlId="formMaxParticipants">
                   <Form.Label>최대 참가자 수</Form.Label>
                   <Form.Control
@@ -123,7 +133,25 @@ const EventCreationForm = ({ onCreate }) => {
                   />
                 </Form.Group>
               </Col>
-              <Col xs={4}>
+              <Col xs={6}>
+                <Form.Group controlId="formCategory">
+                  <Form.Label>카테고리</Form.Label>
+                  <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)} required>
+                    <option value="">카테고리를 선택하세요</option>
+                    <option value={"SOCCER"}>축구</option>
+                    <option value={"BASKETBALL"}>농구</option>
+                    <option value={"BASEBALL"}>야구</option>
+                    <option value={"GOLF"}>골프</option>
+                    <option value={"FITNESS"}>헬스</option>
+                    <option value={"BOWLING"}>볼링</option>
+                    <option value={"BILLIARDS"}>당구</option>
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row className="mb-3">
+              <Col xs={6}>
                 <Form.Group controlId="formRegistrationStart">
                   <Form.Label>등록 시작 시간</Form.Label>
                   <Form.Control
@@ -134,7 +162,7 @@ const EventCreationForm = ({ onCreate }) => {
                   />
                 </Form.Group>
               </Col>
-              <Col xs={4}>
+              <Col xs={6}>
                 <Form.Group controlId="formRegistrationEnd">
                   <Form.Label>등록 종료 시간</Form.Label>
                   <Form.Control
@@ -143,23 +171,6 @@ const EventCreationForm = ({ onCreate }) => {
                       onChange={(e) => setRegistrationEnd(e.target.value)}
                       required
                   />
-                </Form.Group>
-              </Col>
-              <Col xs={6}>
-                <Form.Group controlId="formCategory">
-                  <Form.Label>카테고리</Form.Label>
-                  <Form.Control as="select" value={category} onChange={(e) => setCategory(e.target.value)} required>
-                    <option value="">카테고리를 선택하세요</option>
-                    <option>운동 종목</option>
-                    <option value={"SOCCER"}>축구</option>
-                    <option value={"BASKETBALL"}>농구</option>
-                    <option value={"BASEBALL"}>야구</option>
-                    <option value={"GOLF"}>골프</option>
-                    <option value={"FITNESS"}>헬스</option>
-                    <option value={"BOWLING"}>볼링</option>
-                    <option value={"BILLIARDS"}>당구</option>
-                    // 추가 카테고리 옵션
-                  </Form.Control>
                 </Form.Group>
               </Col>
             </Row>
@@ -194,6 +205,19 @@ const EventCreationForm = ({ onCreate }) => {
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <Row className="mb-3">
+              <Col>
+                <Form.Group controlId="formFiles">
+                  <Form.Label>이벤트 이미지</Form.Label>
+                  <Form.Control
+                      type="file"
+                      multiple
+                      onChange={(e) => setMultipartFileList(e.target.files)}
                   />
                 </Form.Group>
               </Col>

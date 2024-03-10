@@ -2,10 +2,13 @@ package com.example.fitconnect.domain.event.domain;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,9 +25,9 @@ public class ExerciseEventTest {
     void createExerciseEvent_Success(User organizer, EventDetail eventDetail,
             RecruitmentPolicy registrationPolicy,
             Location location, Category category) {
-
+        List<Image> images = new ArrayList<>();
         ExerciseEvent exerciseEvent = new ExerciseEvent(organizer, eventDetail, registrationPolicy,
-                location, category);
+                location, category,images);
 
         assertThat(exerciseEvent).isNotNull();
         assertThat(exerciseEvent.getOrganizer()).isEqualTo(organizer);

@@ -3,6 +3,7 @@ package com.example.fitconnect.dto.event.response;
 import com.example.fitconnect.domain.event.domain.Category;
 import com.example.fitconnect.domain.event.domain.City;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;;
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.dto.review.response.ReviewResponseDto;
 import com.example.fitconnect.dto.user.response.UserResponseDto;
 import java.time.LocalDateTime;
@@ -31,7 +32,7 @@ public class EventDetailResponseDto {
 
     private LocalDateTime registrationEnd;
 
-    private List<ReviewResponseDto> reviewResponseDtoList;
+    private List<String> url;
 
     private UserResponseDto userResponseDto;
 
@@ -46,6 +47,7 @@ public class EventDetailResponseDto {
         this.city = exerciseEvent.getLocation().getCity();
         this.address = exerciseEvent.getLocation().getAddress();
         this.category = exerciseEvent.getCategory();
+        this.url = exerciseEvent.getImages().stream().map(Image::getImageUrl).toList();
         this.maxParticipants = exerciseEvent.getRegistrationPolicy().getMaxParticipants();
         this.registrationStart = exerciseEvent.getRegistrationPolicy().getRegistrationStart();
         this.registrationEnd = exerciseEvent.getRegistrationPolicy().getRegistrationEnd();

@@ -3,8 +3,10 @@ package com.example.fitconnect.dto.event.request;
 import com.example.fitconnect.domain.event.domain.RecruitmentPolicy;
 import java.time.LocalDateTime;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class RecruitmentPolicyDto {
 
 

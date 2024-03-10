@@ -1,5 +1,6 @@
 package com.example.fitconnect.service.review;
 
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.global.exception.BusinessException;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.event.domain.Category;
@@ -19,6 +20,8 @@ import com.example.fitconnect.repository.review.ReviewRepository;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.user.UserFindService;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,7 +61,7 @@ public class ReviewCreationServiceTest {
         ReviewRegistrationDto registrationDto = new ReviewRegistrationDto(content, rating,
                 exerciseEventId);
         User user = new User(new UserBaseInfo("test@naver.com","hoon","url"),Role.MEMBER);
-        ExerciseEvent exerciseEvent = createEvent(user);
+        ExerciseEvent exerciseEvent = createExerciseEvent(user);
 
         when(userFindService.findUserByUserId(userId)).thenReturn(Optional.of(user));
         when(exerciseEventFindService.findEventByEventId(exerciseEventId)).thenReturn(
@@ -95,13 +98,17 @@ public class ReviewCreationServiceTest {
                 .isInstanceOf(EntityNotFoundException.class);
     }
 
-    private ExerciseEvent createEvent(User user) {
-        return new ExerciseEventRegistrationDto(
-                new EventDetailDto("title","Description", LocalDateTime.now(), LocalDateTime.now().plusHours(2)),
-                new RecruitmentPolicyDto(30, LocalDateTime.now(), LocalDateTime.now().plusDays(1)),
-                new LocationDto(City.SEOUL, "서울시 강남구"),
-                Category.SOCCER
-        ).toEntity(user);
+    private static ExerciseEvent createExerciseEvent(User user) {
+        List<Image> images = new ArrayList<>();
+        EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),
+                LocalDateTime.now().plusHours(2));
+        RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
+                LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+        LocationDto locationDto = new LocationDto(City.SEOUL, "서울시 강남구");
+        Category category = Category.SOCCER;
+        ExerciseEvent exerciseEvent = new ExerciseEventRegistrationDto(eventDetailDto,
+                recruitmentPolicyDto, locationDto, category).toEntity(user,images);
+        return exerciseEvent;
     }
     @Test
     public void createReview_ReviewAlreadyExists() {
@@ -110,7 +117,7 @@ public class ReviewCreationServiceTest {
         ReviewRegistrationDto registrationDto = new ReviewRegistrationDto("Great review", 5.0, exerciseEventId);
         User user = new User(new UserBaseInfo("user@example.com", "User", "userPic.jpg"), Role.MEMBER);
 
-        ExerciseEvent exerciseEvent = createEvent(user);
+        ExerciseEvent exerciseEvent = createExerciseEvent(user);
 
         Review existingReview = new Review("Existing review", 4.0, user, exerciseEvent);
 

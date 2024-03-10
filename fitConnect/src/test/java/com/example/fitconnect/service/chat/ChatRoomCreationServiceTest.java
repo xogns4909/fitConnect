@@ -1,5 +1,6 @@
 package com.example.fitconnect.service.chat;
 
+import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.global.exception.BusinessException;
@@ -19,6 +20,8 @@ import com.example.fitconnect.service.chat.chatRoom.ChatRoomCreationService;
 import com.example.fitconnect.service.event.ExerciseEventFindService;
 import com.example.fitconnect.service.user.UserFindService;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -119,15 +122,15 @@ public class ChatRoomCreationServiceTest {
 
 
     private static ExerciseEvent createExerciseEvent(User user) {
-        EventDetailDto eventDetailDto = new EventDetailDto("title", "Description",
-                LocalDateTime.now(),
+        List<Image> images = new ArrayList<>();
+        EventDetailDto eventDetailDto = new EventDetailDto("title","Description", LocalDateTime.now(),
                 LocalDateTime.now().plusHours(2));
         RecruitmentPolicyDto recruitmentPolicyDto = new RecruitmentPolicyDto(30,
                 LocalDateTime.now(), LocalDateTime.now().plusDays(1));
         LocationDto locationDto = new LocationDto(City.SEOUL, "서울시 강남구");
         Category category = Category.SOCCER;
         ExerciseEvent exerciseEvent = new ExerciseEventRegistrationDto(eventDetailDto,
-                recruitmentPolicyDto, locationDto, category).toEntity(user);
+                recruitmentPolicyDto, locationDto, category).toEntity(user,images);
         return exerciseEvent;
     }
 }

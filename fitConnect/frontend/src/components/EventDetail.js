@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../global/axiosConfig';
-import { Button, Card, ListGroup, ListGroupItem, Pagination } from 'react-bootstrap';
+import { Button, Card, ListGroup, ListGroupItem, Pagination,Image  } from 'react-bootstrap';
 import RegistrationButton from '../components/Registration';
 import CreateChatRoom from "../components/CreateChatRoom";
 import { translateCity, translateCategory } from './Translations';
@@ -17,14 +17,22 @@ const EventDetail = ({ eventId }) => {
       try {
         const response = await axiosInstance.get(`/api/events/${eventId}/detail`);
         setEvent(response.data);
+        console.log(response);
       } catch (err) {
         console.log(err.response);
         setError(err.response?.data?.message || '이벤트 상세 정보를 가져오는데 실패했습니다.');
       }
+
+
     };
 
     fetchEventDetail();
   }, [eventId]);
+
+  const getImageUrl = (filePath) => {
+    const baseUrl = "http://localhost:8080";
+    return `${baseUrl}/${filePath.replace(/\\/g, '/')}`;
+  };
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -65,6 +73,13 @@ const EventDetail = ({ eventId }) => {
               <ListGroup.Item>종목: {translateCategory(event.category)}</ListGroup.Item>
               <ListGroup.Item>위치: {translateCity(event.city)}, {event.address}</ListGroup.Item>
             </ListGroup>
+            {event.url && event.url.length > 0 && (
+                <div>
+                  {event.url.map((imageUrl, index) => (
+                      <Image key={index} src={getImageUrl(imageUrl)} alt={`Event Image ${index}`} thumbnail fluid className="my-3" />
+                  ))}
+                </div>
+            )}
             <Card.Text className="mt-4">{event.description}</Card.Text>
             <div className="mt-4">
               <RegistrationButton eventId={eventId} />

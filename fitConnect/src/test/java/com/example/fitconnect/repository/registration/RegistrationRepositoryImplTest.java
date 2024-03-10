@@ -13,6 +13,7 @@ import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -162,7 +163,7 @@ public class RegistrationRepositoryImplTest {
         LocationDto locationDto = new LocationDto(City.SEOUL, "서울시 강남구");
         Category category = Category.SOCCER;
         ExerciseEvent exerciseEvent = new ExerciseEventRegistrationDto(eventDetailDto,
-                recruitmentPolicyDto, locationDto, category).toEntity(user);
+                recruitmentPolicyDto, locationDto, category).toEntity(user,new ArrayList<>());
         return exerciseEvent;
     }
 }
