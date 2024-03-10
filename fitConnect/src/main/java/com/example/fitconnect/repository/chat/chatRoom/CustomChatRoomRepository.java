@@ -1,6 +1,7 @@
 package com.example.fitconnect.repository.chat.chatRoom;
 
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,5 +12,6 @@ public interface CustomChatRoomRepository {
 
     Optional<ChatRoom> findByUserIdAndExerciseEventId(Long userId, Long exerciseEventId);
 
+    List<ChatRoom> findByEventId(Long eventId);
 }
 
