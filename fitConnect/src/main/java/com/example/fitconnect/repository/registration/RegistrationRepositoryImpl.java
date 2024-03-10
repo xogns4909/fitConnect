@@ -1,5 +1,7 @@
 package com.example.fitconnect.repository.registration;
 
+import static com.example.fitconnect.domain.registration.QRegistration.registration;
+
 import com.example.fitconnect.domain.registration.QRegistration;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.domain.registration.RegistrationStatus;
@@ -44,7 +46,7 @@ public class RegistrationRepositoryImpl implements CustomRegistrationRepository 
 
 
     @Override
-    public Page<Registration> findByExerciseEventId(Long eventId, Pageable pageable) {
+    public Page<Registration> findByExerciseEventIdPageAble(Long eventId, Pageable pageable) {
         QRegistration registration = QRegistration.registration;
         List<Registration> registrations = queryFactory
                 .selectFrom(registration)
@@ -82,6 +84,14 @@ public class RegistrationRepositoryImpl implements CustomRegistrationRepository 
                 .where(registration.exerciseEvent.id.eq(eventId)
                         .and(registration.status.eq(status)))
                 .fetchCount();
+    }
+
+    @Override
+    public List<Registration> findRegistrationByEventId(Long eventId) {
+        return queryFactory
+                .selectFrom(registration)
+                .where(registration.exerciseEvent.id.eq(eventId))
+                .fetch();
     }
 
 }

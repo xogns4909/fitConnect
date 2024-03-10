@@ -87,7 +87,7 @@ class RegistrationControllerTest {
         Page<RegistrationResponseDto> mockPage = new PageImpl<>(
                 List.of(mockRegistrationResponseDto));
 
-        when(registrationFindService.findByEventId(eq(eventId), any(Pageable.class))).thenReturn(
+        when(registrationFindService.findRegistrationByEventIdPageable(eq(eventId), any(Pageable.class))).thenReturn(
                 mockPage);
         mockMvc.perform(get("/api/registrations/1?page=0&size=10")
                         .contentType(MediaType.APPLICATION_JSON));

@@ -46,14 +46,14 @@ public class RegistrationFindServiceTest {
         RegistrationResponseDto registrationResponseDto = new RegistrationResponseDto().toDto(
                 registration);
 
-        when(registrationRepository.findByExerciseEventId(eq(eventId), any())).thenReturn(page);
-        Page<RegistrationResponseDto> result = registrationFindService.findByEventId(eventId,
+        when(registrationRepository.findByExerciseEventIdPageAble(eq(eventId), any())).thenReturn(page);
+        Page<RegistrationResponseDto> result = registrationFindService.findRegistrationByEventIdPageable(eventId,
                 PageRequest.of(0, 10));
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(1);
 
-        verify(registrationRepository).findByExerciseEventId(eq(eventId), any());
+        verify(registrationRepository).findByExerciseEventIdPageAble(eq(eventId), any());
     }
 
     private static ExerciseEvent createExerciseEvent(User user) {

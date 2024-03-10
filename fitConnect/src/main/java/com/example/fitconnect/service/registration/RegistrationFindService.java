@@ -3,6 +3,7 @@ package com.example.fitconnect.service.registration;
 import com.example.fitconnect.domain.registration.Registration;
 import com.example.fitconnect.dto.registration.response.RegistrationResponseDto;
 import com.example.fitconnect.repository.registration.RegistrationRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,9 +19,13 @@ public class RegistrationFindService {
         Page<Registration> registrations = registrationRepository.findRegistrationsByUserId(userId, pageable);
         return registrations.map(new RegistrationResponseDto()::toDto);
     }
-    public Page<RegistrationResponseDto> findByEventId(Long eventId, Pageable pageable){
-        Page<Registration> registrations = registrationRepository.findByExerciseEventId(eventId, pageable);
+    public Page<RegistrationResponseDto> findRegistrationByEventIdPageable(Long eventId, Pageable pageable){
+        Page<Registration> registrations = registrationRepository.findByExerciseEventIdPageAble(eventId, pageable);
         return registrations.map(new RegistrationResponseDto()::toDto);
+    }
+
+    public List<Registration> findByEventId(Long eventId){
+       return registrationRepository.findRegistrationByEventId(eventId);
     }
 
 }

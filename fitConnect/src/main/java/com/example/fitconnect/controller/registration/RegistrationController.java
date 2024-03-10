@@ -47,7 +47,7 @@ public class RegistrationController {
     @GetMapping("/{eventId}")
     public ResponseEntity<Page<RegistrationResponseDto>> getRegistrationsByEventId(
             @PathVariable Long eventId, Pageable pageable) {
-        Page<RegistrationResponseDto> registrations = registrationFindService.findByEventId(eventId, pageable);
+        Page<RegistrationResponseDto> registrations = registrationFindService.findRegistrationByEventIdPageable(eventId, pageable);
         return ResponseEntity.ok(registrations);
     }
 
