@@ -63,14 +63,9 @@ public class ChatMessageFindServiceTest {
         user.setUserBaseInfo(new UserBaseInfo("test123@naver.com","test",".com"));
 
         when(chatMessage.getContent()).thenReturn("Mocked Content");
-        when(chatMessage.getSender()).thenReturn(user);
-        when(chatMessage.getId()).thenReturn(1L);
-        lenient().when(chatMessageRepository.findMessagesByChatRoomId(chatRoomId)).thenReturn(Arrays.asList(chatMessage));
-
-
         when(chatMessageRepository.findMessagesByChatRoomId(chatRoomId)).thenReturn(Arrays.asList(chatMessage));
 
-        List<ChatMessageResponseDto> chatMessagesByChatRoomId = chatMessageFindService.findChatMessagesByChatRoomId(chatRoomId);
+        List<ChatMessage> chatMessagesByChatRoomId = chatMessageFindService.findChatMessagesByChatRoomId(chatRoomId);
 
         assertThat(chatMessagesByChatRoomId).isNotNull();
         assertThat(chatMessagesByChatRoomId).hasSize(1);
