@@ -37,6 +37,9 @@ const EventListComponent = ({ events }) => {
                       <strong>시간:</strong> {formatDate(event.startTime)} ~ {formatDate(event.endTime)}
                     </Card.Text>
                     <Card.Text>
+                      <strong>위치:</strong> {translateCity(event.city)}, {event.address}
+                    </Card.Text>
+                    <Card.Text>
                       <div><small>작성자: {event.organizerNickname}</small></div>
                       <div><small>작성 시간: {formatDate(event.writeTime)}</small></div>
                     </Card.Text>

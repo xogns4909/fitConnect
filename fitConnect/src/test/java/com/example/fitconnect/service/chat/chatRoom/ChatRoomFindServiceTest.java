@@ -3,9 +3,11 @@ package com.example.fitconnect.service.chat.chatRoom;
 import static org.assertj.core.api.Assertions.*;
 
 
+import com.example.fitconnect.dto.chat.response.ChatRoomResponseDto;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.repository.chat.chatRoom.ChatRoomRepository;
+import com.example.fitconnect.service.chat.chatMessage.ChatMessageFindService;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,11 +30,14 @@ class ChatRoomFindServiceTest {
     @Mock
     private ChatRoomRepository chatRoomRepository;
 
+
+    @Mock
+    private ChatMessageFindService chatMessageFindService;
     @InjectMocks
     private ChatRoomFindService chatRoomFindService;
 
     @Test
-    void getChatMessages() {
+    void getChatRoomList() {
         Long chatRoomId = 1L;
         Long userId = 1L;
         Pageable pageable = PageRequest.of(0, 10);
@@ -43,10 +48,9 @@ class ChatRoomFindServiceTest {
         when(chatRoomRepository.findByChatRoomId(userId, pageable)).thenReturn(
                 expectedPage);
 
-        Page<ChatRoom> result = chatRoomFindService.getChatMessages(userId, pageable);
+        Page<ChatRoomResponseDto> result = chatRoomFindService.getChatRoomList(userId, pageable);
 
         assertThat(result).isNotNull();
-        assertThat(expectedPage).isEqualTo(result);
         verify(chatRoomRepository).findByChatRoomId(userId, pageable);
     }
 

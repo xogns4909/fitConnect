@@ -26,5 +26,8 @@ public class ChatMessageFindService {
         return messages;
     }
 
-    
+
+    public Optional<ChatMessage> findLastMessageByChatRoomId(Long chatRoomId) {
+        return chatMessageRepository.findLastMessageByChatRoomId(chatRoomId);
+    }
 }

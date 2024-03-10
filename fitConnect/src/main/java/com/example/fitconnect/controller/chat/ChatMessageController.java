@@ -47,7 +47,7 @@ public class ChatMessageController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ChatMessageResponseDto>> getChatMessages(
+    public ResponseEntity<List<ChatMessageResponseDto>> getChatRoomList(
             @RequestParam(required = false) Long chatRoomId) {
         List<ChatMessage> chatMessages = chatMessageFindService.findChatMessagesByChatRoomId(
                 chatRoomId);
