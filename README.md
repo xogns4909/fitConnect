@@ -1,4 +1,4 @@
-![GIFMaker_me (2)](https://github.com/xogns4909/fitConnect/assets/50618668/cc56885f-7c2d-4ce9-8fee-403d09871de5)# fitConnect 커뮤니티 웹 애플리케이션
+# fitConnect 커뮤니티 웹 애플리케이션
 
 fitConnect는 운동 열정을 공유하는 사람들을 위한 커뮤니티 웹 애플리케이션으로, 같은 목표를 가진 운동 파트너를 찾는 것부터 시작해 다양한 운동 관련 정보를 교환할 수 있는 플랫폼입니다
 
