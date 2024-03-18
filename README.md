@@ -30,7 +30,7 @@ fitConnect는 다음과 같은 특징을 가지고 있습니다:
 
 ## ERD
 
-<img![image](https://github.com/xogns4909/fitConnect/assets/50618668/b75c5612-c6a5-47bd-b912-cfd7649aff28)>
+![image](https://github.com/xogns4909/fitConnect/assets/50618668/b75c5612-c6a5-47bd-b912-cfd7649aff28)
 
 ## 구현 기능 및 미리보기
 
