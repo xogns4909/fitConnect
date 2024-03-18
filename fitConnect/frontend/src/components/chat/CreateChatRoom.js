@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import axiosInstance from '../global/axiosConfig';
+import axiosInstance from '../../global/axiosConfig';
 import {Button, Modal, Form} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -22,7 +22,6 @@ const CreateChatRoom = ({eventId}) => {
       setError('채팅방 제목을 입력해주세요.');
       return;
     }
-    console.log(eventId);
     try {
       await axiosInstance.post('/api/chatrooms', {
         title,
@@ -35,7 +34,6 @@ const CreateChatRoom = ({eventId}) => {
     } catch (error) {
       const errorMessage = error.response?.data
           || '채팅방 생성에 실패했습니다. 다시 시도해주세요.';
-      console.log(errorMessage);
       setError(errorMessage);
     }
   };

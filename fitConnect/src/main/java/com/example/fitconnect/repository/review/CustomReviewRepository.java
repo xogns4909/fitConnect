@@ -13,5 +13,5 @@ public interface CustomReviewRepository {
 
     Optional<Review> findByUserIdAndExerciseEventId(Long userId, Long eventId);
 
-    List<Review> findByExerciseEventId(Long eventId);
+    Optional<List<Review>> findByExerciseEventId(Long eventId);
 }

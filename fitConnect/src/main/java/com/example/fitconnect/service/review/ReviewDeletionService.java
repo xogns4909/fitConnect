@@ -32,7 +32,9 @@ public class ReviewDeletionService {
 
     @Transactional
     public void deleteReviews(List<Review> reviews) {
-        reviewRepository.deleteAll(reviews);
+        if(reviews != null || !reviews.isEmpty()) {
+            reviewRepository.deleteAll(reviews);
+        }
     }
 }
 

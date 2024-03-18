@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '../global/axiosConfig';
-import RegistrationModal from './RegistrationModal';
+import axiosInstance from '../../global/axiosConfig';
+import RegistrationModal from '../event/RegistrationModal';
 import { Card, ListGroup, Button, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { translateCity, translateCategory } from './Translations';
+import { translateCity, translateCategory } from '../../global/Translations';
 
 const MyEventsList = () => {
   const [myEvents, setMyEvents] = useState([]);

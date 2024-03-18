@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom'
-import axiosInstance from '../global/axiosConfig';
+import axiosInstance from '../../global/axiosConfig';
 
 const ImageUploadModal = ({ show, handleClose }) => {
   const { eventId } = useParams();

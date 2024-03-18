@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import EventDetail from '../components/EventDetail';
-import NavbarComponent from "../components/Navbar";
+import EventDetail from '../components/event/EventDetail';
+import NavbarComponent from "../global/Navbar";
 
 const EventDetailPage = () => {
   const { eventId } = useParams();

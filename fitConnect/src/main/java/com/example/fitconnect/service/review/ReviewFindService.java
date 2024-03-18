@@ -38,7 +38,7 @@ public class ReviewFindService {
         return reviewRepository.findByUserIdAndExerciseEventId(userId,eventId);
     }
 
-    public List<Review> findReviewsByEventId(Long eventId) {
+    public Optional<List<Review>> findReviewsByEventId(Long eventId) {
         return reviewRepository.findByExerciseEventId(eventId);
     }
 }

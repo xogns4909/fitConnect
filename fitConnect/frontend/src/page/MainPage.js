@@ -1,6 +1,6 @@
 // MainPage.js
 import React from 'react';
-import NavbarComponent from '../components/Navbar';
+import NavbarComponent from '../global/Navbar';
 
 const MainPage = () => {
   return (

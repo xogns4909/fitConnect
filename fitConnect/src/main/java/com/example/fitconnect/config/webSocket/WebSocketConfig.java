@@ -14,7 +14,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws/{chatRoomId}").setAllowedOrigins("http://localhost:3000")
+        registry.addEndpoint("/ws/{chatRoomId}").setAllowedOrigins("https://fitconnects.net")
                 .withSockJS()
                 .setInterceptors(new CustomHandshakeInterceptor());;
     }

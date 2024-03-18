@@ -2,6 +2,7 @@ package com.example.fitconnect.service.event;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 
 import com.example.fitconnect.domain.image.Image;
@@ -17,6 +18,7 @@ import com.example.fitconnect.domain.user.domain.Role;
 import com.example.fitconnect.domain.user.domain.User;
 import com.example.fitconnect.domain.user.domain.UserBaseInfo;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
+import com.example.fitconnect.service.image.ImageLocalRegistrationService;
 import com.example.fitconnect.service.user.UserFindService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,6 +44,8 @@ public class ExerciseEventRegistrationServiceTest {
     @Mock
     private UserFindService userFindService;
 
+    @Mock
+    private ImageLocalRegistrationService imageRegistrationService;
     @InjectMocks
     private ExerciseEventRegistrationService exerciseEventRegistrationService;
 
@@ -54,8 +58,7 @@ public class ExerciseEventRegistrationServiceTest {
         given(userFindService.findUserByUserId(userId)).willReturn(Optional.of(user));
         given(exerciseEventRepository.save(any(ExerciseEvent.class))).willReturn(expectedEvent);
 
-        ExerciseEvent result = exerciseEventRegistrationService.registerEvent(userId, dto,
-                multipartFileList);
+        ExerciseEvent result = exerciseEventRegistrationService.registerEvent(userId, dto, multipartFileList);
 
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(expectedEvent);

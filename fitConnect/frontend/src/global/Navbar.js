@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
-import { useAuth } from "../global/AuthContext";
+import { useAuth } from "./AuthContext";
 import { useNavigate } from 'react-router-dom';
 
 

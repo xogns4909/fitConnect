@@ -1,6 +1,6 @@
 import React from 'react';
-import GoogleLoginButton from '../components/GoogleLoginButton';
-import NavbarComponent from '../components/Navbar';
+import GoogleLoginButton from '../components/login/GoogleLoginButton';
+import NavbarComponent from '../global/Navbar';
 import { Container, Row, Col, Card } from 'react-bootstrap';
 
 const LoginPage = () => {

@@ -1,7 +1,9 @@
 package com.example.fitconnect.service.event;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doNothing;
 
 import com.example.fitconnect.domain.chat.domain.ChatRoom;
 import com.example.fitconnect.domain.event.domain.Category;
@@ -23,6 +25,8 @@ import com.example.fitconnect.service.chat.chatRoom.ChatRoomDeleteService;
 import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
 import com.example.fitconnect.service.registration.RegistrationFindService;
 import com.example.fitconnect.service.registration.RegistrationFindServiceTest;
+import com.example.fitconnect.service.review.ReviewDeletionService;
+import com.example.fitconnect.service.review.ReviewFindService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +50,14 @@ public class ExerciseEventDeleteServiceTest {
     @Mock
     private RegistrationFindService registrationFindService;
 
+    @Mock
+    private ReviewFindService reviewFindService;
+
     @InjectMocks
     private ExerciseEventDeleteService exerciseEventDeleteService;
 
+    @Mock
+    private ReviewDeletionService reviewDeletionService;
     private User user;
     private ExerciseEvent event;
     private Long eventId = 1L;
@@ -69,7 +78,8 @@ public class ExerciseEventDeleteServiceTest {
         given(chatRoomFindService.findChatRoomsByEventId(eventId)).willReturn(chatRooms);
         given(registrationFindService.findByEventId(eventId)).willReturn(registrations);
         given(exerciseEventRepository.findById(eventId)).willReturn(Optional.of(event));
-
+        given(reviewFindService.findReviewsByEventId(eventId)).willReturn(Optional.empty());
+        doNothing().when(reviewDeletionService).deleteReviews(anyList());
         exerciseEventDeleteService.deleteEvent(eventId, userId);
 
     }

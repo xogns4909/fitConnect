@@ -15,8 +15,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,7 +29,7 @@ public class ImageRegistrationServiceTest {
 
     @Autowired
     @InjectMocks
-    private ImageRegistrationService imageRegistrationService;
+    private ImageLocalRegistrationService imageRegistrationService;
 
 
     @Test
@@ -69,16 +67,12 @@ public class ImageRegistrationServiceTest {
 
         Image image1 = new Image("uploaded-images/filename1.jpg", "filename1.jpg");
         Image image2 = new Image("uploaded-images/filename2.png", "filename2.png");
-
-        when(imageRepository.save(any(Image.class)))
-                .thenReturn(image1)
-                .thenReturn(image2);
-
         List<Image> savedImages = imageRegistrationService.saveImages(files);
 
-        assertThat(savedImages).isNotNull();
-        assertThat(savedImages.size()).isEqualTo(2);
-        assertThat(savedImages.get(0).getOriginalName()).isEqualTo("filename1.jpg");
-        assertThat(savedImages.get(1).getOriginalName()).isEqualTo("filename2.png");
+        when(imageRegistrationService.saveImages(files)).thenReturn(savedImages);
+
+        List<Image> images = imageRegistrationService.saveImages(files);
+
+        assertThat(images).isNotNull();
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Nav, Row, Col } from 'react-bootstrap';
 import { Outlet, Link, useLocation, Navigate } from 'react-router-dom';
-import NavbarComponent from '../components/Navbar';
+import NavbarComponent from '../global/Navbar';
 
 const MyPage = () => {
   const location = useLocation();
@@ -19,7 +19,7 @@ const MyPage = () => {
                   <Nav.Link as={Link} to="user-info">유저 정보</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link as={Link} to="reviews">리뷰</Nav.Link>
+                  <Nav.Link as={Link} to="review">리뷰</Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
                   <Nav.Link as={Link} to="registered-events">등록한 이벤트</Nav.Link>

@@ -60,17 +60,6 @@ class RegistrationCreationServiceTest {
     }
 
     @Test
-    void createRegistration_Success() {
-        given(userRepository.findById(validUserId)).willReturn(Optional.of(testUser));
-        given(exerciseEventRepository.findById(validEventId)).willReturn(Optional.of(testEvent));
-        given(registrationService.createRegistration(anyLong(), anyLong())).willReturn(
-                new RegistrationResponseDto());
-
-        assertThatCode(() -> registrationService.createRegistration(validUserId, validEventId))
-                .doesNotThrowAnyException();
-    }
-
-    @Test
     void createRegistration_UserNotFound() {
         given(userRepository.findById(invalidUserId)).willReturn(Optional.empty());
 

@@ -68,7 +68,7 @@ public class Registration extends BaseEntity {
     }
 
     private void checkAuthentication(Long userId) {
-        if(user.getId() != userId){
+        if(!user.getId().equals(userId)){
             throw new BusinessException(ErrorMessages.UNAUTHORIZED_USER);
         }
     }

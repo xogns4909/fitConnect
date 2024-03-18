@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import axiosInstance from '../global/axiosConfig';
+import axiosInstance from '../../global/axiosConfig';
 import MessageUpdateMenu from "./MessageUpdateMenu";
 
 const ChatModal = ({ show, onHide, chatRoomId }) => {
@@ -18,6 +18,7 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
       try {
         const { data } = await axiosInstance.get('/user');
         setCurrentUserId(data.id);
+        console.log(data.id);
       } catch (error) {
         console.error('Failed to fetch current user info:', error);
       }
@@ -25,7 +26,7 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
 
     if (show) {
       fetchCurrentUserInfo();
-      const socket = new SockJS('http://localhost:8080/ws');
+      const socket = new SockJS('/ws');
       const stompClient = Stomp.over(socket);
       stompClient.connect({}, () => {
         setClient(stompClient);
@@ -84,11 +85,9 @@ const ChatModal = ({ show, onHide, chatRoomId }) => {
       setMessages(currentMessages => currentMessages.filter(msg => msg.id !== messageId));
       fetchMessages()
     } catch (error) {
-      console.error('Failed to delete message:', error);
     }
   };
 
-  console.log(messages);
 
   return (
       <>

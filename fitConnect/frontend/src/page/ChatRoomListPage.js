@@ -10,8 +10,8 @@ import {
   Button,
   Pagination
 } from 'react-bootstrap';
-import Navbar from "../components/Navbar";
-import ChatModal from "../components/ChatModal";
+import Navbar from "../global/Navbar";
+import ChatModal from "../components/chat/ChatModal";
 
 const ChatRoomPage = () => {
   const [chatRooms, setChatRooms] = useState([]); // 채팅방 목록을 저장할 상태
@@ -33,10 +33,8 @@ const ChatRoomPage = () => {
       const response = await axiosInstance.get(`/api/chatrooms/messages`, { params }); // API 엔드포인트 확인 필요
       setChatRooms(response.data.content);
       setTotalPages(response.data.totalPages);
-      console.log(response);
     } catch (error) {
       setError('채팅방을 불러오는데 실패했습니다.');
-      console.error(error);
     }
   };
 

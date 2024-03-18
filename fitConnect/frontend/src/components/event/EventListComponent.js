@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Row, Col, Button } from 'react-bootstrap';
-import { translateCity, translateCategory } from './Translations';
+import { translateCity, translateCategory } from '../../global/Translations';
 import { useNavigate } from 'react-router-dom';
 
 
