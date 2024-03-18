@@ -5,45 +5,55 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@Slf4j
+@Component
 public class CustomSessionAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-            FilterChain filterChain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String requestURI = request.getRequestURI();
-        
-        if (requestURI.startsWith("/api/auth/google")) {
+        if (isPublicResource(request.getRequestURI())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-
-        boolean isAuthenticated = authenticateSession(request, response);
-
-        if (isAuthenticated) {
+        if (authenticateSession(request)) {
             filterChain.doFilter(request, response);
+        } else {
+            log.info("401 : {}",request.getRequestURI());
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
     }
 
-    private boolean authenticateSession(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    private boolean isPublicResource(String requestURI) {
+        return requestURI.startsWith("/api/auth/google") ||
+                requestURI.startsWith("/login") ||
+                requestURI.startsWith("/static/") ||
+                requestURI.equals("/") ||
+                requestURI.matches(".*\\.(html|js|css|jpg|jpeg|png|gif|svg)$") ||
+                requestURI.startsWith("/oauth2/") ||
+                requestURI.startsWith("/favicon.ico") ||
+                requestURI.startsWith("manifest.json ");
+    }
+
+
+    private boolean authenticateSession(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("userId") == null) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             return false;
         }
 
         Long userId = (Long) session.getAttribute("userId");
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                userId, null, null);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, null, null);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return true;
     }

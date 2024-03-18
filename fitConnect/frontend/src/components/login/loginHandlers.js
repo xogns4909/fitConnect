@@ -1,5 +1,5 @@
 import React from 'react';
-import GoogleLoginButton from '../components/GoogleLoginButton';
+import GoogleLoginButton from './GoogleLoginButton';
 
 const LoginPage = () => {
   return (

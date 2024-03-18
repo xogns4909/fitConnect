@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../global/axiosConfig';
+import axiosInstance from '../../global/axiosConfig';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Form, Button, Card, Row, Col } from 'react-bootstrap';
 import ImageUploadModal from './EventImageUpdateModal';
-import Navbar from './Navbar'
+import Navbar from '../../global/Navbar'
 const EventEditForm = () => {
   const { eventId } = useParams();
   const navigate = useNavigate();

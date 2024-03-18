@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import axiosInstance from '../global/axiosConfig';
+import axiosInstance from '../../global/axiosConfig';
 import {ListGroup, Button, Pagination} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
-import ReviewForm from './ReviewForm';
+import ReviewForm from '../review/ReviewForm';
 
 const RegisteredEventsList = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -23,9 +23,7 @@ const RegisteredEventsList = () => {
       const response = await axiosInstance.get(`/mypage/registrations`, {params});
       setEvents(response.data.content || []);
       setTotalPages(response.data.totalPages || 0);
-      console.log(events)
     } catch (error) {
-      console.error('Error fetching registered events:', error);
     }
   };
 

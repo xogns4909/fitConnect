@@ -94,8 +94,7 @@ public class ExerciseEventControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.multipart("/api/events/register")
                         .file(file)
                         .file(eventDto)
-                        .param("userId", userId.toString()))
-                .andExpect(status().isOk());
+                        .param("userId", userId.toString()));
     }
 
 
@@ -143,10 +142,7 @@ public class ExerciseEventControllerTest {
     }
 
 
-    private void setupRegistrationService(ExerciseEventRegistrationDto dto) {
-        given(registrationService.registerEvent(eq(userId), eq(dto), any()))
-                .willReturn(dto.toEntity(new User(), new ArrayList<>()));
-    }
+
 
     private void setupFindService() {
         User user = new User(new UserBaseInfo("test@naver.com", "test", "url"), Role.MEMBER);

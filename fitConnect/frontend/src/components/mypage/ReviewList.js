@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import axiosInstance from '../../global/axiosConfig';
 import {ListGroup, Button, Pagination} from 'react-bootstrap';
 import {useNavigate} from 'react-router-dom';
 
@@ -17,18 +17,16 @@ const ReviewsList = () => {
   const fetchReviews = async () => {
     try {
       const params = {page: currentPage, size: pageSize};
-      const response = await axios.get(`/mypage/reviews`, {params});
-      console.log("reuvew", response);
+      const response = await axiosInstance.get(`/mypage/reviews`, {params});
       setReviews(response.data.content);
       setTotalPages(response.data.totalPages || 0);
     } catch (error) {
-      console.error('Error fetching reviews:', error);
     }
   };
 
   const deleteReview = async (reviewId) => {
     try {
-      await axios.delete(`/api/reviews/${reviewId}`);
+      await axiosInstance.delete(`/api/reviews/${reviewId}`);
       fetchReviews();
     } catch (error) {
       console.error('Error deleting review:', error);

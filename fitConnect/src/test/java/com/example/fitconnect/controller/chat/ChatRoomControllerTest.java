@@ -114,7 +114,7 @@ public class ChatRoomControllerTest {
 
     @Test
     public void getChatRoomMessages_Success() throws Exception {
-        Long userId = 1L; 
+        Long userId = 1L;
         Pageable pageable = PageRequest.of(0, 10);
 
         ChatRoomResponseDto chatRoom1 = new ChatRoomResponseDto();

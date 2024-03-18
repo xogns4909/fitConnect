@@ -70,9 +70,9 @@ public class ReviewRepositoryImpl implements CustomReviewRepository {
     }
 
     @Override
-    public List<Review> findByExerciseEventId(Long eventId) {
-        return queryFactory.selectFrom(qReview)
+    public Optional<List<Review>> findByExerciseEventId(Long eventId) {
+        return Optional.ofNullable(queryFactory.selectFrom(qReview)
                 .where(qReview.exerciseEvent.id.eq(eventId))
-                .fetch();
+                .fetch());
     }
 }

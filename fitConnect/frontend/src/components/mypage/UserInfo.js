@@ -1,6 +1,6 @@
 // UserInfo.js
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../global/axiosConfig';
+import axiosInstance from '../../global/axiosConfig';
 import { Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 
 const UserInfo = () => {
@@ -19,9 +19,7 @@ const UserInfo = () => {
         nickname: response.data.nickname,
         email: response.data.email
       });
-      console.log(user);
     } catch (error) {
-      console.error('사용자 정보를 불러오는 데 실패했습니다.', error);
       setError('사용자 정보를 불러오는 데 실패했습니다.');
     }
   };

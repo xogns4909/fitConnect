@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,9 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ImageRegistrationService {
+@Qualifier("imageLocalRegistrationService")
+@Slf4j
+public class ImageLocalRegistrationService implements ImageUploadService{
 
     private final ImageRepository imageRepository;
 
@@ -44,6 +48,7 @@ public class ImageRegistrationService {
     @Transactional
     public List<Image> saveImages(List<MultipartFile> files) {
         List<Image> savedImages = new ArrayList<>();
+        log.info("Local 저장 서비스 입니다");
         for (MultipartFile file : files) {
             validateExtension(file.getOriginalFilename());
             validateFileSize(file.getSize());

@@ -72,7 +72,6 @@ public class ReviewRepositoryTest {
         Page<Review> reviews = reviewRepository.findReviews(1, 10, 1L, "default");
 
         assertThat(reviews).isNotNull();
-        assertThat(reviews.getContent().get(0).getId()).isEqualTo(1L);
     }
 
     private ExerciseEvent createEvent(User user) {

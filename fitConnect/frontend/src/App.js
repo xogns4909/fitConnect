@@ -1,5 +1,3 @@
-// App.js
-
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -13,18 +11,19 @@ import EventCreatePage from './page/EventCreatePage';
 import EventDetailPage from './page/EventDetailPage';
 import ChatRoomListPage from './page/ChatRoomListPage';
 import MyPage from './page/MyPage';
-import EventEditForm from './components/EventEdit';
+import EventEditForm from './components/event/EventEdit';
 import NotFoundPage from './page/NotFoundPage';
-import UserInfo from './components/UserInfo';
-import ReviewsList from './components/ReviewList';
-import RegisteredEventsList from './components/RegisteredEventsList';
-import MyEventsList from './components/MyEventsList';
+import UserInfo from './components/mypage/UserInfo';
+import ReviewsList from './components/mypage/ReviewList';
+import RegisteredEventsList from './components/mypage/RegisteredEventsList';
+import MyEventsList from './components/mypage/MyEventsList';
 
 function App() {
+
   return (
-      <AuthProvider>
         <GoogleOAuthProvider clientId="YOUR_CLIENT_ID">
           <Router>
+            <AuthProvider>
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/login" element={<LoginPage />} />
@@ -50,7 +49,7 @@ function App() {
                 </RequireAuth>
               }>
                 <Route path="user-info" element={<UserInfo />} />
-                <Route path="reviews" element={<ReviewsList />} />
+                <Route path="review" element={<ReviewsList />} />
                 <Route path="registered-events" element={<RegisteredEventsList />} />
                 <Route path="my-events" element={<MyEventsList />} />
               </Route>
@@ -61,9 +60,9 @@ function App() {
               } />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
+            </AuthProvider>
           </Router>
         </GoogleOAuthProvider>
-      </AuthProvider>
   );
 }
 

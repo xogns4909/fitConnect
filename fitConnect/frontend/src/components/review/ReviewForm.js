@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import axiosInstance from '../global/axiosConfig';
+import axiosInstance from '../../global/axiosConfig';
+import { useNavigate } from 'react-router-dom';
+
 
 const ReviewForm = ({ show, handleClose, eventId, onReviewSubmitted }) => {
   const [content, setContent] = useState('');
   const [rating, setRating] = useState(5);
+  const navigate = useNavigate();
 
   const submitReview = async () => {
     try {
@@ -17,6 +20,7 @@ const ReviewForm = ({ show, handleClose, eventId, onReviewSubmitted }) => {
       onReviewSubmitted();
       alert("요청이 성공적으로 처리되었습니다.");
       handleClose();
+      navigate(`/events/${eventId}`);
     } catch (error) {
       console.error('Error submitting review:', error);
       const errorMessage = error.response?.data || "승인/거부 처리 중 오류가 발생했습니다.";

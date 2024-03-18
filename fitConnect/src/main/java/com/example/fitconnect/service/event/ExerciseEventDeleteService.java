@@ -12,6 +12,7 @@ import com.example.fitconnect.service.chat.chatRoom.ChatRoomFindService;
 import com.example.fitconnect.service.registration.RegistrationFindService;
 import com.example.fitconnect.service.review.ReviewDeletionService;
 import com.example.fitconnect.service.review.ReviewFindService;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,8 @@ public class ExerciseEventDeleteService {
         List<Registration> registrations = registrationFindService.findByEventId(eventId);
         registrations.forEach(Registration::detachEvent);
 
-        List<Review> reviews = reviewFindService.findReviewsByEventId(eventId);
+        List<Review> reviews = reviewFindService.findReviewsByEventId(eventId)
+                .orElse(Collections.emptyList());
         reviewDeletionService.deleteReviews(reviews);
 
         exerciseEventRepository.delete(event);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, ListGroup, Pagination } from 'react-bootstrap';
-import axiosInstance from '../global/axiosConfig';
+import axiosInstance from '../../global/axiosConfig';
 
 const RegistrationModal = ({ eventId, show, onHide }) => {
     const [registrations, setRegistrations] = useState([]);

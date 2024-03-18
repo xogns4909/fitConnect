@@ -1,6 +1,5 @@
 package com.example.fitconnect.service.image;
 
-import com.example.fitconnect.domain.image.Image;
 import com.example.fitconnect.global.exception.EntityNotFoundException;
 import com.example.fitconnect.repository.image.ImageRepository;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class ImageDeletionServiceTest {
@@ -25,7 +22,7 @@ public class ImageDeletionServiceTest {
     private ImageRepository imageRepository;
 
     @InjectMocks
-    private ImageDeletionService imageDeletionService;
+    private ImageLocalDeletionService imageDeletionService;
 
     @Value("${image.upload-dir}")
     private String uploadDir;

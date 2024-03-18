@@ -1,6 +1,6 @@
 import {GoogleLogin} from "@react-oauth/google";
 import {GoogleOAuthProvider} from "@react-oauth/google";
-import {useAuth} from "../global/AuthContext";
+import {useAuth} from "../../global/AuthContext";
 import React, { useState, useEffect } from 'react';
 
 const GoogleLoginButton = ({ onLoginSuccess }) => {
@@ -11,7 +11,6 @@ const GoogleLoginButton = ({ onLoginSuccess }) => {
 
 
   const handleLoginSuccess = async (response) => {
-    console.log(response);
 
     // Google의 ID 토큰 추출
     const idToken = response.credential;
@@ -41,7 +40,6 @@ const GoogleLoginButton = ({ onLoginSuccess }) => {
   };
 
   const handleLoginFailure = (error) => {
-    console.log(error);
   };
 
   return (

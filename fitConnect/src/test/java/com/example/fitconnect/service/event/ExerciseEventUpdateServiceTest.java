@@ -20,8 +20,8 @@ import com.example.fitconnect.dto.event.request.LocationDto;
 import com.example.fitconnect.dto.event.request.RecruitmentPolicyDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 
-import com.example.fitconnect.service.image.ImageDeletionService;
-import com.example.fitconnect.service.image.ImageRegistrationService;
+import com.example.fitconnect.service.image.ImageLocalDeletionService;
+import com.example.fitconnect.service.image.ImageLocalRegistrationService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,11 +46,11 @@ class ExerciseEventUpdateServiceTest {
     private ExerciseEventFindService exerciseEventFindService;
 
     @Mock
-    private ImageDeletionService imageDeletionService;
+    private ImageLocalDeletionService imageDeletionService;
 
 
     @Mock
-    private ImageRegistrationService imageRegistrationService;
+    private ImageLocalRegistrationService imageRegistrationService;
     @InjectMocks
     private ExerciseEventUpdateService service;
 

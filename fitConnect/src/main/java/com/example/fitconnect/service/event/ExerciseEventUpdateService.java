@@ -7,9 +7,13 @@ import com.example.fitconnect.domain.event.domain.ExerciseEvent;
 import com.example.fitconnect.dto.event.request.ExerciseEventUpdateDto;
 import com.example.fitconnect.repository.event.ExerciseEventRepository;
 import com.example.fitconnect.service.image.ImageDeletionService;
-import com.example.fitconnect.service.image.ImageRegistrationService;
+import com.example.fitconnect.service.image.ImageLocalDeletionService;
+import com.example.fitconnect.service.image.ImageLocalRegistrationService;
+import com.example.fitconnect.service.image.ImageUploadService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,9 +26,13 @@ public class ExerciseEventUpdateService {
 
     private final ExerciseEventFindService exerciseEventFindService;
 
+    @Autowired
+    @Qualifier("imageS3DeletionService")
     private final ImageDeletionService imageDeletionService;
 
-    private final ImageRegistrationService imageRegistrationService;
+    @Autowired
+    @Qualifier("imageS3RegistrationService")
+    private final ImageUploadService imageRegistrationService;
 
     @Transactional
     public ExerciseEvent updateEvent(Long eventId, ExerciseEventUpdateDto updateDto,Long userId) {

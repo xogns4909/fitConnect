@@ -1,9 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axiosInstance from '../global/axiosConfig'
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('isLoggedIn') === 'true');
+  const navigate = useNavigate();
 
   useEffect(() => {
   }, []);
@@ -11,18 +14,12 @@ export const AuthProvider = ({ children }) => {
   const login = () => {
     localStorage.setItem('isLoggedIn', 'true');
     setIsLoggedIn(true);
-    window.location.href = '/event';
+    navigate('/event');
   };
 
   const logout = async () => {
     try {
-      const response = await fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
-
-      if (!response.ok) throw new Error('Logout failed');
-
+      const response = await axiosInstance.post('/api/auth/logout')
       localStorage.removeItem('isLoggedIn');
       setIsLoggedIn(false);
 
