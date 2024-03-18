@@ -1,43 +1,35 @@
 # fitConnect 커뮤니티 웹 애플리케이션
 
-fitConnect는 운동 파트너를 찾고, 운동 관련 정보를 공유할 수 있는 커뮤니티 웹 애플리케이션입니다. Spring Boot와 React를 기반으로 하며, H2 데이터베이스를 사용해 사용자 데이터를 관리합니다.
+fitConnect는 운동 열정을 공유하는 사람들을 위한 커뮤니티 웹 애플리케이션으로, 같은 목표를 가진 운동 파트너를 찾는 것부터 시작해 다양한 운동 관련 정보를 교환할 수 있는 플랫폼입니다
 
-## 시작하기
+## 프로젝트 특징
 
-로컬 환경에서 프로젝트를 성공적으로 실행하기 위한 상세한 지침입니다.
+fitConnect는 다음과 같은 특징을 가지고 있습니다:
 
-### 사전 요구 사항
+- **운동 파트너 매칭**: 사용자는 자신의 운동 목표와 선호도에 따라 이상적인 운동 파트너를 찾을 수 있습니다.
+- **실시간 채팅**: WebSocket을 이용한 실시간 채팅 기능으로, 사용자간의 소통을 즉각적으로 할 수 있습니다.
+- **보안 로그인**: OAuth2를 통해 사용자의 정보 보안과 안전한 로그인을 보장합니다
 
-- **Java JDK 17**: [Oracle JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) 또는 [OpenJDK](https://jdk.java.net/17/)에서 다운로드 가능합니다.
-- **Node.js v18.12.1**: [Node.js 공식 웹사이트](https://nodejs.org/)에서 다운로드 가능합니다.
-- **H2 데이터베이스 2.1.214**: [H2 데이터베이스](https://www.h2database.com/html/main.html)에서 다운로드 가능합니다.
-### 설치 및 실행 절차
+## 사용 기술
 
-#### H2 데이터베이스 설정
+### 백엔드
 
-1. H2 데이터베이스를 설치한 후, bin 디렉토리에서 `h2.bat` (Windows) 또는 `h2.sh` (Mac/Linux)를 실행하여 H2 콘솔을 시작합니다.
-2. 웹 브라우저에서 `http://localhost:8082`로 접속합니다.
-3. 새로운 데이터베이스 연결을 생성하기 위해 다음 정보를 입력합니다:
-   - JDBC URL: `jdbc:h2:~/fitConnect`
-   - 사용자 이름: `sa` (기본값)
-   - 비밀번호: (비워두기)
-4. 연결 버튼을 클릭하여 fitConnect 데이터베이스를 생성합니다.
+<img src="https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/QueryDSL-FFCA28?style=for-the-badge&logo=querydsl&logoColor=white"> <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/JPA-007396?style=for-the-badge&logo=jpa&logoColor=white"> <img src="https://img.shields.io/badge/OAuth2-4267B2?style=for-the-badge&logo=oauth&logoColor=white"> <img src="https://img.shields.io/badge/WebSocket-010101?style=for-the-badge&logo=websocket&logoColor=white"> <img src="https://img.shields.io/badge/H2 Database-ffffff?style=for-the-badge&logo=h2&logoColor=black"> <img src="https://img.shields.io/badge/JUnit5-25A162?style=for-the-badge&logo=junit5&logoColor=white"> <img src="https://img.shields.io/badge/Mockito-FF4500?style=for-the-badge&logo=mockito&logoColor=white">
 
-#### 프로젝트 클론 및 설정
+### 프론트엔드
 
-```bash
-# 저장소 클론
-git clone https://github.com/xogns4909/fitConnect/
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black">
 
-# Spring Boot 애플리케이션 실행
-./mvnw spring-boot:run
+### 인프라
 
-# 프론트엔드 디렉토리로 이동
-cd frontend
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/AWS S3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"> <img src="https://img.shields.io/badge/AWS RDS-527FFF?style=for-the-badge&logo=amazonrds&logoColor=white"> <img src="https://img.shields.io/badge/AWS Elastic Beanstalk-232F3E?style=for-the-badge&logo=awselasticbeanstalk&logoColor=white">
 
-# 필요한 npm 패키지 설치
-npm install
+### 개발 도구
 
-# React 개발 서버 시작
-npm run start
+<img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=for-the-badge&logo=intellijidea&logoColor=white">
 
+## ERD
+
+<img![image](https://github.com/xogns4909/fitConnect/assets/50618668/b75c5612-c6a5-47bd-b912-cfd7649aff28)>
+
+## 구현 영상 
