@@ -1,4 +1,4 @@
-# fitConnect 커뮤니티 웹 애플리케이션
+![GIFMaker_me (2)](https://github.com/xogns4909/fitConnect/assets/50618668/cc56885f-7c2d-4ce9-8fee-403d09871de5)# fitConnect 커뮤니티 웹 애플리케이션
 
 fitConnect는 운동 열정을 공유하는 사람들을 위한 커뮤니티 웹 애플리케이션으로, 같은 목표를 가진 운동 파트너를 찾는 것부터 시작해 다양한 운동 관련 정보를 교환할 수 있는 플랫폼입니다
 
@@ -32,4 +32,29 @@ fitConnect는 다음과 같은 특징을 가지고 있습니다:
 
 <img![image](https://github.com/xogns4909/fitConnect/assets/50618668/b75c5612-c6a5-47bd-b912-cfd7649aff28)>
 
-## 구현 영상 
+## 구현 기능 및 미리보기
+
+<table>
+  <tr>
+    <th>기능</th>
+    <th>미리보기</th>
+    <th>기능</th>
+    <th>미리보기</th>
+  </tr>
+  <tr>
+    <td>소셜 로그인</td>
+    <td><img src="https://github.com/xogns4909/fitConnect/assets/50618668/29cd0767-5c34-4c6a-a783-230f0c272445" width="500"></td>
+    <td>동적 게시글 검색</td>
+    <td><img src="https://github.com/xogns4909/fitConnect/assets/50618668/a820b620-6d11-40aa-b0af-f85dbfc33834" width="500"></td>
+  </tr>
+  <tr>
+    <td>게시글 작성</td>
+    <td><img src="https://github.com/xogns4909/fitConnect/assets/50618668/9e64aaf1-4a39-4633-9d75-5155d5cd30fe" width="500"></td>
+    <td>리뷰 작성</td>
+    <td><img src="https://github.com/xogns4909/fitConnect/assets/50618668/7715e6ba-f6a4-47fc-9b1b-c96816b77e07" width="500"></td>
+  </tr>
+  <tr>
+    <td>채팅</td>
+    <td colspan="3"><img src="https://github.com/xogns4909/fitConnect/assets/50618668/b513a4dc-07e9-4ee0-a61d-9060c751b540" width="500"></td>
+  </tr>
+</table>
